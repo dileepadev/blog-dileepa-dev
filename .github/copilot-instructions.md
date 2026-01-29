@@ -1,3 +1,5 @@
+# Copilot Instructions
+
 ## Guidelines
 
 - Follow the project's code style.
@@ -24,11 +26,16 @@
     - [TODO.md](../TODO.md) - Tasks planned for future releases
     - [VERSIONING.md](../VERSIONING.md) - Versioning strategy for the project
 
-- When writing a commit message, **strictly follow the template you’ve provided** without modification or “improvement”:
-  - Before writing anything, **check which files were added, modified, or deleted**.
-  - Use your template to decide how to describe the changes — don’t invent your own format or structure.
-  - If **multiple files** were changed, use the summary style in your template to explain the changes at a high level.
-  - If **only one file** was changed, describe the exact change according to your template.
-  - **Include code snippets or terminal commands formatted for Zsh** where your template indicates they are needed.
+## Commit Message Guidelines
 
-  Make sure every commit message follows your template exactly and consistently — this helps keep the project’s history clear and uniform for all contributors.
+Commit messages should be written clearly and consistently, following the project’s template.
+
+- **Follow the template exactly** — do not modify or “improve” it.
+- **Provide the commit message as a Zsh-ready `git commit -m "..."` command**, so it can be run directly in the terminal.
+- **Check the changes first**: identify added, modified, or deleted files.
+- **Describe the changes according to the template**:
+  - For **multiple files**, summarize changes at a high level.
+  - For **a single file**, describe the exact modification.
+
+- Include **code snippets or terminal commands in Zsh format** where indicated by the template.
+- **Consistency is key**: ensure every commit follows the template to keep project history clear and uniform.
