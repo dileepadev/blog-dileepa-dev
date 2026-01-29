@@ -36,6 +36,5 @@ Commit messages should be written clearly and consistently, following the projec
 - **Describe the changes according to the template**:
   - For **multiple files**, summarize changes at a high level.
   - For **a single file**, describe the exact modification.
-
 - Include **code snippets or terminal commands in Zsh format** where indicated by the template.
 - **Consistency is key**: ensure every commit follows the template to keep project history clear and uniform.
