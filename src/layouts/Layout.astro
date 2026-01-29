@@ -1,5 +1,15 @@
 ---
 import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Dileepa Bandara - Software Engineer",
+  description = "Personal blog about software engineering, cloud computing, and AI.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -10,18 +20,43 @@ import "../styles/global.css";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+    <meta name="description" content={description} />
+    <title>{title}</title>
   </head>
-  <body>
-    <slot />
+  <body class="bg-background text-text antialiased min-h-screen flex flex-col">
+    <header
+      class="border-b border-border sticky top-0 bg-background/80 backdrop-blur-md z-10"
+    >
+      <nav
+        class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between"
+      >
+        <a
+          href="/"
+          class="font-bold text-xl hover:text-primary transition-colors"
+        >
+          Dileepa<span class="text-primary">.dev</span>
+        </a>
+        <div class="flex gap-6 text-sm font-medium text-text-secondary">
+          <a href="/" class="hover:text-primary transition-colors">Home</a>
+          <a href="/blog" class="hover:text-primary transition-colors">Blog</a>
+          <a href="/about" class="hover:text-primary transition-colors">About</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main class="grow w-full max-w-4xl mx-auto px-4 py-8">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border bg-background-alt">
+      <div
+        class="max-w-4xl mx-auto px-4 py-8 text-center text-text-tertiary text-sm"
+      >
+        <p>
+          &copy; {new Date().getFullYear()} Dileepa Bandara. All rights reserved.
+        </p>
+      </div>
+    </footer>
   </body>
 </html>
-
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>
