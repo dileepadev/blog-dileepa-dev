@@ -1,10 +1,22 @@
 @import "tailwindcss";
 
+/* --- GLOBAL RESET --- */
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
 @theme {
   /* Typography */
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* --- COLORS --- */
 
   /* Brand Colors */
   --color-primary: #2563eb; /* blue-600 */
@@ -38,18 +50,11 @@
   --color-error: #ef4444; /* red-500 */
   --color-info: #3b82f6; /* blue-500 */
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg:
-    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl:
-    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* --- LAYOUT & COMPONENTS --- */
 
-  /* Transitions */
-  --transition-fast: 150ms;
-  --transition-base: 200ms;
-  --transition-slow: 300ms;
+  /* Spacing */
+  --spacing-container-max: 56rem; /* max-w-4xl */
+  --spacing-section: 2rem;
 
   /* Border Radius */
   --radius-sm: 0.375rem;
@@ -59,37 +64,40 @@
   --radius-2xl: 1.5rem;
   --radius-3xl: 1.75rem;
 
-  /* Spacing */
-  --spacing-container-max: 56rem; /* max-w-4xl */
-  --spacing-section: 2rem;
-}
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
-html,
-body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  scroll-behavior: smooth;
-}
+  /* --- EFFECTS --- */
 
-/* Animation Definitions */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+  /* Transitions */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+
+  /* Animations */
+  --animate-fade-in: fade-in 1s ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
-.animate-fade-in {
-  animation: fade-in 1s ease-out;
-}
+/* --- DARK MODE OVERRIDES --- */
 
-/* Dark Mode Overrides */
 .dark {
+  /* Brand Colors */
   --color-primary: #3b82f6; /* blue-500 */
   --color-primary-light: #1e3a8a; /* blue-900 */
   --color-primary-lighter: #1e40af; /* blue-800 */
@@ -114,7 +122,15 @@ body {
   --color-border: #374151; /* gray-700 */
   --color-border-light: #4b5563; /* gray-600 */
   --color-card-bg: #1e293b; /* slate-800 */
+
+  /* State Colors */
+  --color-success: #34d399; /* green-400 */
+  --color-warning: #fbbf24; /* amber-400 */
+  --color-error: #f87171; /* red-400 */
+  --color-info: #60a5fa; /* blue-400 */
 }
+
+/* --- COMPONENT STYLES --- */
 
 /* Theme Toggle Icons */
 #theme-toggle-dark-icon,
