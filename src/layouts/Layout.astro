@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 interface Props {
   title?: string;
@@ -22,6 +23,23 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+
+      document.documentElement.className = theme;
+      window.localStorage.setItem("theme", theme);
+    </script>
   </head>
   <body class="bg-background text-text antialiased min-h-screen flex flex-col">
     <header
@@ -36,11 +54,14 @@ const {
         >
           Dileepa<span class="text-primary">.dev</span>
         </a>
-        <div class="flex gap-6 text-sm font-medium text-text-secondary">
+        <div
+          class="flex items-center gap-6 text-sm font-medium text-text-secondary"
+        >
           <a href="/" class="hover:text-primary transition-colors">Home</a>
           <a href="/blog" class="hover:text-primary transition-colors">Blog</a>
           <a href="/about" class="hover:text-primary transition-colors">About</a
           >
+          <ThemeToggle />
         </div>
       </nav>
     </header>

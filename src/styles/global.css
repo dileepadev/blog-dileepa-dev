@@ -87,3 +87,45 @@ body {
 .animate-fade-in {
   animation: fade-in 1s ease-out;
 }
+
+/* Dark Mode Overrides */
+.dark {
+  --color-primary: #3b82f6; /* blue-500 */
+  --color-primary-light: #1e3a8a; /* blue-900 */
+  --color-primary-lighter: #1e40af; /* blue-800 */
+  --color-primary-hover: #60a5fa; /* blue-400 */
+
+  --color-secondary: #a855f7; /* purple-500 */
+  --color-secondary-light: #581c87; /* purple-900 */
+  --color-secondary-lighter: #6b21a8; /* purple-800 */
+
+  --color-accent: #6366f1; /* indigo-500 */
+  --color-accent-lighter: #312e81; /* indigo-900 */
+
+  /* Neutral Colors */
+  --color-background: #0f172a; /* slate-900 */
+  --color-background-alt: #1e293b; /* slate-800 */
+  --color-text: #f9fafb; /* gray-50 */
+  --color-text-secondary: #d1d5db; /* gray-300 */
+  --color-text-tertiary: #9ca3af; /* gray-400 */
+  --color-text-muted: #6b7280; /* gray-500 */
+
+  /* UI Colors */
+  --color-border: #374151; /* gray-700 */
+  --color-border-light: #4b5563; /* gray-600 */
+  --color-card-bg: #1e293b; /* slate-800 */
+}
+
+/* Theme Toggle Icons */
+#theme-toggle-dark-icon,
+#theme-toggle-light-icon {
+  display: none;
+}
+
+html.dark #theme-toggle-dark-icon {
+  display: block;
+}
+
+html.light #theme-toggle-light-icon {
+  display: block;
+}
