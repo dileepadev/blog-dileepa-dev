@@ -1,0 +1,50 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Pre from "../../components/mdx/Pre.astro";
+
+export async function getStaticPaths() {
+  const modules = import.meta.glob("../../content/posts/**/*.mdx", {
+    eager: true,
+  });
+
+  return Object.entries(modules).map(([path, mod]) => {
+    const m = mod as any;
+    const slug =
+      path
+        .split("/")
+        .pop()
+        ?.replace(/\.mdx$/, "") ?? "";
+    return {
+      params: { slug },
+      props: {
+        post: {
+          slug,
+          Component: m.default,
+          ...(m.frontmatter || {}),
+        },
+      },
+    };
+  });
+}
+
+const { post } = Astro.props;
+---
+
+<Layout title={post.title} description={post.description}>
+  <article class="max-w-4xl mx-auto prose dark:prose-invert">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-text">{post.title}</h1>
+      {
+        post.pubDate && (
+          <p class="text-sm text-text-secondary mt-2">
+            {new Date(post.pubDate).toLocaleDateString()}
+          </p>
+        )
+      }
+    </header>
+
+    <section>
+      <post.Component components={{ pre: Pre }} />
+    </section>
+  </article>
+</Layout>

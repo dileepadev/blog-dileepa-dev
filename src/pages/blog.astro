@@ -1,5 +1,25 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+/** @type {Record<string, any>} */
+const modules = import.meta.glob("../content/posts/**/*.mdx", { eager: true });
+
+const posts = Object.entries(modules)
+  .map(([path, mod]) => {
+    const m = mod as any;
+    const slug =
+      path
+        .split("/")
+        .pop()
+        ?.replace(/\.mdx$/, "") ?? "";
+    return {
+      slug,
+      ...(m.frontmatter || {}),
+    };
+  })
+  .sort(
+    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
+  );
 ---
 
 <Layout
@@ -9,11 +29,34 @@ import Layout from "../layouts/Layout.astro";
   <div class="space-y-8">
     <h1 class="text-4xl font-bold text-text mb-8">Blog Posts</h1>
 
-    <div class="text-center py-12">
-      <p class="text-lg text-text-secondary mb-4">Coming soon...</p>
-      <p class="text-text-tertiary">
-        I'm working on some exciting articles. Stay tuned!
-      </p>
-    </div>
+    {
+      posts.length === 0 ? (
+        <div class="text-center py-12">
+          <p class="text-lg text-text-secondary mb-4">Coming soon...</p>
+          <p class="text-text-tertiary">
+            I'm working on some exciting articles. Stay tuned!
+          </p>
+        </div>
+      ) : (
+        <div class="grid gap-6">
+          {posts.map((post) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="block p-6 bg-card-bg border border-border rounded-lg hover:shadow-md transition-shadow"
+            >
+              <h3 class="text-2xl font-semibold text-text">{post.title}</h3>
+              {post.pubDate && (
+                <p class="text-sm text-text-secondary mt-1">
+                  {new Date(post.pubDate).toLocaleDateString()}
+                </p>
+              )}
+              {post.description && (
+                <p class="mt-3 text-text-tertiary">{post.description}</p>
+              )}
+            </a>
+          ))}
+        </div>
+      )
+    }
   </div>
 </Layout>

@@ -14,5 +14,10 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.0",
     "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@astrojs/mdx": "^4.3.13",
+    "@tailwindcss/typography": "^0.5.19",
+    "astro-icon": "^1.1.5"
   }
 }

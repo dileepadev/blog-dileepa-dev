@@ -1,5 +1,25 @@
 ---
 // Welcome component for the blog home page
+const modules = import.meta.glob("../content/posts/**/*.mdx", { eager: true });
+
+const posts = Object.entries(modules)
+  .map(([path, mod]) => {
+    const m = mod as any;
+    const slug =
+      path
+        .split("/")
+        .pop()
+        ?.replace(/\.mdx$/, "") ?? "";
+    return {
+      slug,
+      ...(m.frontmatter || {}),
+    };
+  })
+  .sort(
+    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
+  );
+
+const latestPost = posts[0];
 ---
 
 <div class="w-full py-20 px-4">
@@ -43,12 +63,49 @@
     </h2>
 
     <div class="bg-card-bg border border-border rounded-xl p-8 shadow-sm">
-      <div class="text-center">
-        <p class="text-lg text-text-secondary mb-4">Coming soon...</p>
-        <p class="text-text-tertiary mb-6">
-          I'm working on some exciting articles. Stay tuned for the latest
-          insights on AI, cloud computing, and software development!
-        </p>
+      {
+        latestPost ? (
+          <div class="text-left">
+            <div class="flex items-center gap-2 text-sm text-text-tertiary mb-3">
+              <span>{new Date(latestPost.pubDate).toLocaleDateString()}</span>
+              {latestPost.tags && (
+                <>
+                  <span>•</span>
+                  <div class="flex gap-2">
+                    {latestPost.tags.map((tag: string) => (
+                      <span class="capitalize bg-background-alt px-2 py-0.5 rounded text-xs">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+            <h3 class="text-2xl font-bold text-text mb-3 hover:text-primary transition-colors">
+              <a href={`/blog/${latestPost.slug}`}>{latestPost.title}</a>
+            </h3>
+            <p class="text-text-secondary mb-6 line-clamp-3">
+              {latestPost.description}
+            </p>
+            <a
+              href={`/blog/${latestPost.slug}`}
+              class="text-primary font-medium hover:underline inline-flex items-center gap-1"
+            >
+              Read Article →
+            </a>
+          </div>
+        ) : (
+          <div class="text-center">
+            <p class="text-lg text-text-secondary mb-4">Coming soon...</p>
+            <p class="text-text-tertiary mb-6">
+              I'm working on some exciting articles. Stay tuned for the latest
+              insights on AI, cloud computing, and software development!
+            </p>
+          </div>
+        )
+      }
+
+      <div class="mt-8 text-center pt-8 border-t border-border-light">
         <a
           href="/blog"
           class="inline-block px-6 py-3 bg-secondary text-white font-semibold rounded-lg hover:bg-secondary-light transition-colors"
