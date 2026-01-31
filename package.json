@@ -1,7 +1,19 @@
 {
   "name": "blog-dileepa-dev",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "This repository contains the source code for my blog where I share things related to AI, cloud computing, and software development.",
+  "author": {
+    "name": "Dileepa Bandara",
+    "email": "contact@dileepa.dev",
+    "url": "https://dileepa.dev"
+  },
+  "license": "MIT",
+  "homepage": "https://blog.dileepa.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dileepadev/blog-dileepa-dev.git"
+  },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
