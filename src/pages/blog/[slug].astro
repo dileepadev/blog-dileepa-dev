@@ -28,6 +28,14 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
 ---
 
 <Layout title={post.title} description={post.description}>
@@ -36,7 +44,7 @@ const { post } = Astro.props;
       <h1 class="text-4xl font-bold text-text">{post.title}</h1>
       {
         post.pubDate && (
-          <p class="text-lg text-text-secondary">{post.pubDate}</p>
+          <p class="text-lg text-text-secondary">{formatDate(post.pubDate)}</p>
         )
       }
       {
