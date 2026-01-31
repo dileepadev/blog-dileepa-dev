@@ -39,6 +39,17 @@ const { post } = Astro.props;
           <p class="text-lg text-text-secondary">{post.pubDate}</p>
         )
       }
+      {
+        post.tags && (
+          <div class="mt-3 flex gap-2">
+            {post.tags.map((tag: string) => (
+              <span class="capitalize rounded-full bg-card-bg border border-border text-text-secondary transition-colors px-2 py-0.5 text-sm">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
     </header>
 
     <section>
