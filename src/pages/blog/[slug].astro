@@ -20,6 +20,7 @@ export async function getStaticPaths() {
         post: {
           slug,
           Component: m.default,
+          headings: m.getHeadings(),
           ...(m.frontmatter || {}),
         },
       },
@@ -39,29 +40,61 @@ function formatDate(date: string) {
 ---
 
 <Layout title={post.title} description={post.description}>
-  <article class="max-w-4xl mx-auto prose">
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold text-text">{post.title}</h1>
-      {
-        post.pubDate && (
-          <p class="text-lg text-text-secondary">{formatDate(post.pubDate)}</p>
-        )
-      }
-      {
-        post.tags && (
-          <div class="mt-3 flex gap-2">
-            {post.tags.map((tag: string) => (
-              <span class="capitalize rounded-full bg-card-bg border border-border text-text-secondary transition-colors px-2 py-0.5 text-sm">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )
-      }
-    </header>
+  <div
+    class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-12"
+  >
+    <article class="prose prose-lg max-w-none">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold text-text">{post.title}</h1>
+        {
+          post.pubDate && (
+            <p class="text-lg text-text-secondary">
+              {formatDate(post.pubDate)}
+            </p>
+          )
+        }
+        {
+          post.tags && (
+            <div class="mt-3 flex gap-2">
+              {post.tags.map((tag: string) => (
+                <span class="capitalize rounded-full bg-card-bg border border-border text-text-secondary transition-colors px-2 py-0.5 text-sm">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )
+        }
+      </header>
 
-    <section>
-      <post.Component components={{ pre: Pre }} />
-    </section>
-  </article>
+      <section>
+        <post.Component components={{ pre: Pre }} />
+      </section>
+    </article>
+
+    <aside class="hidden lg:block">
+      <div class="sticky top-24">
+        <h2 class="text-sm font-bold text-text mb-4 uppercase tracking-wider">
+          On this page
+        </h2>
+        <nav>
+          <ul class="space-y-3 text-sm border-l border-border">
+            {
+              post.headings.map((heading: any) => (
+                <li
+                  class:list={[
+                    "pl-4 hover:border-l-accent hover:text-accent transition-colors text-text-secondary",
+                  ]}
+                  style={{
+                    marginLeft: `${(heading.depth - 1) * 0.5}rem`,
+                  }}
+                >
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </aside>
+  </div>
 </Layout>
