@@ -82,13 +82,13 @@ function formatDate(date: string) {
               post.headings.map((heading: any) => (
                 <li
                   class:list={[
-                    "pl-4 hover:border-l-accent hover:text-accent transition-colors text-text-secondary",
+                    "pl-4 border-l-2 border-transparent hover:border-l-accent hover:text-accent transition-colors text-text-secondary duration-300 ease-in-out",
                   ]}
                   style={{
                     marginLeft: `${(heading.depth - 1) * 0.5}rem`,
                   }}
                 >
-                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                  <a href={`#${heading.slug}`} class="block">{heading.text}</a>
                 </li>
               ))
             }
@@ -98,3 +98,61 @@ function formatDate(date: string) {
     </aside>
   </div>
 </Layout>
+
+<script>
+  function updateToc() {
+    const headings = Array.from(
+      document.querySelectorAll("article :is(h1, h2, h3, h4, h5, h6)")
+    );
+    const tocLinks = document.querySelectorAll("nav ul li");
+
+    let currentHeading = null;
+    
+    // Find the heading that is currently active (closest to top but passed)
+    for (const heading of headings) {
+      const rect = heading.getBoundingClientRect();
+      if (rect.top < 150) { // Threshold from top
+        currentHeading = heading;
+      } else {
+        break;
+      }
+    }
+
+    // Default to first heading if none passed (e.g. at very top)
+    if (!currentHeading && headings.length > 0) {
+       // currentHeading = headings[0]; // Optional: highlight first item at top
+    }
+
+    // Reset all
+    tocLinks.forEach((link) => {
+      link.classList.remove(
+        "border-l-accent",
+        "text-accent",
+        "font-medium",
+        "bg-primary-light/10"
+      );
+      link.classList.add("border-transparent", "text-text-secondary");
+    });
+
+    if (currentHeading) {
+      const link = document.querySelector(
+        `nav li a[href="#${currentHeading.id}"]`
+      );
+      if (link) {
+        const li = link.parentElement;
+        if (li) {
+          li.classList.remove("border-transparent", "text-text-secondary");
+          li.classList.add(
+            "border-l-accent",
+            "text-accent",
+            "font-medium"
+          );
+        }
+      }
+    }
+  }
+
+  // Run on scroll and initial load
+  window.addEventListener("scroll", updateToc);
+  document.addEventListener("DOMContentLoaded", updateToc);
+</script>
