@@ -60,18 +60,31 @@ const {
             >dev
           </a>
           <div
-            class="flex items-center gap-6 text-sm font-medium text-text-muted"
+            class="hidden md:flex items-center gap-1 p-1 rounded-full border border-white/5 backdrop-blur-sm"
           >
-            <a href="/" class="hover:text-text-primary transition-colors"
+            <a
+              href="/"
+              data-href="/"
+              class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
               >Home</a
             >
-            <a href="/blog" class="hover:text-text-primary transition-colors"
+            <a
+              href="/blog"
+              data-href="/blog"
+              class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
               >Blog</a
             >
-            <a href="/about" class="hover:text-text-primary transition-colors"
+            <a
+              href="/about"
+              data-href="/about"
+              class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
               >About</a
             >
+          </div>
 
+          <div
+            class="flex items-center gap-6 text-sm font-medium text-text-muted"
+          >
             <ThemeToggle />
           </div>
         </nav>
@@ -113,5 +126,111 @@ const {
         </p>
       </div>
     </footer>
+
+    <script is:inline>
+      // Navbar active-link & scroll-spy (desktop)
+      (function () {
+        const links = Array.from(document.querySelectorAll(".nav-link"));
+        if (!links.length) return;
+
+        const baseClass =
+          "px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full";
+        const activeClasses =
+          "bg-accent-blue text-on-accent shadow-lg shadow-accent-blue/25";
+        const inactiveClasses =
+          "text-text-muted hover:text-text-primary hover:bg-white/5";
+
+        function setActiveByPath() {
+          const path = window.location.pathname.replace(/\/$/, "") || "/";
+          links.forEach((a) => {
+            const href = a.getAttribute("data-href");
+            if (!href) return;
+            const normalized = href.replace(/\/$/, "") || "/";
+            if (normalized === path) {
+              a.className = `${baseClass} ${activeClasses}`;
+              a.setAttribute("aria-current", "page");
+            } else {
+              a.className = `${baseClass} ${inactiveClasses}`;
+              a.removeAttribute("aria-current");
+            }
+          });
+        }
+
+        // Scroll-spy for hash anchors
+        const sectionIds = links
+          .map((a) => a.getAttribute("href"))
+          .filter((h) => h && h.startsWith("#"))
+          .map((h) => h.slice(1));
+        let activeSection = null;
+
+        if (sectionIds.length > 0) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              const visible = entries.filter((e) => e.isIntersecting);
+              if (visible.length) {
+                visible.sort(
+                  (a, b) =>
+                    (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0),
+                );
+                activeSection = visible[0].target.id;
+                links.forEach((a) => {
+                  const href = a.getAttribute("href");
+                  const isHash = href && href.startsWith("#");
+                  if (isHash && href === "#" + activeSection) {
+                    a.className = `${baseClass} ${activeClasses}`;
+                    a.setAttribute("aria-current", "page");
+                  } else if (
+                    a.getAttribute("data-href") &&
+                    a.getAttribute("data-href") ===
+                      (window.location.pathname.replace(/\/$/, "") || "/")
+                  ) {
+                    // leave path-based active as handled by setActiveByPath
+                  } else {
+                    if (!isHash) return;
+                    a.className = `${baseClass} ${inactiveClasses}`;
+                    a.removeAttribute("aria-current");
+                  }
+                });
+              }
+            },
+            {
+              root: null,
+              rootMargin: "0px 0px -40% 0px",
+              threshold: [0.25, 0.5, 0.75],
+            },
+          );
+
+          sectionIds.forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) observer.observe(el);
+          });
+        }
+
+        // Smooth scroll for hash links & click handling
+        links.forEach((a) => {
+          a.addEventListener("click", (e) => {
+            const href = a.getAttribute("href");
+            if (href && href.startsWith("#")) {
+              e.preventDefault();
+              const id = href.slice(1);
+              const el = document.getElementById(id);
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            } else {
+              // fallback to normal navigation, allow link to work
+              // update classes after navigation (will trigger on load)
+              setTimeout(setActiveByPath, 50);
+            }
+          });
+        });
+
+        // Initial set
+        setActiveByPath();
+
+        // Update on popstate
+        window.addEventListener("popstate", setActiveByPath);
+      })();
+    </script>
   </body>
 </html>
