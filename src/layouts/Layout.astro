@@ -44,31 +44,37 @@ const {
   <body
     class="bg-bg-primary text-text-primary antialiased min-h-screen flex flex-col pt-24"
   >
-    <header
-      class="fixed top-5 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] max-w-5xl rounded-2xl bg-bg-elevated/80 backdrop-blur-xl border border-white/10 shadow-sm shadow-brand-primary/50"
-    >
-      <nav class="px-4 md:px-6 h-14 md:h-16 flex items-center justify-between">
-        <a
-          href="/"
-          class="text-lg font-bold text-text-primary hover:text-accent-blue transition-colors tracking-tight"
+    <header class="fixed inset-x-0 top-5 z-50 transition-all duration-300">
+      <div
+        class="mx-auto w-[95%] max-w-5xl rounded-2xl bg-bg-elevated/80 backdrop-blur-xl border border-white/10 shadow-sm shadow-brand-primary/50"
+      >
+        <nav
+          class="px-4 md:px-6 h-14 md:h-16 flex items-center justify-between"
         >
-          blog<span class="text-accent-blue">.</span>dileepa<span
-            class="text-accent-blue">.</span
-          >dev
-        </a>
-        <div
-          class="flex items-center gap-6 text-sm font-medium text-text-muted"
-        >
-          <a href="/" class="hover:text-text-primary transition-colors">Home</a>
-          <a href="/blog" class="hover:text-text-primary transition-colors"
-            >Blog</a
+          <a
+            href="/"
+            class="text-lg font-bold text-text-primary hover:text-accent-blue transition-colors tracking-tight"
           >
-          <a href="/about" class="hover:text-text-primary transition-colors"
-            >About</a
+            blog<span class="text-accent-blue">.</span>dileepa<span
+              class="text-accent-blue">.</span
+            >dev
+          </a>
+          <div
+            class="flex items-center gap-6 text-sm font-medium text-text-muted"
           >
-          <ThemeToggle />
-        </div>
-      </nav>
+            <a href="/" class="hover:text-text-primary transition-colors"
+              >Home</a
+            >
+            <a href="/blog" class="hover:text-text-primary transition-colors"
+              >Blog</a
+            >
+            <a href="/about" class="hover:text-text-primary transition-colors"
+              >About</a
+            >
+            <ThemeToggle />
+          </div>
+        </nav>
+      </div>
     </header>
 
     <main class="grow w-full max-w-4xl mx-auto px-4 py-8">
