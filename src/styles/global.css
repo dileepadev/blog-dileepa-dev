@@ -368,3 +368,74 @@ button:disabled,
   --tw-prose-th-borders: var(--border-light);
   --tw-prose-td-borders: var(--border-light);
 }
+
+/* Code blocks - theme aware using CSS variables */
+.code-block-wrapper pre {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  /* keep consistent spacing when copy button appears */
+  position: relative;
+}
+
+/* Shiki / MDX generated HTML often sets inline bg colours; override them to use theme variables */
+.code-block-wrapper pre.astro-code,
+.code-block-wrapper pre.shiki,
+.code-block-wrapper pre[class*="language-"] {
+  background: var(--bg-secondary) !important;
+  border-color: var(--border-light) !important;
+  /* Set base color, but allow children (tokens) to override via inline styles or specific rules */
+  color: var(--text-primary);
+}
+
+/* Dark Mode: Activate Shiki's dual-theme variables for tokens */
+html.dark .code-block-wrapper pre.astro-code span,
+html.dark .code-block-wrapper pre.shiki span {
+  color: var(--shiki-dark) !important;
+}
+
+/* Fallback/Consistency for direct code children */
+.code-block-wrapper pre.astro-code > code,
+.code-block-wrapper pre.shiki > code,
+.code-block-wrapper pre[class*="language-"] > code {
+  background: transparent !important;
+  color: inherit;
+}
+
+/* Remove token-level backgrounds or colors that conflict with theme */
+.code-block-wrapper .token {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+.code-block-wrapper pre code {
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+}
+
+/* Ensure inline highlighted tokens (if any) follow theme */
+.code-block-wrapper .token.comment,
+.code-block-wrapper .token.punctuation,
+.code-block-wrapper .token.operator {
+  color: var(--text-tertiary) !important;
+}
+
+.dark .code-block-wrapper pre {
+  border-color: var(--border-light);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* If shiki wraps lines in <span style="background:..."> override them */
+.code-block-wrapper span[style*="background"] {
+  background: transparent !important;
+}
+
+
