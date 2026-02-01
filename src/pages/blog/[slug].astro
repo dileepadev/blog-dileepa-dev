@@ -40,10 +40,8 @@ function formatDate(date: string) {
 ---
 
 <Layout title={post.title} description={post.description}>
-  <div
-    class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-12"
-  >
-    <article class="prose prose-lg max-w-none">
+  <div class="max-w-7xl mx-auto gap-6 w-full justify-between">
+    <article class="prose prose-lg dark:prose-invert max-w-none w-full">
       <header class="mb-8 not-prose">
         <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4">
           {post.title}
@@ -73,34 +71,61 @@ function formatDate(date: string) {
       </section>
     </article>
 
-    <aside class="hidden lg:block relative">
-      <div class="sticky top-32">
+    <button
+      id="toc-toggle"
+      class="fixed bottom-8 right-8 z-50 p-3 bg-bg-elevated dark:bg-bg-tertiary rounded-full shadow-lg text-accent-blue dark:text-text-primary hover:bg-accent-blue/90 dark:hover:bg-accent-blue/20 transition-all duration-500 hover:scale-110 ring-1 ring-border-light dark:ring-border-medium focus:ring-4 focus:ring-accent-blue/30"
+      aria-label="Toggle Table of Contents"
+      aria-expanded="false"
+      aria-controls="toc-panel"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16m-7 6h7"></path>
+      </svg>
+    </button>
+
+    <aside
+      id="toc-panel"
+      class="fixed bottom-24 right-8 z-40 w-72 max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-5 hidden transition-all duration-300 origin-bottom-right"
+      role="region"
+      aria-label="Table of contents"
+    >
+      <div class="flex justify-between items-center mb-4">
         <h2
-          class="text-sm font-bold text-text-primary mb-4 uppercase tracking-wider"
+          class="text-sm font-bold text-text-primary uppercase tracking-wider"
         >
           On this page
         </h2>
-        <nav>
-          <ul class="space-y-3 text-sm border-l border-border-light">
-            {
-              post.headings.map((heading: any) => (
-                <li
-                  class:list={[
-                    "pl-4 border-l-2 border-transparent hover:border-l-accent-blue hover:text-accent-blue transition-all text-text-muted duration-300 ease-in-out",
-                  ]}
-                  style={{
-                    marginLeft: `${(heading.depth - 1) * 0.5}rem`,
-                  }}
-                >
-                  <a href={`#${heading.slug}`} class="block">
-                    {heading.text}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </nav>
       </div>
+      <nav>
+        <ul class="space-y-3 text-sm border-l border-border-light">
+          {
+            post.headings.map((heading: any) => (
+              <li
+                class:list={[
+                  "pl-4 border-l-2 border-transparent hover:border-l-accent-blue hover:text-accent-blue transition-all text-text-muted duration-300 ease-in-out",
+                ]}
+                style={{
+                  marginLeft: `${(heading.depth - 1) * 0.5}rem`,
+                }}
+              >
+                <a href={`#${heading.slug}`} class="block">
+                  {heading.text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
     </aside>
   </div>
 </Layout>
@@ -157,5 +182,49 @@ function formatDate(date: string) {
 
   // Run on scroll and initial load
   window.addEventListener("scroll", updateToc);
-  document.addEventListener("DOMContentLoaded", updateToc);
+  document.addEventListener("DOMContentLoaded", () => {
+    updateToc();
+
+    // Toggle TOC functionality
+    const tocToggle = document.getElementById("toc-toggle");
+    const tocPanel = document.getElementById("toc-panel");
+
+    if (tocToggle && tocPanel) {
+      // Toggle visibility and update aria-expanded
+      tocToggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isHidden = tocPanel.classList.toggle("hidden");
+        // If hidden was removed, panel is visible -> set true
+        tocToggle.setAttribute("aria-expanded", (!isHidden).toString());
+      });
+
+      // Close when clicking outside (also update aria)
+      document.addEventListener("click", (e) => {
+        if (
+          !tocPanel.contains(e.target as Node) &&
+          !tocToggle.contains(e.target as Node)
+        ) {
+          tocPanel.classList.add("hidden");
+          tocToggle.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Close on link click
+      tocPanel.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          tocPanel.classList.add("hidden");
+          tocToggle.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      // Keyboard accessibility: close with Escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          tocPanel.classList.add("hidden");
+          tocToggle.setAttribute("aria-expanded", "false");
+          tocToggle.focus();
+        }
+      });
+    }
+  });
 </script>
