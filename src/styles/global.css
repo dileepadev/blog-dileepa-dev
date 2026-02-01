@@ -182,6 +182,22 @@ body {
   background-color: var(--brand-primary);
   color: white;
 }
+::-moz-selection {
+  background-color: var(--brand-primary);
+  color: white;
+}
+
+/* Dark mode: swap selection colors for better contrast */
+html.dark ::selection,
+.dark ::selection {
+  background-color: var(--accent-blue);
+  color: var(--text-on-accent);
+}
+html.dark ::-moz-selection,
+.dark ::-moz-selection {
+  background-color: var(--accent-blue);
+  color: var(--text-on-accent);
+}
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
