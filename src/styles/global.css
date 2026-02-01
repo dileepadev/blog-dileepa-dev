@@ -1,75 +1,44 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* --- GLOBAL RESET --- */
+/* ============================================
+   DESIGN SYSTEM - dileepa.dev
+   Brand Color: #030a14 (Deep Navy)
+   ============================================ */
 
-html,
-body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  scroll-behavior: smooth;
-}
+/* CSS Custom Properties - Light Mode (Default) */
+:root {
+  /* Brand Colors (deep blue only) */
+  --brand-primary: #030a14; /* primary deep navy */
+  --brand-primary-light: #030a14; /* keep same — avoid other color variants */
+  --brand-primary-dark: #010204; /* deeper blue for dark mode accents */
 
-@theme {
-  /* Typography */
-  --font-sans:
-    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Accent Colors (silver — matches primary palette) */
+  --accent-blue: #475569; /* slate-600 — cool silver */
+  --accent-blue-light: rgba(71, 85, 105, 0.12);
+  --accent-blue-dark: #334155;
+  /* Text on accent background (for contrast) */
+  --text-on-accent: #ffffff;
 
-  /* --- COLORS --- */
-  /* Modern Clean Palette */
+  /* Background Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-elevated: #ffffff;
 
-  /* Brand Colors (Light Mode Defaults) */
-  --color-brand: #030a14; /* Deep Midnight Blue */
-  --color-primary: #64748b; /* Slate 500 - Grey primary */
-  --color-primary-light: #f1f5f9; /* Slate 100 */
-  --color-primary-lighter: #e2e8f0; /* Slate 200 */
-  --color-primary-hover: #475569; /* Slate 600 */
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+  --text-inverse: #ffffff;
 
-  --color-secondary: #94a3b8; /* Slate 400 - Grey secondary */
-  --color-secondary-light: #f1f5f9;
-  --color-secondary-lighter: #e2e8f0;
+  /* Border Colors */
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-dark: #94a3b8;
 
-  --color-accent: #64748b; /* Slate 500 - Grey accent */
-  --color-accent-lighter: #475569;
-
-  /* Neutral Colors */
-  --color-background: #ffffff; /* Pure White - Maximum Cleanliness */
-  --color-background-alt: #f8fafc; /* Slate 50 - Subtle separation */
-  --color-text: #0f172a; /* Slate 900 - Modern, softer than pure black */
-  --color-text-secondary: #475569; /* Slate 600 - Readable meta text */
-  --color-text-tertiary: #94a3b8; /* Slate 400 - Low priority */
-  --color-text-muted: #cbd5e1; /* Slate 300 */
-
-  /* UI Colors */
-  --color-border: #e2e8f0; /* Light, crisp borders */
-  --color-border-light: #f1f5f9;
-  --color-card-bg: #ffffff;
-  --color-navbar: #f1f5f9; /* White-close grey for navbar items */
-  --color-footer: #ffffff; /* White text for footer */
-
-  /* State Colors */
-  --color-success: #10b981; /* Emerald 500 */
-  --color-warning: #f59e0b; /* Amber 500 */
-  --color-error: #ef4444; /* Red 500 */
-  --color-info: #94a3b8; /* Slate 400 - Info grey */
-
-  /* --- LAYOUT & COMPONENTS --- */
-
-  /* Spacing */
-  --spacing-container-max: 56rem; /* max-w-4xl */
-  --spacing-section: 2rem;
-
-  /* Border Radius */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-3xl: 1.75rem;
-
-  /* Shadows */
+  /* Shadow Colors */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg:
@@ -77,142 +46,311 @@ body {
   --shadow-xl:
     0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
-  /* --- EFFECTS --- */
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, monospace;
+
+  /* Spacing Scale */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* Border Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
 
   /* Transitions */
-  --duration-fast: 150ms;
-  --duration-base: 200ms;
-  --duration-slow: 300ms;
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Animations */
-  --animate-fade-in: fade-in 1s ease-out;
+  /* Z-Index Scale */
+  --z-dropdown: 50;
+  --z-sticky: 100;
+  --z-fixed: 150;
+  --z-modal: 200;
+  --z-tooltip: 250;
+}
 
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+/* Dark Mode */
+.dark {
+  --brand-primary: #030a14;
+  --brand-primary-light: #030a14;
+  --brand-primary-dark: #010204;
+
+  /* Accent - Silver on dark backgrounds */
+  --accent-blue: #cbd5e1; /* slate-300 — bright silver */
+  --accent-blue-light: rgba(203, 213, 225, 0.15);
+  --accent-blue-dark: #94a3b8;
+  /* Dark text on silver for readability */
+  --text-on-accent: #0f172a;
+
+  /* Deep-blue backgrounds */
+  --bg-primary: #010204; /* very deep blue background */
+  --bg-secondary: #030a14; /* primary brand as secondary layer */
+  --bg-tertiary: #06121a; /* slightly lighter than secondary for hover/cards */
+  --bg-elevated: #030a14;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-inverse: #010204;
+
+  /* Borders - Visible slate blues */
+  --border-light: #1e293b;
+  --border-medium: #334155;
+  --border-dark: #475569;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+  --shadow-md:
+    0 4px 6px -1px rgb(0 0 0 / 0.45), 0 2px 4px -2px rgb(0 0 0 / 0.35);
+  --shadow-lg:
+    0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --shadow-xl:
+    0 20px 25px -5px rgb(0 0 0 / 0.6), 0 8px 10px -6px rgb(0 0 0 / 0.45);
+}
+
+/* Tailwind Theme Integration */
+@theme inline {
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-light: var(--brand-primary-light);
+  --color-brand-dark: var(--brand-primary-dark);
+
+  --color-accent-blue: var(--accent-blue);
+  --color-on-accent: var(--text-on-accent);
+  /* other accents intentionally unified to brand */
+  --color-accent-purple: var(--accent-blue);
+  --color-accent-teal: var(--accent-blue);
+  --color-accent-orange: var(--accent-blue);
+
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-elevated: var(--bg-elevated);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-muted: var(--text-muted);
+
+  --color-border-light: var(--border-light);
+  --color-border-medium: var(--border-medium);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+/* Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem; /* clear fixed navbar (top-5 + h-16) */
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus Styles */
+:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--brand-primary);
+  color: white;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-dark);
+}
+
+/* Utility Classes */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.dark .glass {
+  background: rgba(3, 10, 20, 0.8);
+}
+
+/* Cursor for interactive elements */
+/* Ensure obvious pointer for clickable controls across the site */
+a,
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+[role="button"],
+summary,
+label[for] {
+  cursor: pointer;
+}
+
+/* Disabled controls show not-allowed */
+button:disabled,
+[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6; /* visual hint */
+}
+
+/* Utility class for manual use */
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+/* Accent utilities - ensure consistent accent color across themes */
+.text-accent-blue {
+  color: var(--accent-blue) !important;
+}
+.text-on-accent {
+  color: var(--text-on-accent) !important;
+}
+.hover\:text-on-accent:hover {
+  color: var(--text-on-accent) !important;
+}
+.bg-accent-blue {
+  background-color: var(--accent-blue) !important;
+}
+.border-accent-blue {
+  border-color: var(--accent-blue) !important;
+}
+.hover\:text-accent-blue:hover {
+  color: var(--accent-blue) !important;
+}
+.active-accent {
+  color: var(--accent-blue) !important;
+  font-weight: 600;
+}
+/* Removed problematic header/nav overrides that forced brand-color (invisible in dark mode) */
+
+/* Animation Utilities */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
-/* --- DARK MODE OVERRIDES --- */
-
-.dark {
-  /* Brand Colors - Dark Mode */
-  /* Modern & Clean Dark Theme */
-
-  --color-brand: #030a14; /* Deep Midnight Blue */
-  --color-primary: #94a3b8; /* Slate 400 - Grey primary */
-  --color-primary-light: #475569; /* Slate 600 */
-  --color-primary-lighter: #334155; /* Slate 700 */
-  --color-primary-hover: #64748b; /* Slate 500 */
-
-  --color-secondary: #64748b; /* Slate 500 - Grey secondary */
-  --color-secondary-light: #475569;
-  --color-secondary-lighter: #334155;
-
-  /* Neutral Colors */
-  --color-background: #000514; /* User Brand Base - Deep Navy Black */
-  --color-background-alt: #050b20; /* Slightly lighter navy */
-  --color-text: #f8fafc; /* Slate 50 - High contrast crisp text */
-  --color-text-secondary: #94a3b8; /* Slate 400 - Refined grey */
-  --color-text-tertiary: #64748b; /* Slate 500 */
-  --color-text-muted: #475569; /* Slate 600 */
-
-  /* UI Colors */
-  --color-border: #1e293b; /* Slate 800 - Subtle dark borders */
-  --color-border-light: #0f172a; /* Slate 900 */
-  --color-card-bg: #0b1126; /* Deep navy card background */
-  --color-navbar: #cbd5e1; /* Muted grey for navbar in dark mode */
-  --color-footer: #64748b; /* Muted grey for footer in dark mode */
-
-  --color-accent: #94a3b8; /* Slate 400 - Grey accent */
-  --color-accent-lighter: #cbd5e1;
-
-  /* State Colors */
-  --color-success: #34d399; /* Emerald 400 */
-  --color-warning: #fbbf24; /* Amber 400 */
-  --color-error: #f87171; /* Red 400 */
-  --color-info: #94a3b8; /* Slate 400 - Info grey */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* --- COMPONENT STYLES --- */
-
-/* Theme Toggle Icons */
-#theme-toggle-dark-icon,
-#theme-toggle-light-icon {
-  display: none;
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-html.dark #theme-toggle-dark-icon {
-  display: block;
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
-html.light #theme-toggle-light-icon {
-  display: block;
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* --- TYPOGRAPHY (PROSE) OVERRIDES --- */
-/* Map Tailwind Typography variables to our semantic theme variables */
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+/* Container Widths */
+.container-sm {
+  max-width: 640px;
+}
+.container-md {
+  max-width: 768px;
+}
+.container-lg {
+  max-width: 1024px;
+}
+.container-xl {
+  max-width: 1280px;
+}
+.container-2xl {
+  max-width: 1536px;
+}
+
+/* Typography Overrides for Prose */
 .prose {
-  --tw-prose-body: var(--color-text-secondary);
-  --tw-prose-headings: var(--color-text);
-  --tw-prose-lead: var(--color-text-secondary);
-  --tw-prose-links: var(--color-primary);
-  --tw-prose-bold: var(--color-text);
-  --tw-prose-counters: var(--color-text-tertiary);
-  --tw-prose-bullets: var(--color-text-tertiary);
-  --tw-prose-hr: var(--color-border);
-  --tw-prose-quotes: var(--color-text);
-  --tw-prose-quote-borders: var(--color-border);
-  --tw-prose-captions: var(--color-text-tertiary);
-  --tw-prose-code: var(--color-text);
-  --tw-prose-pre-code: var(--color-text);
-  --tw-prose-pre-bg: var(--color-card-bg);
-  --tw-prose-th-borders: var(--color-border);
-  --tw-prose-td-borders: var(--color-border);
+  --tw-prose-body: var(--text-primary);
+  --tw-prose-headings: var(--text-primary);
+  --tw-prose-lead: var(--text-secondary);
+  --tw-prose-links: var(--accent-blue);
+  --tw-prose-bold: var(--text-primary);
+  --tw-prose-counters: var(--text-tertiary);
+  --tw-prose-bullets: var(--text-tertiary);
+  --tw-prose-hr: var(--border-light);
+  --tw-prose-quotes: var(--text-primary);
+  --tw-prose-quote-borders: var(--border-light);
+  --tw-prose-captions: var(--text-tertiary);
+  --tw-prose-code: var(--text-primary);
+  --tw-prose-pre-code: var(--text-primary);
+  --tw-prose-pre-bg: var(--bg-secondary);
+  --tw-prose-th-borders: var(--border-light);
+  --tw-prose-td-borders: var(--border-light);
 }
-
-/* --- SHIKI DUAL THEME SUPPORT --- */
-/* Handle light/dark mode for code blocks using Astro's generated variables */
-
-.astro-code,
-.astro-code span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-  font-style: var(--shiki-light-font-style);
-  font-weight: var(--shiki-light-font-weight);
-  text-decoration: var(--shiki-light-text-decoration);
-}
-
-html.dark .astro-code,
-html.dark .astro-code span {
-  color: var(--shiki-dark) !important;
-  background-color: var(--shiki-dark-bg) !important;
-  font-style: var(--shiki-dark-font-style) !important;
-  font-weight: var(--shiki-dark-font-weight) !important;
-  text-decoration: var(--shiki-dark-text-decoration) !important;
-}
-
-/* Ensure the code block border follows the actual code background (Shiki container) */
-
-.code-block-wrapper .astro-code {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  /* Make sure background and colors applied to this element take precedence */
-  background-clip: padding-box;
-}
-
-/* Remove any default margin from the inner pre so the border sits flush */
-.code-block-wrapper .astro-code pre {
-  margin: 0 !important;
-  border-radius: 0 !important;
-}
-
-/* Keep the inner code scrollable but constrained */

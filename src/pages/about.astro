@@ -7,37 +7,55 @@ import Layout from "../layouts/Layout.astro";
   description="Learn more about Dileepa Bandara, a software engineer passionate about AI, cloud computing, and software development."
 >
   <div class="max-w-3xl mx-auto space-y-8">
-    <h1 class="text-4xl font-bold text-text mb-8">About Me</h1>
+    <h1 class="text-4xl font-bold text-text-primary mb-8 animate-fade-in">
+      About Me
+    </h1>
 
-    <div class="prose prose-lg">
-      <p class="text-lg text-text-secondary leading-relaxed">
-        Hi, I'm Dileepa Bandara, a passionate software engineer with expertise
-        in Artificial Intelligence, Cloud Computing, and modern software
-        development practices.
+    <div class="prose prose-lg text-text-secondary">
+      <p class="text-lg leading-relaxed mb-6">
+        Hi, I'm <span class="text-text-primary font-medium"
+          >Dileepa Bandara</span
+        >, a passionate software engineer with expertise in Artificial
+        Intelligence, Cloud Computing, and modern software development
+        practices.
       </p>
 
-      <p class="text-text-secondary leading-relaxed">
+      <p class="leading-relaxed mb-6">
         I love exploring cutting-edge technologies and sharing my knowledge
         through this blog. Whether it's building AI-powered applications,
         architecting scalable cloud solutions, or diving deep into software
         engineering best practices, I'm always excited to learn and teach.
       </p>
 
-      <p class="text-text-secondary leading-relaxed">
+      <p class="leading-relaxed">
         When I'm not coding, you can find me contributing to open-source
         projects, attending tech conferences, or experimenting with new tools
         and frameworks.
       </p>
     </div>
 
-    <div class="bg-primary-light p-6 rounded-lg">
-      <h2 class="text-2xl font-semibold text-text mb-4">What I Write About</h2>
-      <ul class="space-y-2 text-text-secondary">
-        <li>• Artificial Intelligence and Machine Learning</li>
-        <li>• Cloud Computing (Azure, AWS, GCP)</li>
-        <li>• Software Architecture and Design Patterns</li>
-        <li>• DevOps and Infrastructure as Code</li>
-        <li>• Modern Web Development</li>
+    <div
+      class="bg-bg-elevated border border-border-light p-8 rounded-xl shadow-sm"
+    >
+      <h2 class="text-2xl font-semibold text-text-primary mb-6">
+        What I Write About
+      </h2>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {
+          [
+            "Artificial Intelligence & ML",
+            "Cloud Computing (Azure, AWS)",
+            "Software Architecture",
+            "DevOps & IaC",
+            "Modern Web Development",
+            "System Design",
+          ].map((topic) => (
+            <li class="flex items-center gap-3 text-text-secondary">
+              <span class="h-1.5 w-1.5 rounded-full bg-accent-blue flex-shrink-0" />
+              {topic}
+            </li>
+          ))
+        }
       </ul>
     </div>
   </div>

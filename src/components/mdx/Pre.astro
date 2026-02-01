@@ -8,7 +8,7 @@ const props = Astro.props;
     class={`my-0! rounded-none! ${props.class || ""} cursor-text group-hover:cursor-copy not-prose`}><slot /></pre>
 
   <button
-    class="copy-btn cursor-pointer absolute top-3 right-3 p-1.5 rounded-md bg-primary/10 text-text-secondary opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-primary/20 hover:text-text focus:opacity-100 backdrop-blur-sm"
+    class="copy-btn cursor-pointer absolute top-3 right-3 p-1.5 rounded-md bg-bg-secondary border border-border-light text-text-secondary opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-bg-tertiary hover:text-text-primary focus:opacity-100 backdrop-blur-sm shadow-sm"
     aria-label="Copy code"
     title="Copy code"
   >
@@ -39,7 +39,7 @@ const props = Astro.props;
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="check-icon hidden text-success"
+      class="check-icon hidden text-accent-blue"
     >
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>

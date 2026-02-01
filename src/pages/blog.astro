@@ -35,7 +35,7 @@ function formatDate(date: string) {
   description="Read my latest articles on software engineering, AI, and cloud computing."
 >
   <div class="space-y-8">
-    <h1 class="text-4xl font-bold text-text mb-8">Blog Posts</h1>
+    <h1 class="text-4xl font-bold text-text-primary mb-8">Blog Posts</h1>
 
     {
       posts.length === 0 ? (
@@ -50,16 +50,20 @@ function formatDate(date: string) {
           {posts.map((post) => (
             <a
               href={`/blog/${post.slug}`}
-              class="block p-6 bg-card-bg border border-border rounded-lg hover:shadow-md transition-shadow"
+              class="block p-6 bg-bg-elevated border border-border-light rounded-xl hover:shadow-lg hover:border-accent-blue/30 hover:scale-[1.01] transition-all duration-300 group"
             >
-              <h3 class="text-2xl font-semibold text-text">{post.title}</h3>
+              <h3 class="text-2xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
+                {post.title}
+              </h3>
               {post.pubDate && (
-                <p class="text-sm text-text-secondary mt-1">
+                <p class="text-sm text-text-muted mt-2 font-medium">
                   {formatDate(post.pubDate)}
                 </p>
               )}
               {post.description && (
-                <p class="mt-3 text-text-tertiary">{post.description}</p>
+                <p class="mt-3 text-text-secondary leading-relaxed">
+                  {post.description}
+                </p>
               )}
             </a>
           ))}

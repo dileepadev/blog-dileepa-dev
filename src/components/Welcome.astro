@@ -33,30 +33,32 @@ function formatDate(date: string) {
 <div class="w-full py-20 px-4">
   <div class="max-w-4xl mx-auto text-center">
     <!-- Main Heading -->
-    <h1 class="text-5xl md:text-7xl font-bold text-text mb-6 animate-fade-in">
+    <h1
+      class="text-5xl md:text-7xl font-bold text-text-primary mb-6 animate-fade-in"
+    >
       Welcome to my dev blog
     </h1>
 
     <!-- Description -->
-    <p class="text-lg text-text-tertiary mb-8 max-w-3xl mx-auto">
+    <p class="text-lg text-text-secondary mb-8 max-w-3xl mx-auto">
       Dive into insightful tutorials, cutting-edge projects, and
       thought-provoking discussions about the technologies shaping our future.
     </p>
 
     <!-- Topic Chips -->
     <p
-      class="text-xl md:text-2xl text-text-secondary mb-4 max-w-2xl mx-auto leading-relaxed"
+      class="text-xl md:text-2xl text-text-secondary mb-4 max-w-2xl mx-auto leading-relaxed gap-3 flex flex-wrap justify-center"
     >
       <span
-        class="font-semibold text-lg inline-flex items-center px-3 py-1 rounded-full bg-card-bg border border-border text-text-secondary transition-colors"
+        class="font-semibold text-lg inline-flex items-center px-4 py-1.5 rounded-full bg-bg-secondary border border-border-light text-text-secondary hover:text-text-primary hover:bg-bg-tertiary transition-all duration-300"
         >Artificial Intelligence</span
       >
       <span
-        class="font-semibold text-lg inline-flex items-center px-3 py-1 rounded-full bg-card-bg border border-border text-text-secondary transition-colors"
+        class="font-semibold text-lg inline-flex items-center px-4 py-1.5 rounded-full bg-bg-secondary border border-border-light text-text-secondary hover:text-text-primary hover:bg-bg-tertiary transition-all duration-300"
         >Cloud Computing</span
       >
       <span
-        class="font-semibold text-lg inline-flex items-center px-3 py-1 rounded-full bg-card-bg border border-border text-text-secondary transition-colors"
+        class="font-semibold text-lg inline-flex items-center px-4 py-1.5 rounded-full bg-bg-secondary border border-border-light text-text-secondary hover:text-text-primary hover:bg-bg-tertiary transition-all duration-300"
         >Software Development</span
       >
     </p>
@@ -65,34 +67,36 @@ function formatDate(date: string) {
 
 <!-- Divider -->
 <div
-  class="my-1 flex items-center justify-center"
+  class="my-1 flex items-center justify-center p-8"
   role="separator"
   aria-hidden="false"
 >
-  <span class="h-px w-1/3 bg-border" aria-hidden="true"></span>
-  <span class="mx-4 text-xl text-text-secondary" aria-hidden="true">✦</span>
-  <span class="h-px w-1/3 bg-border" aria-hidden="true"></span>
+  <span class="h-px w-1/3 bg-border-light" aria-hidden="true"></span>
+  <span class="mx-4 text-xl text-text-tertiary" aria-hidden="true">✦</span>
+  <span class="h-px w-1/3 bg-border-light" aria-hidden="true"></span>
 </div>
 
 <!-- Latest Blog Section -->
 <div class="w-full py-16 px-4">
   <div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl font-bold text-text mb-8 text-center">
+    <h2 class="text-3xl font-bold text-text-primary mb-8 text-center">
       Latest Blog Post <span class="ml-2" aria-hidden="true">🚀</span>
     </h2>
 
-    <div class="bg-card-bg border border-border rounded-xl p-8 shadow-sm">
+    <div
+      class="bg-bg-elevated border border-border-light rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 group"
+    >
       {
         latestPost ? (
           <div class="text-left">
-            <div class="flex items-center gap-2 text-lg text-text-tertiary mb-3">
+            <div class="flex items-center gap-2 text-lg text-text-muted mb-3">
               <span>{formatDate(latestPost.pubDate)}</span>
               {latestPost.tags && (
                 <>
-                  <span>•</span>
+                  <span class="text-text-tertiary">•</span>
                   <div class="flex gap-2">
                     {latestPost.tags.map((tag: string) => (
-                      <span class="capitalize bg-background px-2 py-0.5 rounded text-sm">
+                      <span class="capitalize bg-bg-secondary text-text-secondary border border-border-light px-2.5 py-0.5 rounded-md text-sm">
                         {tag}
                       </span>
                     ))}

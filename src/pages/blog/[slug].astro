@@ -44,20 +44,22 @@ function formatDate(date: string) {
     class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-[1fr_250px] gap-12"
   >
     <article class="prose prose-lg max-w-none">
-      <header class="mb-8">
-        <h1 class="text-4xl font-bold text-text">{post.title}</h1>
+      <header class="mb-8 not-prose">
+        <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4">
+          {post.title}
+        </h1>
         {
           post.pubDate && (
-            <p class="text-lg text-text-secondary">
+            <p class="text-lg text-text-muted font-medium">
               {formatDate(post.pubDate)}
             </p>
           )
         }
         {
           post.tags && (
-            <div class="mt-3 flex gap-2">
+            <div class="mt-4 flex gap-2 flex-wrap">
               {post.tags.map((tag: string) => (
-                <span class="capitalize rounded-full bg-card-bg border border-border text-text-secondary transition-colors px-2 py-0.5 text-sm">
+                <span class="capitalize rounded-md bg-bg-secondary border border-border-light text-text-secondary px-2.5 py-0.5 text-sm font-medium">
                   {tag}
                 </span>
               ))}
@@ -66,29 +68,33 @@ function formatDate(date: string) {
         }
       </header>
 
-      <section>
+      <section class="text-text-primary">
         <post.Component components={{ pre: Pre }} />
       </section>
     </article>
 
-    <aside class="hidden lg:block">
-      <div class="sticky top-24">
-        <h2 class="text-sm font-bold text-text mb-4 uppercase tracking-wider">
+    <aside class="hidden lg:block relative">
+      <div class="sticky top-32">
+        <h2
+          class="text-sm font-bold text-text-primary mb-4 uppercase tracking-wider"
+        >
           On this page
         </h2>
         <nav>
-          <ul class="space-y-3 text-sm border-l border-border">
+          <ul class="space-y-3 text-sm border-l border-border-light">
             {
               post.headings.map((heading: any) => (
                 <li
                   class:list={[
-                    "pl-4 border-l-2 border-transparent hover:border-l-accent hover:text-accent transition-colors text-text-secondary duration-300 ease-in-out",
+                    "pl-4 border-l-2 border-transparent hover:border-l-accent-blue hover:text-accent-blue transition-all text-text-muted duration-300 ease-in-out",
                   ]}
                   style={{
                     marginLeft: `${(heading.depth - 1) * 0.5}rem`,
                   }}
                 >
-                  <a href={`#${heading.slug}`} class="block">{heading.text}</a>
+                  <a href={`#${heading.slug}`} class="block">
+                    {heading.text}
+                  </a>
                 </li>
               ))
             }
@@ -102,16 +108,17 @@ function formatDate(date: string) {
 <script>
   function updateToc() {
     const headings = Array.from(
-      document.querySelectorAll("article :is(h1, h2, h3, h4, h5, h6)")
+      document.querySelectorAll("article :is(h1, h2, h3, h4, h5, h6)"),
     );
     const tocLinks = document.querySelectorAll("nav ul li");
 
     let currentHeading = null;
-    
+
     // Find the heading that is currently active (closest to top but passed)
     for (const heading of headings) {
       const rect = heading.getBoundingClientRect();
-      if (rect.top < 150) { // Threshold from top
+      if (rect.top < 150) {
+        // Threshold from top
         currentHeading = heading;
       } else {
         break;
@@ -120,7 +127,7 @@ function formatDate(date: string) {
 
     // Default to first heading if none passed (e.g. at very top)
     if (!currentHeading && headings.length > 0) {
-       // currentHeading = headings[0]; // Optional: highlight first item at top
+      // currentHeading = headings[0]; // Optional: highlight first item at top
     }
 
     // Reset all
@@ -129,24 +136,20 @@ function formatDate(date: string) {
         "border-l-accent",
         "text-accent",
         "font-medium",
-        "bg-primary-light/10"
+        "bg-primary-light/10",
       );
       link.classList.add("border-transparent", "text-text-secondary");
     });
 
     if (currentHeading) {
       const link = document.querySelector(
-        `nav li a[href="#${currentHeading.id}"]`
+        `nav li a[href="#${currentHeading.id}"]`,
       );
       if (link) {
         const li = link.parentElement;
         if (li) {
           li.classList.remove("border-transparent", "text-text-secondary");
-          li.classList.add(
-            "border-l-accent",
-            "text-accent",
-            "font-medium"
-          );
+          li.classList.add("border-l-accent", "text-accent", "font-medium");
         }
       }
     }
