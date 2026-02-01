@@ -202,6 +202,20 @@ body {
   background: var(--border-dark);
 }
 
+/* Theme Toggle Icons */
+#theme-toggle-dark-icon,
+#theme-toggle-light-icon {
+  display: none;
+}
+
+html.dark #theme-toggle-dark-icon {
+  display: block;
+}
+
+html.light #theme-toggle-light-icon {
+  display: block;
+}
+
 /* Utility Classes */
 .glass {
   background: rgba(255, 255, 255, 0.1);
