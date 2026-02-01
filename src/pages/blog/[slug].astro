@@ -1,6 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Pre from "../../components/mdx/Pre.astro";
+import Share from "../../components/Share.astro";
 
 export async function getStaticPaths() {
   const modules = import.meta.glob("../../content/posts/**/*.mdx", {
@@ -46,6 +47,9 @@ function formatDate(date: string) {
         <h1 class="text-4xl md:text-5xl font-bold text-text-primary mb-4">
           {post.title}
         </h1>
+        <p class="text-lg text-text-muted font-medium mb-2">
+          {post.description}
+        </p>
         {
           post.pubDate && (
             <p class="text-lg text-text-muted font-medium">
@@ -64,6 +68,8 @@ function formatDate(date: string) {
             </div>
           )
         }
+
+        <Share />
       </header>
 
       <section class="text-text-primary">
