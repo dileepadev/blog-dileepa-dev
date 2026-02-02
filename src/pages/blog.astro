@@ -35,7 +35,40 @@ function formatDate(date: string) {
   description="Read my latest articles on software engineering, AI, and cloud computing."
 >
   <div class="space-y-8">
-    <h1 class="text-4xl font-bold text-text-primary mb-8">Blog Posts</h1>
+    <h1 class="text-4xl font-bold text-text-primary mb-4">Blog Posts</h1>
+
+    <!-- Search input -->
+    <div class="mb-6 max-w-xl mx-auto">
+      <label for="blog-search" class="sr-only">Search posts</label>
+      <div class="relative">
+        <svg
+          aria-hidden="true"
+          class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-text-secondary pointer-events-none"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15z"
+          ></path>
+        </svg>
+
+        <input
+          id="blog-search"
+          type="search"
+          placeholder="Search posts by title, description, or tags..."
+          class="w-full pl-10 pr-3 p-3 rounded-md border border-border-light bg-bg-default text-text-primary placeholder:text-text-secondary"
+          aria-describedby="search-help"
+        />
+      </div>
+      <p id="search-help" class="mt-2 text-sm text-text-secondary">
+        Try "AI", "cloud", or a tag like "tutorial".
+      </p>
+    </div>
 
     {
       posts.length === 0 ? (
@@ -46,49 +79,117 @@ function formatDate(date: string) {
           </p>
         </div>
       ) : (
-        <div class="grid gap-6">
-          {posts.map((post) => (
-            <a
-              href={`/blog/${post.slug}`}
-              class="block p-6 bg-bg-elevated border border-border-light rounded-xl hover:shadow-lg hover:border-accent-blue/30 hover:scale-[1.01] transition-all duration-300 group"
-            >
-              {post.banner && (
-                <img
-                  src={post.banner}
-                  alt={post.bannerAlt || post.title}
-                  class="w-full h-44 object-cover rounded-md mb-4"
-                />
-              )}
+        <div>
+          <div
+            id="no-results"
+            class="hidden text-center py-12 text-text-secondary"
+          >
+            No posts match your search.
+          </div>
+          <div id="posts-grid" class="grid gap-6">
+            {posts.map((post) => {
+              const searchable =
+                `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""}`.toLowerCase();
+              return (
+                <a
+                  href={`/blog/${post.slug}`}
+                  class="post-item block p-6 bg-bg-elevated border border-border-light rounded-xl hover:shadow-lg hover:border-accent-blue/30 hover:scale-[1.01] transition-all duration-300 group"
+                  data-searchable={searchable}
+                >
+                  {post.banner && (
+                    <img
+                      src={post.banner}
+                      alt={post.bannerAlt || post.title}
+                      class="w-full h-44 object-cover rounded-md mb-4"
+                    />
+                  )}
 
-              {post.pubDate && (
-                <p class="text-sm text-text-muted mb-2 font-medium">
-                  {formatDate(post.pubDate)}
-                </p>
-              )}
+                  {post.pubDate && (
+                    <p class="text-sm text-text-muted mb-2 font-medium">
+                      {formatDate(post.pubDate)}
+                    </p>
+                  )}
 
-              <h3 class="text-2xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
-                {post.title}
-              </h3>
+                  <h3 class="text-2xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
+                    {post.title}
+                  </h3>
 
-              {post.description && (
-                <p class="mt-3 text-text-secondary leading-relaxed">
-                  {post.description}
-                </p>
-              )}
+                  {post.description && (
+                    <p class="mt-3 text-text-secondary leading-relaxed">
+                      {post.description}
+                    </p>
+                  )}
 
-              {post.tags && (
-                <div class="mt-3 flex gap-2 flex-wrap">
-                  {post.tags.map((tag: string) => (
-                    <span class="capitalize rounded-md bg-bg-secondary border border-border-light text-text-secondary px-2.5 py-0.5 text-sm font-medium">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </a>
-          ))}
+                  {post.tags && (
+                    <div class="mt-3 flex gap-2 flex-wrap">
+                      {post.tags.map((tag: string) => (
+                        <span class="capitalize rounded-md bg-bg-secondary border border-border-light text-text-secondary px-2.5 py-0.5 text-sm font-medium">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </a>
+              );
+            })}
+          </div>
         </div>
       )
     }
   </div>
+
+  <script type="module">
+    const input = document.getElementById("blog-search");
+    const grid = document.getElementById("posts-grid");
+    const items = grid ? Array.from(grid.querySelectorAll(".post-item")) : [];
+    const noResults = document.getElementById("no-results");
+
+    function normalize(s) {
+      return (s || "").toLowerCase();
+    }
+
+    function filterPosts(query) {
+      if (!items.length) return;
+      const q = normalize(query).trim();
+      let visible = 0;
+      for (const item of items) {
+        const text = normalize(item.getAttribute("data-searchable"));
+        const match = q === "" || text.includes(q);
+        item.style.display = match ? "" : "none";
+        if (match) visible += 1;
+      }
+      if (noResults) noResults.classList.toggle("hidden", visible > 0);
+    }
+
+    let timeout;
+    input?.addEventListener("input", (e) => {
+      clearTimeout(timeout);
+      const q = e.target.value;
+      timeout = setTimeout(() => filterPosts(q), 150);
+    });
+
+    // Allow clearing with Escape
+    input?.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        input.value = "";
+        filterPosts("");
+      }
+    });
+
+    // Initialize
+    // If a query param `q` is present, pre-fill the input and run the filter.
+    const params = new URLSearchParams(window.location.search);
+    const initialQuery = params.get("q") || "";
+    if (initialQuery) {
+      input.value = initialQuery;
+      filterPosts(initialQuery);
+    } else {
+      filterPosts("");
+    }
+
+    // If the hash is #search, focus the search input for convenience.
+    if (window.location.hash === "#search") {
+      input?.focus();
+    }
+  </script>
 </Layout>
