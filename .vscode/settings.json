@@ -3,9 +3,13 @@
     "colours",
     "frontmatter",
     "grayscale",
+    "linecap",
+    "linejoin",
     "Noto",
+    "pubdate",
     "rgba",
     "Segoe",
-    "shiki"
+    "shiki",
+    "textareas"
   ]
 }

@@ -177,6 +177,61 @@ body {
   outline-offset: 2px;
 }
 
+/* Themed form controls (inputs, selects, textareas) */
+input[type="search"],
+select,
+textarea {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  /* leave left padding to utility classes (e.g., pl-16/pl-20) so icon spacing works */
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  padding-right: 0.75rem;
+  border-radius: var(--radius-md);
+  transition:
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+/* Add a chevron arrow to selects and room for it */
+select {
+  padding-right: 2.25rem; /* space for arrow */
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1rem;
+  /* light-mode arrow */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+}
+
+/* Dark mode overrides for form controls */
+.dark input[type="search"],
+.dark select,
+.dark textarea {
+  background-color: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-medium);
+}
+.dark select {
+  /* dark-mode arrow (lighter color) */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+}
+
+/* Focus state for form controls */
+input[type="search"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-blue-light);
+  border-color: var(--accent-blue);
+}
+
 /* Selection */
 ::selection {
   background-color: var(--brand-primary);
@@ -247,6 +302,7 @@ html.light #theme-toggle-light-icon {
 /* Ensure obvious pointer for clickable controls across the site */
 a,
 button,
+select,
 input[type="button"],
 input[type="submit"],
 input[type="reset"],
@@ -254,6 +310,15 @@ input[type="reset"],
 summary,
 label[for] {
   cursor: pointer;
+}
+
+/* Make the entire post card show a pointer so it's obvious it is clickable */
+.post-item {
+  cursor: pointer;
+}
+.post-item * {
+  /* Ensure inner elements don't override the pointer (e.g., images, spans) */
+  cursor: inherit;
 }
 
 /* Disabled controls show not-allowed */
@@ -453,5 +518,3 @@ html.dark .code-block-wrapper pre.shiki span {
 .code-block-wrapper span[style*="background"] {
   background: transparent !important;
 }
-
-
