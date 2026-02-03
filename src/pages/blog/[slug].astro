@@ -38,6 +38,51 @@ function formatDate(date: string) {
     day: "numeric",
   });
 }
+
+// Logic for Latest and Random/Recommended Posts
+const allModules = import.meta.glob("../../content/posts/**/*.mdx", {
+  eager: true,
+});
+const allPosts = Object.entries(allModules).map(([path, mod]) => {
+  const m = mod as any;
+  const slug =
+    path
+      .split("/")
+      .pop()
+      ?.replace(/\.mdx$/, "") ?? "";
+  return {
+    slug,
+    ...(m.frontmatter || {}),
+  };
+});
+
+const otherPosts = allPosts
+  .filter((p) => p.slug !== post.slug)
+  .sort(
+    (a, b) =>
+      new Date(b.pubDate as string).valueOf() -
+      new Date(a.pubDate as string).valueOf(),
+  );
+
+const latestPost = otherPosts[0];
+let recommendedPost = null;
+
+if (otherPosts.length > 1) {
+  const remaining = otherPosts.slice(1);
+
+  // Try to find a related post based on tags
+  const currentTags = new Set(post.tags || []);
+  const related = remaining.filter(
+    (p) => p.tags && p.tags.some((t: string) => currentTags.has(t)),
+  );
+
+  if (related.length > 0) {
+    recommendedPost = related[Math.floor(Math.random() * related.length)];
+  } else {
+    // Fallback to random
+    recommendedPost = remaining[Math.floor(Math.random() * remaining.length)];
+  }
+}
 ---
 
 <Layout title={post.title} description={post.description}>
@@ -89,7 +134,7 @@ function formatDate(date: string) {
 
     <aside
       id="toc-panel"
-      class="static lg:fixed lg:bottom-24 lg:right-8 z-40 lg:w-72 w-full max-h-[70vh] lg:max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-5 transition-all duration-300"
+      class="static lg:fixed lg:bottom-40 lg:right-8 z-40 lg:w-72 w-full max-h-[70vh] lg:max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-5 transition-all duration-300"
       role="region"
       aria-label="Table of contents"
     >
@@ -122,6 +167,81 @@ function formatDate(date: string) {
       </nav>
     </aside>
   </div>
+
+  {
+    (latestPost || recommendedPost) && (
+      <div class="max-w-7xl mx-auto mt-16 mb-12 px-4 md:px-0">
+        <hr class="border-border-light mb-12" />
+        <h2 class="text-2xl font-bold text-text-primary mb-6">Read Next</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {latestPost && (
+            <a
+              href={`/blog/${latestPost.slug}`}
+              class="post-item relative block p-6 bg-bg-elevated border border-border-light rounded-xl hover:shadow-lg hover:border-accent-blue/30 hover:scale-[1.01] transition-all duration-300 group"
+            >
+              <span class="absolute top-4 right-4 z-10 bg-accent-blue/10 text-accent-blue text-xs font-bold uppercase tracking-wider px-2 py-1 rounded">
+                Latest
+              </span>
+              {latestPost.banner && (
+                <img
+                  src={latestPost.banner}
+                  alt={latestPost.bannerAlt || latestPost.title}
+                  class="w-full h-48 object-cover rounded-md mb-4 shadow-sm"
+                />
+              )}
+              <div class="flex flex-col h-full">
+                <h3 class="text-xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors mb-2 pr-12">
+                  {latestPost.title}
+                </h3>
+                {latestPost.pubDate && (
+                  <p class="text-sm text-text-muted mb-2 font-medium">
+                    {formatDate(latestPost.pubDate)}
+                  </p>
+                )}
+                {latestPost.description && (
+                  <p class="text-text-secondary line-clamp-2">
+                    {latestPost.description}
+                  </p>
+                )}
+              </div>
+            </a>
+          )}
+          {recommendedPost && (
+            <a
+              href={`/blog/${recommendedPost.slug}`}
+              class="post-item relative block p-6 bg-bg-elevated border border-border-light rounded-xl hover:shadow-lg hover:border-accent-blue/30 hover:scale-[1.01] transition-all duration-300 group"
+            >
+              <span class="absolute top-4 right-4 z-10 bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wider px-2 py-1 rounded">
+                Recommended
+              </span>
+              {recommendedPost.banner && (
+                <img
+                  src={recommendedPost.banner}
+                  alt={recommendedPost.bannerAlt || recommendedPost.title}
+                  class="w-full h-48 object-cover rounded-md mb-4 shadow-sm"
+                />
+              )}
+              <div class="flex flex-col h-full">
+                <h3 class="text-xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors mb-2 pr-12">
+                  {recommendedPost.title}
+                </h3>
+                {recommendedPost.pubDate && (
+                  <p class="text-sm text-text-muted mb-2 font-medium">
+                    {formatDate(recommendedPost.pubDate)}
+                  </p>
+                )}
+                {recommendedPost.description && (
+                  <p class="text-text-secondary line-clamp-2">
+                    {recommendedPost.description}
+                  </p>
+                )}
+              </div>
+            </a>
+          )}
+        </div>
+      </div>
+    )
+  }
 </Layout>
 
 <script>
