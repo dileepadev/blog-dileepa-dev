@@ -139,8 +139,77 @@ const twitterHandle = '@dileepadev';
             class="flex items-center gap-6 text-sm font-medium text-text-muted"
           >
             <ThemeToggle />
+            <!-- Mobile Menu Button -->
+            <button
+              id="mobile-menu-button"
+              class="md:hidden flex h-9 w-9 items-center justify-center rounded-full bg-bg-tertiary text-text-primary border border-white/10"
+              aria-label="Toggle menu"
+            >
+              <svg
+                id="hamburger-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+              <svg
+                id="close-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="hidden"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
           </div>
         </nav>
+
+        <!-- Mobile Menu -->
+        <div
+          id="mobile-menu"
+          class="md:hidden overflow-hidden transition-all duration-300 max-h-0"
+        >
+          <div class="flex flex-col gap-1 pt-4 border-t border-border-light">
+            <a
+              href="/"
+              data-href="/"
+              class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
+            >
+              Home
+            </a>
+            <a
+              href="/blog"
+              data-href="/blog"
+              class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
+            >
+              Blog
+            </a>
+            <a
+              href="/about"
+              data-href="/about"
+              class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
+            >
+              About
+            </a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -184,7 +253,9 @@ const twitterHandle = '@dileepadev';
       // Navbar active-link & scroll-spy (desktop)
       (function () {
         const links = Array.from(document.querySelectorAll(".nav-link"));
-        if (!links.length) return;
+        const mobileLinks = Array.from(document.querySelectorAll(".mobile-nav-link"));
+        const allLinks = [...links, ...mobileLinks];
+        if (!allLinks.length) return;
 
         const baseClass =
           "px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full";
@@ -193,18 +264,35 @@ const twitterHandle = '@dileepadev';
         const inactiveClasses =
           "text-text-muted hover:text-text-primary hover:bg-white/5";
 
+        const mobileBaseClass =
+          "w-full text-left px-4 py-3 text-base font-medium transition-colors rounded-lg";
+        const mobileActiveClasses =
+          "bg-accent-blue text-on-accent";
+        const mobileInactiveClasses =
+          "text-text-secondary hover:text-text-primary hover:bg-bg-secondary";
+
         function setActiveByPath() {
           const path = window.location.pathname.replace(/\/$/, "") || "/";
-          links.forEach((a) => {
+          allLinks.forEach((a) => {
             const href = a.getAttribute("data-href");
             if (!href) return;
             const normalized = href.replace(/\/$/, "") || "/";
             if (normalized === path) {
-              a.className = `${baseClass} ${activeClasses}`;
-              a.setAttribute("aria-current", "page");
+              if (a.classList.contains("nav-link")) {
+                a.className = `${baseClass} ${activeClasses}`;
+                a.setAttribute("aria-current", "page");
+              } else if (a.classList.contains("mobile-nav-link")) {
+                a.className = `${mobileBaseClass} ${mobileActiveClasses}`;
+                a.setAttribute("aria-current", "page");
+              }
             } else {
-              a.className = `${baseClass} ${inactiveClasses}`;
-              a.removeAttribute("aria-current");
+              if (a.classList.contains("nav-link")) {
+                a.className = `${baseClass} ${inactiveClasses}`;
+                a.removeAttribute("aria-current");
+              } else if (a.classList.contains("mobile-nav-link")) {
+                a.className = `${mobileBaseClass} ${mobileInactiveClasses}`;
+                a.removeAttribute("aria-current");
+              }
             }
           });
         }
@@ -226,12 +314,17 @@ const twitterHandle = '@dileepadev';
                     (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0),
                 );
                 activeSection = visible[0].target.id;
-                links.forEach((a) => {
+                allLinks.forEach((a) => {
                   const href = a.getAttribute("href");
                   const isHash = href && href.startsWith("#");
                   if (isHash && href === "#" + activeSection) {
-                    a.className = `${baseClass} ${activeClasses}`;
-                    a.setAttribute("aria-current", "page");
+                    if (a.classList.contains("nav-link")) {
+                      a.className = `${baseClass} ${activeClasses}`;
+                      a.setAttribute("aria-current", "page");
+                    } else if (a.classList.contains("mobile-nav-link")) {
+                      a.className = `${mobileBaseClass} ${mobileActiveClasses}`;
+                      a.setAttribute("aria-current", "page");
+                    }
                   } else if (
                     a.getAttribute("data-href") &&
                     a.getAttribute("data-href") ===
@@ -240,8 +333,13 @@ const twitterHandle = '@dileepadev';
                     // leave path-based active as handled by setActiveByPath
                   } else {
                     if (!isHash) return;
-                    a.className = `${baseClass} ${inactiveClasses}`;
-                    a.removeAttribute("aria-current");
+                    if (a.classList.contains("nav-link")) {
+                      a.className = `${baseClass} ${inactiveClasses}`;
+                      a.removeAttribute("aria-current");
+                    } else if (a.classList.contains("mobile-nav-link")) {
+                      a.className = `${mobileBaseClass} ${mobileInactiveClasses}`;
+                      a.removeAttribute("aria-current");
+                    }
                   }
                 });
               }
@@ -260,7 +358,7 @@ const twitterHandle = '@dileepadev';
         }
 
         // Smooth scroll for hash links & click handling
-        links.forEach((a) => {
+        allLinks.forEach((a) => {
           a.addEventListener("click", (e) => {
             const href = a.getAttribute("href");
             if (href && href.startsWith("#")) {
@@ -283,6 +381,45 @@ const twitterHandle = '@dileepadev';
 
         // Update on popstate
         window.addEventListener("popstate", setActiveByPath);
+      })();
+
+      // Mobile Menu Toggle
+      (function () {
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = document.getElementById('hamburger-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        if (!menuButton || !mobileMenu || !hamburgerIcon || !closeIcon) return;
+
+        let isOpen = false;
+
+        menuButton.addEventListener('click', () => {
+          isOpen = !isOpen;
+
+          if (isOpen) {
+            mobileMenu.classList.remove('max-h-0');
+            mobileMenu.classList.add('max-h-96', 'pb-4');
+            hamburgerIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
+          } else {
+            mobileMenu.classList.remove('max-h-96', 'pb-4');
+            mobileMenu.classList.add('max-h-0');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+          }
+        });
+
+        // Close menu when clicking outside or on a link
+        mobileMenu.addEventListener('click', (e) => {
+          if (e.target.tagName === 'A') {
+            isOpen = false;
+            mobileMenu.classList.remove('max-h-96', 'pb-4');
+            mobileMenu.classList.add('max-h-0');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+          }
+        });
       })();
     </script>
   </body>
