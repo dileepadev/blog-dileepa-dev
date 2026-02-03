@@ -1,111 +1,96 @@
-# Blog Dileepa Dev
+# blog.dileepa.dev 📝
 
-Welcome to my personal development blog! This repository contains the source code for my blog where I share insights, tutorials, and projects related to AI, cloud computing, and software development.
+This repository contains the source for my personal dev blog where I write about AI, cloud computing, and software development.
 
-## About
+![blog.dileepa.dev screenshot](https://dileepadev.github.io/images/blog-dileepa-dev/preview.png)
 
-This blog covers topics including:
-
-- Artificial Intelligence (AI)
-- Machine Learning
-- Cloud Computing
-- Software Development
-- DevOps and Infrastructure
-- Personal Projects and Experiments
-
-## Getting Started
+## 🔧 Quick Start
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (version 18 or higher)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- Node.js 22.x or later
+- npm (or yarn/pnpm)
 
-### Installation
+### Install & Run (Development)
 
-1. Clone the repository:
+```bash
+git clone https://github.com/dileepadev/blog-dileepa-dev.git
+cd blog-dileepa-dev
+npm install
+npm run dev
+```
 
-   ```bash
-   git clone https://github.com/dileepadev/blog-dileepa-dev.git
-   cd blog-dileepa-dev
-   ```
+Open <http://localhost:4321> to view the site locally.
 
-2. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-
-   ```bash
-   npm start
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## Building for Production
+### Build & Preview (Production)
 
 ```bash
 npm run build
+npm run preview
 ```
 
-## Contributing
+## 🗂️ Project Structure
 
-Feel free to open issues or submit pull requests if you find any bugs or have suggestions for improvements.
+Key folders/files:
 
-## License
+- `src/content/posts/` - Add blog posts as `.mdx` files (filename becomes the slug)
+- `src/pages/blog/[slug].astro` - Post template (renders MDX & generates ToC)
+- `src/layouts/Layout.astro` - Site layout and metadata
+- `src/components/` - Reusable components (Share, ThemeToggle, etc.)
+- `public/images/banners/` - Banner images for posts
 
-This project is open source and available under the [MIT License](LICENSE).
+## ✍️ Writing a Post
 
-## Contact
+Create a new MDX file in `src/content/posts/` using the pattern `YYYY-MM-DD-your-slug.mdx`.
+Include frontmatter at the top of the file. Recommended fields:
 
-- Website: [dileepa.dev](https://dileepa.dev)
-- Twitter: [@dileepadev](https://x.com/dileepadev)
-- Email: [contact@dileepa.dev](mailto:contact@dileepa.dev)
+```md
+title: "My Post Title"
+description: "Short summary for listing and social cards"
+pubDate: "2026-02-03"
+tags: ["AI", "Cloud"]
+banner: "/images/banners/my-banner.png"
+bannerAlt: "A short description of the banner image"
 
-## Astro Starter Kit: Basics
+## Content
 
-```sh
-npm create astro@latest -- --template basics
+Write content here using MDX...
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Note:**
 
-### 🚀 Project Structure
+- The `slug` is derived from the file name (without the date and extension).
+- `pubDate` should be an ISO date string (YYYY-MM-DD).
 
-Inside of your Astro project, you'll see the following folders and files:
+## 🔁 Read Next (Behavior)
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+The post page now shows a **Read Next** section under each post with two cards:
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+- **Latest** — the most recent post (excluding the current one)
+- **Recommended** — a tag-related post (falls back to a random post if no tag-match exists)
 
-### 🧞 Commands
+This is done at build-time by scanning `src/content/posts`.
 
-All commands are run from the root of the project, from a terminal:
+## 🚀 Deployment
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+- The site is compatible with `GitHub Pages` and other static hosts that support Astro builds.
+- For `GitHub Pages` read this official documentation: [Deploy your Astro Site to GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)
 
-### 👀 Want to learn more?
+## 🧪 Testing & Local Tools
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- Run `npm run dev` to run the dev server with hot reload.
+- `npm run build` produces a static build into `.output`/`dist` depending on Astro config.
+
+## 🤝 Contributing
+
+- Please open issues or submit pull requests.
+- Follow the repository's [CONTRIBUTING.md](.github/CONTRIBUTING.md) and use the branch/commit naming guidelines.
+
+## ⚖️ License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file.
+
+## 📫 Contact
+
+- Website: <https://dileepa.dev>
+- Email: <contact@dileepa.dev>
