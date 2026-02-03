@@ -87,31 +87,9 @@ function formatDate(date: string) {
       </section>
     </article>
 
-    <button
-      id="toc-toggle"
-      class="fixed bottom-8 right-8 z-50 p-3 bg-bg-elevated dark:bg-bg-tertiary rounded-full shadow-lg text-accent-blue dark:text-text-primary hover:bg-accent-blue/90 dark:hover:bg-accent-blue/20 transition-all duration-500 hover:scale-110 ring-1 ring-border-light dark:ring-border-medium focus:ring-4 focus:ring-accent-blue/30"
-      aria-label="Toggle Table of Contents"
-      aria-expanded="false"
-      aria-controls="toc-panel"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16m-7 6h7"></path>
-      </svg>
-    </button>
-
     <aside
       id="toc-panel"
-      class="fixed bottom-24 right-8 z-40 w-72 max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-5 hidden transition-all duration-300 origin-bottom-right"
+      class="static lg:fixed lg:bottom-24 lg:right-8 z-40 lg:w-72 w-full max-h-[70vh] lg:max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-5 transition-all duration-300"
       role="region"
       aria-label="Table of contents"
     >
@@ -201,45 +179,17 @@ function formatDate(date: string) {
   document.addEventListener("DOMContentLoaded", () => {
     updateToc();
 
-    // Toggle TOC functionality
-    const tocToggle = document.getElementById("toc-toggle");
+    // Keep ToC visible by default. On small screens ToC becomes a static block above/below content
     const tocPanel = document.getElementById("toc-panel");
+    if (tocPanel) {
+      // Ensure visible in case it was hidden by other scripts/styles
+      tocPanel.classList.remove("hidden");
 
-    if (tocToggle && tocPanel) {
-      // Toggle visibility and update aria-expanded
-      tocToggle.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isHidden = tocPanel.classList.toggle("hidden");
-        // If hidden was removed, panel is visible -> set true
-        tocToggle.setAttribute("aria-expanded", (!isHidden).toString());
-      });
-
-      // Close when clicking outside (also update aria)
-      document.addEventListener("click", (e) => {
-        if (
-          !tocPanel.contains(e.target as Node) &&
-          !tocToggle.contains(e.target as Node)
-        ) {
-          tocPanel.classList.add("hidden");
-          tocToggle.setAttribute("aria-expanded", "false");
-        }
-      });
-
-      // Close on link click
+      // Re-run TOC highlight after clicking a link
       tocPanel.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
-          tocPanel.classList.add("hidden");
-          tocToggle.setAttribute("aria-expanded", "false");
+          setTimeout(updateToc, 100);
         });
-      });
-
-      // Keyboard accessibility: close with Escape
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          tocPanel.classList.add("hidden");
-          tocToggle.setAttribute("aria-expanded", "false");
-          tocToggle.focus();
-        }
       });
     }
   });
