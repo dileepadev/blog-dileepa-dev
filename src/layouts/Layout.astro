@@ -41,7 +41,9 @@ const twitterHandle = '@dileepadev';
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
-    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#010204" media="(prefers-color-scheme: dark)" />
     <meta name="robots" content="index, follow" />
 
     <title>{title}</title>
@@ -61,21 +63,35 @@ const twitterHandle = '@dileepadev';
       })}
     </script>
     <script is:inline>
-      const theme = (() => {
-        if (
-          typeof localStorage !== "undefined" &&
-          localStorage.getItem("theme")
-        ) {
-          return localStorage.getItem("theme");
-        }
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-          return "dark";
-        }
-        return "light";
-      })();
+      (function() {
+        try {
+          const stored = (typeof localStorage !== 'undefined') ? localStorage.getItem('theme') : null;
+          const getSystem = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          const theme = stored || getSystem();
 
-      document.documentElement.className = theme;
-      window.localStorage.setItem("theme", theme);
+          // Apply initial theme
+          document.documentElement.className = theme;
+
+          // If user hasn't chosen a theme, listen for system preference changes
+          if (!stored && window.matchMedia) {
+            const mq = window.matchMedia('(prefers-color-scheme: dark)');
+            const handler = (e) => {
+              const newTheme = e.matches ? 'dark' : 'light';
+              // Only update if user still has no explicit choice
+              if (!localStorage.getItem('theme')) {
+                document.documentElement.className = newTheme;
+              }
+            };
+            if (typeof mq.addEventListener === 'function') {
+              mq.addEventListener('change', handler);
+            } else if (typeof mq.addListener === 'function') {
+              mq.addListener(handler);
+            }
+          }
+        } catch (err) {
+          // ignore - leave default theme
+        }
+      })();
     </script>
   </head>
   <body
