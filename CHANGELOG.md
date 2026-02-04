@@ -29,7 +29,6 @@ Changes are organized into the following categories:
   - Configured SEO basics (meta tags, sitemap)
   - Added `README` with setup and usage instructions
   - Deployed the site to production
-- UX & accessibility improvements:
   - Displayed project version in the footer
   - Stacked welcome page action buttons on mobile (2 rows)
   - Stacked blog search bar and sort dropdown on mobile (2 rows)
