@@ -69,7 +69,7 @@ function formatDate(date: string) {
             <input
               id="blog-search"
               type="search"
-              placeholder="Search posts by title, description, or tags..."
+              placeholder="Search posts by date, title, description, or tags..."
               class="w-full p-3 pl-10 pr-4 rounded-md border border-border-light bg-bg-default text-text-primary placeholder:text-text-secondary"
               aria-describedby="search-help"
             />
@@ -141,7 +141,7 @@ function formatDate(date: string) {
           <div id="posts-grid" class="grid gap-6">
             {posts.map((post) => {
               const searchable =
-                `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""}`.toLowerCase();
+                `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""} ${post.pubDate || ""} ${post.pubDate ? formatDate(post.pubDate) : ""}`.toLowerCase();
               return (
                 <a
                   href={`/blog/${post.slug}`}
@@ -201,7 +201,7 @@ function formatDate(date: string) {
             <tbody>
               {posts.map((post) => {
                 const searchable =
-                  `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""}`.toLowerCase();
+                  `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""} ${post.pubDate || ""} ${post.pubDate ? formatDate(post.pubDate) : ""}`.toLowerCase();
                 return (
                   <tr class="post-row border-t border-border-light hover:bg-bg-elevated hover:opacity-95 transition cursor-pointer" data-searchable={searchable} data-pubdate={post.pubDate || ""} data-title={post.title || ""} data-slug={post.slug} tabindex="0">
                     <td class="p-3 text-text-muted">{post.pubDate ? formatDate(post.pubDate) : ''}</td>
