@@ -80,21 +80,47 @@ function formatDate(date: string) {
           </p>
         </div>
 
-        <div class="w-full sm:w-auto sm:justify-self-end">
-          <label
-            for="blog-sort"
-            class="block text-sm font-semibold text-text-primary mb-2"
-            >Sort</label
-          >
-          <select
-            id="blog-sort"
-            class="w-full p-3 pl-3 pr-10 rounded-md border border-border-light bg-bg-default text-text-primary appearance-none"
-          >
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="title-asc">Title A-Z</option>
-            <option value="title-desc">Title Z-A</option>
-          </select>
+        <div class="w-full sm:w-auto sm:justify-self-end sm:h-full">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:h-full">
+            <div class="sm:flex sm:flex-col sm:h-full">
+              <label
+                for="blog-sort"
+                class="block text-sm font-semibold text-text-primary mb-2"
+                >Sort</label
+              >
+              <select
+                id="blog-sort"
+                class="w-full p-3 pl-3 pr-10 rounded-md border border-border-light bg-bg-default text-text-primary appearance-none"
+              >
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="title-asc">Title A-Z</option>
+                <option value="title-desc">Title Z-A</option>
+              </select>
+            </div>
+
+            <div class="view-toggle sm:flex sm:flex-col sm:h-full">
+              <label class="block text-sm font-semibold text-text-primary mb-4">View</label>
+              <div class="flex gap-2">
+                <button type="button" data-view="grid" aria-pressed="false" class="p-2 rounded-md border border-border-light bg-bg-default text-text-primary" title="Card view" aria-label="Card view">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M7 7h10"/>
+                    <path d="M7 11h10"/>
+                    <path d="M7 15h6"/>
+                  </svg>
+                </button>
+                <button type="button" data-view="list" aria-pressed="false" class="p-2 rounded-md border border-border-light bg-bg-default text-text-primary" title="Table view" aria-label="Table view">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="16" rx="1" />
+                    <path d="M3 9h18" />
+                    <path d="M9 4v16" />
+                    <path d="M15 4v16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -161,6 +187,32 @@ function formatDate(date: string) {
               );
             })}
           </div>
+
+          <!-- Table view for list mode (hidden by default) -->
+          <table id="posts-table" class="hidden w-full text-sm table-fixed border-collapse mt-2">
+            <thead>
+              <tr class="text-text-primary text-left">
+                <th class="p-3 w-36">Date</th>
+                <th class="p-3">Title</th>
+                <th class="p-3 hidden sm:table-cell">Description</th>
+                <th class="p-3 w-36 hidden sm:table-cell">Tags</th>
+              </tr>
+            </thead>
+            <tbody>
+              {posts.map((post) => {
+                const searchable =
+                  `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""}`.toLowerCase();
+                return (
+                  <tr class="post-row border-t border-border-light hover:bg-bg-elevated hover:opacity-95 transition cursor-pointer" data-searchable={searchable} data-pubdate={post.pubDate || ""} data-title={post.title || ""} data-slug={post.slug} tabindex="0">
+                    <td class="p-3 text-text-muted">{post.pubDate ? formatDate(post.pubDate) : ''}</td>
+                    <td class="p-3 font-medium"><a href={`/blog/${post.slug}`} class="text-text-primary hover:text-accent-blue">{post.title}</a></td>
+                    <td class="p-3 text-text-secondary truncate hidden sm:table-cell" style="max-width:45ch">{post.description || ''}</td>
+                    <td class="p-3 text-text-secondary hidden sm:table-cell">{post.tags ? post.tags.join(', ') : ''}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       )
     }
@@ -169,24 +221,41 @@ function formatDate(date: string) {
   <script type="module">
     const input = document.getElementById("blog-search");
     const grid = document.getElementById("posts-grid");
-    const items = grid ? Array.from(grid.querySelectorAll(".post-item")) : [];
+    const table = document.getElementById("posts-table");
     const noResults = document.getElementById("no-results");
 
     function normalize(s) {
       return (s || "").toLowerCase();
     }
 
+    function getActiveView() {
+      return localStorage.getItem('blogViewMode') || new URLSearchParams(window.location.search).get('view') || 'grid';
+    }
+
     function filterPosts(query) {
-      if (!items.length) return;
       const q = normalize(query).trim();
       let visible = 0;
-      for (const item of items) {
-        const text = normalize(item.getAttribute("data-searchable"));
-        const match = q === "" || text.includes(q);
-        item.style.display = match ? "" : "none";
-        if (match) visible += 1;
+      const view = getActiveView();
+
+      if (view === 'grid') {
+        const items = grid ? Array.from(grid.querySelectorAll('.post-item')) : [];
+        for (const item of items) {
+          const text = normalize(item.getAttribute('data-searchable'));
+          const match = q === '' || text.includes(q);
+          item.style.display = match ? '' : 'none';
+          if (match) visible += 1;
+        }
+      } else {
+        const rows = table ? Array.from(table.querySelectorAll('tbody tr')) : [];
+        for (const row of rows) {
+          const text = normalize(row.getAttribute('data-searchable'));
+          const match = q === '' || text.includes(q);
+          row.style.display = match ? '' : 'none';
+          if (match) visible += 1;
+        }
       }
-      if (noResults) noResults.classList.toggle("hidden", visible > 0);
+
+      if (noResults) noResults.classList.toggle('hidden', visible > 0);
     }
 
     let timeout;
@@ -213,30 +282,146 @@ function formatDate(date: string) {
     const sortSelect = document.getElementById("blog-sort");
 
     function sortPosts(criteria) {
-      if (!grid) return;
-      const elements = Array.from(grid.querySelectorAll(".post-item"));
-      const getDate = (el) =>
-        new Date(el.getAttribute("data-pubdate") || 0).getTime();
-      const getTitle = (el) =>
-        (el.getAttribute("data-title") || "").toLowerCase();
+      const view = getActiveView();
 
-      elements.sort((a, b) => {
-        if (criteria === "newest") return getDate(b) - getDate(a);
-        if (criteria === "oldest") return getDate(a) - getDate(b);
-        if (criteria === "title-asc")
-          return getTitle(a).localeCompare(getTitle(b));
-        if (criteria === "title-desc")
-          return getTitle(b).localeCompare(getTitle(a));
-        return 0;
-      });
+      if (view === 'grid') {
+        if (!grid) return;
+        const elements = Array.from(grid.querySelectorAll('.post-item'));
+        const getDate = (el) => new Date(el.getAttribute('data-pubdate') || 0).getTime();
+        const getTitle = (el) => (el.getAttribute('data-title') || '').toLowerCase();
 
-      for (const el of elements) grid.appendChild(el);
+        elements.sort((a, b) => {
+          if (criteria === 'newest') return getDate(b) - getDate(a);
+          if (criteria === 'oldest') return getDate(a) - getDate(b);
+          if (criteria === 'title-asc') return getTitle(a).localeCompare(getTitle(b));
+          if (criteria === 'title-desc') return getTitle(b).localeCompare(getTitle(a));
+          return 0;
+        });
+
+        for (const el of elements) grid.appendChild(el);
+      } else {
+        if (!table) return;
+        const tbody = table.querySelector('tbody');
+        const rows = Array.from(tbody.querySelectorAll('tr'));
+        const getDate = (r) => new Date(r.getAttribute('data-pubdate') || 0).getTime();
+        const getTitle = (r) => (r.getAttribute('data-title') || '').toLowerCase();
+
+        rows.sort((a, b) => {
+          if (criteria === 'newest') return getDate(b) - getDate(a);
+          if (criteria === 'oldest') return getDate(a) - getDate(b);
+          if (criteria === 'title-asc') return getTitle(a).localeCompare(getTitle(b));
+          if (criteria === 'title-desc') return getTitle(b).localeCompare(getTitle(a));
+          return 0;
+        });
+
+        for (const r of rows) tbody.appendChild(r);
+      }
     }
 
     sortSelect?.addEventListener("change", (e) => {
       const val = e.target.value;
       sortPosts(val);
     });
+
+    // View toggle logic: grid or list
+    const viewToggleButtons = Array.from(document.querySelectorAll('.view-toggle button'));
+    function setView(view) {
+      const isList = view === 'list';
+
+      // Show/hide grid and table
+      if (isList) {
+        if (grid) grid.classList.add('hidden');
+        if (table) table.classList.remove('hidden');
+      } else {
+        if (grid) grid.classList.remove('hidden');
+        if (table) table.classList.add('hidden');
+      }
+
+      // Update card appearances (if visible)
+      const elements = Array.from(grid ? grid.querySelectorAll('.post-item') : []);
+      for (const item of elements) {
+        if (isList) {
+          item.classList.add('flex', 'gap-2', 'items-center', 'p-2');
+          item.classList.remove('p-6');
+          const img = item.querySelector('img');
+          if (img) {
+            img.classList.remove('w-full', 'h-44', 'mb-4', 'rounded-md');
+            img.classList.add('w-20', 'h-14', 'mb-0', 'mr-3', 'flex-shrink-0', 'rounded-sm');
+          }
+        } else {
+          item.classList.remove('flex', 'gap-2', 'items-center', 'p-2');
+          item.classList.add('p-6');
+          const img = item.querySelector('img');
+          if (img) {
+            img.classList.add('w-full', 'h-44', 'mb-4', 'rounded-md');
+            img.classList.remove('w-20', 'h-14', 'mb-0', 'mr-3', 'flex-shrink-0', 'rounded-sm');
+          }
+        }
+      }
+
+      // Update table rows sizing (if present)
+      if (table) {
+        const rows = Array.from(table.querySelectorAll('tbody tr'));
+        rows.forEach(r => {
+          if (isList) {
+            r.classList.add('p-2');
+          } else {
+            r.classList.remove('p-2');
+          }
+        });
+      }
+
+      viewToggleButtons.forEach(b => {
+        const active = b.dataset.view === view;
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        b.classList.toggle('ring-2', active);
+        b.classList.toggle('ring-accent-blue/30', active);
+      });
+
+      const cur = new URL(window.location);
+      cur.searchParams.set('view', view);
+      window.history.replaceState({}, '', cur);
+      localStorage.setItem('blogViewMode', view);
+
+      // Re-apply sort and filter when changing view to keep UI consistent
+      const activeSort = sortSelect?.value || 'newest';
+      sortPosts(activeSort);
+      filterPosts(input?.value || '');
+
+      // Re-attach row handlers in case table rows were re-ordered
+      attachTableRowHandlers();
+    }
+
+    viewToggleButtons.forEach(btn => btn.addEventListener('click', () => setView(btn.dataset.view)));
+
+    // Attach click handlers to table rows so they act like links
+    function attachTableRowHandlers() {
+      if (!table) return;
+      const rows = Array.from(table.querySelectorAll('tbody tr'));
+      for (const r of rows) {
+        // prevent duplicate listener attachments
+        if (r.dataset._clickAttached) continue;
+        r.addEventListener('click', (e) => {
+          // if an inner link was clicked, let it handle navigation
+          if (e.target.closest('a')) return;
+          const slug = r.getAttribute('data-slug');
+          if (slug) window.location.href = `/blog/${slug}`;
+        });
+        r.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const slug = r.getAttribute('data-slug');
+            if (slug) window.location.href = `/blog/${slug}`;
+          }
+        });
+        r.dataset._clickAttached = '1';
+      }
+    }
+
+    const initialView = params.get('view') || localStorage.getItem('blogViewMode') || 'grid';
+    setView(initialView);
+
+    // Ensure rows are clickable from the start
+    attachTableRowHandlers();
 
     const initialSort = params.get("sort") || "newest";
     if (sortSelect) sortSelect.value = initialSort;
