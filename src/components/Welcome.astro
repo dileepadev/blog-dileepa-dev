@@ -69,10 +69,13 @@ function formatDate(date: string) {
     </div>
 
     <!-- CTA Buttons -->
-    <div class="flex justify-center gap-4">
+    <!-- Mobile: stacked single column (two rows). Desktop (sm+): keep centered inline layout -->
+    <div
+      class="flex flex-col gap-3 w-full max-w-md mx-auto sm:flex-row sm:justify-center sm:gap-4"
+    >
       <a
         href="/blog"
-        class="group relative inline-flex items-center gap-2 px-8 py-3 bg-text-primary text-bg-primary rounded-full font-bold text-lg hover:bg-accent-blue transition-colors duration-300 shadow-lg hover:shadow-accent-blue/25"
+        class="group relative inline-flex items-center justify-center w-full sm:w-auto gap-2 px-8 py-3 bg-text-primary text-bg-primary rounded-full font-bold text-lg hover:bg-accent-blue transition-colors duration-300 shadow-lg hover:shadow-accent-blue/25"
       >
         Read All Posts
         <svg
@@ -89,10 +92,9 @@ function formatDate(date: string) {
             d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
         </svg>
       </a>
-
       <a
         href="/blog#search"
-        class="inline-flex items-center gap-2 px-6 py-3 border border-border-light rounded-full font-semibold text-text-primary bg-bg-default hover:bg-bg-elevated transition-colors duration-200"
+        class="inline-flex items-center justify-center w-full sm:w-auto gap-2 px-6 py-3 border border-border-light rounded-full font-semibold text-text-primary bg-bg-default hover:bg-bg-elevated transition-colors duration-200"
       >
         Search Posts
         <svg
