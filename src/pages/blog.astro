@@ -18,7 +18,7 @@ const posts = Object.entries(modules)
     };
   })
   .sort(
-    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
+    (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime(),
   );
 
 function formatDate(date: string) {
@@ -28,6 +28,14 @@ function formatDate(date: string) {
     day: "numeric",
   });
 }
+
+function formatShortDate(date: string) {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+} 
 ---
 
 <Layout
@@ -141,13 +149,14 @@ function formatDate(date: string) {
           <div id="posts-grid" class="grid gap-6">
             {posts.map((post) => {
               const searchable =
-                `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""} ${post.pubDate || ""} ${post.pubDate ? formatDate(post.pubDate) : ""}`.toLowerCase();
+                `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""} ${post.publishedDate || ""} ${post.publishedDate ? formatShortDate(post.publishedDate) : ""} ${post.updatedDate || ""} ${post.updatedDate ? formatShortDate(post.updatedDate) : ""}`.toLowerCase();
               return (
                 <a
                   href={`/blog/${post.slug}`}
                   class="post-item block p-6 bg-bg-elevated border border-border-light rounded-xl hover:shadow-lg hover:border-accent-blue/30 hover:scale-[1.01] transition-all duration-300 group"
                   data-searchable={searchable}
-                  data-pubdate={post.pubDate || ""}
+                  data-publisheddate={post.publishedDate || ""}
+                  data-updateddate={post.updatedDate || ""}
                   data-title={post.title || ""}
                 >
                   {post.banner && (
@@ -158,11 +167,14 @@ function formatDate(date: string) {
                     />
                   )}
 
-                  {post.pubDate && (
+                  {post.publishedDate && (
                     <p class="text-sm text-text-muted mb-2 font-medium">
-                      {formatDate(post.pubDate)}
+                      {formatShortDate(post.publishedDate)}
+                      {post.updatedDate && post.updatedDate !== post.publishedDate && (
+                        <span class="ml-2">· Updated {formatShortDate(post.updatedDate)}</span>
+                      )}
                     </p>
-                  )}
+                  )} 
 
                   <h3 class="text-2xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors">
                     {post.title}
@@ -201,10 +213,15 @@ function formatDate(date: string) {
             <tbody>
               {posts.map((post) => {
                 const searchable =
-                  `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""} ${post.pubDate || ""} ${post.pubDate ? formatDate(post.pubDate) : ""}`.toLowerCase();
+                  `${post.title} ${post.description || ""} ${post.tags ? post.tags.join(" ") : ""} ${post.publishedDate || ""} ${post.publishedDate ? formatShortDate(post.publishedDate) : ""} ${post.updatedDate || ""} ${post.updatedDate ? formatShortDate(post.updatedDate) : ""}`.toLowerCase();
                 return (
-                  <tr class="post-row border-t border-border-light hover:bg-bg-elevated hover:opacity-95 transition cursor-pointer" data-searchable={searchable} data-pubdate={post.pubDate || ""} data-title={post.title || ""} data-slug={post.slug} tabindex="0">
-                    <td class="p-3 text-text-muted">{post.pubDate ? formatDate(post.pubDate) : ''}</td>
+                  <tr class="post-row border-t border-border-light hover:bg-bg-elevated hover:opacity-95 transition cursor-pointer" data-searchable={searchable} data-publisheddate={post.publishedDate || ""} data-updateddate={post.updatedDate || ""} data-title={post.title || ""} data-slug={post.slug} tabindex="0">
+                    <td class="p-3 text-text-muted">
+                      {post.publishedDate ? formatShortDate(post.publishedDate) : ''}
+                      {post.updatedDate && post.updatedDate !== post.publishedDate && (
+                        <div class="text-xs text-text-secondary mt-1">· Updated {formatShortDate(post.updatedDate)}</div>
+                      )}
+                    </td>
                     <td class="p-3 font-medium"><a href={`/blog/${post.slug}`} class="text-text-primary hover:text-accent-blue">{post.title}</a></td>
                     <td class="p-3 text-text-secondary truncate hidden sm:table-cell" style="max-width:45ch">{post.description || ''}</td>
                     <td class="p-3 text-text-secondary hidden sm:table-cell">{post.tags ? post.tags.join(', ') : ''}</td>
@@ -287,7 +304,7 @@ function formatDate(date: string) {
       if (view === 'grid') {
         if (!grid) return;
         const elements = Array.from(grid.querySelectorAll('.post-item'));
-        const getDate = (el) => new Date(el.getAttribute('data-pubdate') || 0).getTime();
+        const getDate = (el) => new Date(el.getAttribute('data-publisheddate') || 0).getTime();
         const getTitle = (el) => (el.getAttribute('data-title') || '').toLowerCase();
 
         elements.sort((a, b) => {
@@ -303,7 +320,7 @@ function formatDate(date: string) {
         if (!table) return;
         const tbody = table.querySelector('tbody');
         const rows = Array.from(tbody.querySelectorAll('tr'));
-        const getDate = (r) => new Date(r.getAttribute('data-pubdate') || 0).getTime();
+        const getDate = (r) => new Date(r.getAttribute('data-publisheddate') || 0).getTime();
         const getTitle = (r) => (r.getAttribute('data-title') || '').toLowerCase();
 
         rows.sort((a, b) => {

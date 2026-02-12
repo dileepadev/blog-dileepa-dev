@@ -8,12 +8,13 @@
     "linejoin",
     "nojekyll",
     "Noto",
-    "pubdate",
+    "publisheddate",
     "rgba",
     "Segoe",
     "shiki",
     "TECHCOMMUNITY",
     "textareas",
+    "updateddate",
     "withastro"
   ]
 }

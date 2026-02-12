@@ -47,7 +47,8 @@ Include frontmatter at the top of the file. Recommended fields:
 ```md
 title: "My Post Title"
 description: "Short summary for listing and social cards"
-pubDate: "2026-02-03"
+publishedDate: "2026-02-03"
+updatedDate: "2026-02-03" # optional
 tags: ["AI", "Cloud"]
 banner: "/images/banners/my-banner.png"
 bannerAlt: "A short description of the banner image"
@@ -60,7 +61,7 @@ Write content here using MDX...
 **Note:**
 
 - The `slug` is derived from the file name (without the date and extension).
-- `pubDate` should be an ISO date string (YYYY-MM-DD).
+- `publishedDate` should be an ISO date string (YYYY-MM-DD).
 
 ## 🔁 Read Next (Behavior)
 

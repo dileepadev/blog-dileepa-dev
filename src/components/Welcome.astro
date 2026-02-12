@@ -16,7 +16,8 @@ const posts = Object.entries(modules)
     };
   })
   .sort(
-    (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
+    (a, b) =>
+      new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime(),
   );
 
 const latestPost = posts[0];
@@ -25,6 +26,14 @@ function formatDate(date: string) {
   return new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
+    day: "numeric",
+  });
+}
+
+function formatShortDate(date: string) {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
     day: "numeric",
   });
 }
@@ -138,9 +147,15 @@ function formatDate(date: string) {
             />
           )}
 
-          {latestPost.pubDate && (
+          {latestPost.publishedDate && (
             <p class="text-sm text-text-muted mb-2 font-medium">
-              {formatDate(latestPost.pubDate)}
+              {formatShortDate(latestPost.publishedDate)}
+              {latestPost.updatedDate &&
+                latestPost.updatedDate !== latestPost.publishedDate && (
+                  <span class="ml-2">
+                    · Updated {formatShortDate(latestPost.updatedDate)}
+                  </span>
+                )}
             </p>
           )}
 

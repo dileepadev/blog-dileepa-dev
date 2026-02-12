@@ -39,6 +39,14 @@ function formatDate(date: string) {
   });
 }
 
+function formatShortDate(date: string) {
+  return new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 // Logic for Latest and Random/Recommended Posts
 const allModules = import.meta.glob("../../content/posts/**/*.mdx", {
   eager: true,
@@ -60,8 +68,8 @@ const otherPosts = allPosts
   .filter((p) => p.slug !== post.slug)
   .sort(
     (a, b) =>
-      new Date(b.pubDate as string).valueOf() -
-      new Date(a.pubDate as string).valueOf(),
+      new Date(b.publishedDate as string).valueOf() -
+      new Date(a.publishedDate as string).valueOf(),
   );
 
 const latestPost = otherPosts[0];
@@ -106,9 +114,14 @@ if (otherPosts.length > 1) {
           {post.description}
         </p>
         {
-          post.pubDate && (
+          post.publishedDate && (
             <p class="text-lg text-text-muted font-medium">
-              {formatDate(post.pubDate)}
+              {formatShortDate(post.publishedDate)}
+              {post.updatedDate && post.updatedDate !== post.publishedDate && (
+                <span class="ml-3">
+                  · Updated {formatShortDate(post.updatedDate)}
+                </span>
+              )}
             </p>
           )
         }
@@ -193,9 +206,15 @@ if (otherPosts.length > 1) {
                 <h3 class="text-xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors mb-2 pr-12">
                   {latestPost.title}
                 </h3>
-                {latestPost.pubDate && (
+                {latestPost.publishedDate && (
                   <p class="text-sm text-text-muted mb-2 font-medium">
-                    {formatDate(latestPost.pubDate)}
+                    {formatShortDate(latestPost.publishedDate)}
+                    {latestPost.updatedDate &&
+                      latestPost.updatedDate !== latestPost.publishedDate && (
+                        <span class="ml-2">
+                          · Updated {formatShortDate(latestPost.updatedDate)}
+                        </span>
+                      )}
                   </p>
                 )}
                 {latestPost.description && (
@@ -225,9 +244,17 @@ if (otherPosts.length > 1) {
                 <h3 class="text-xl font-semibold text-text-primary group-hover:text-accent-blue transition-colors mb-2 pr-12">
                   {recommendedPost.title}
                 </h3>
-                {recommendedPost.pubDate && (
+                {recommendedPost.publishedDate && (
                   <p class="text-sm text-text-muted mb-2 font-medium">
-                    {formatDate(recommendedPost.pubDate)}
+                    {formatShortDate(recommendedPost.publishedDate)}
+                    {recommendedPost.updatedDate &&
+                      recommendedPost.updatedDate !==
+                        recommendedPost.publishedDate && (
+                        <span class="ml-2">
+                          · Updated{" "}
+                          {formatShortDate(recommendedPost.updatedDate)}
+                        </span>
+                      )}
                   </p>
                 )}
                 {recommendedPost.description && (
