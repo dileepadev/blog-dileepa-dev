@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Pre from "../../components/mdx/Pre.astro";
 import Share from "../../components/Share.astro";
+import TocFab from "../../components/TocFab.astro";
 
 export async function getStaticPaths() {
   const modules = import.meta.glob("../../content/posts/**/*.mdx", {
@@ -147,7 +148,7 @@ if (otherPosts.length > 1) {
 
     <aside
       id="toc-panel"
-      class="hidden lg:block static lg:fixed lg:bottom-40 lg:right-8 z-40 lg:w-72 w-full max-h-[70vh] lg:max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-4 lg:p-5 transition-all duration-300"
+      class="hidden lg:block static lg:fixed lg:bottom-10 lg:right-8 z-40 lg:w-72 w-full max-h-[70vh] lg:max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-4 lg:p-5 transition-all duration-300"
       role="region"
       aria-label="Table of contents"
     >
@@ -180,30 +181,8 @@ if (otherPosts.length > 1) {
       </nav>
     </aside>
 
-    <!-- Mobile FAB to toggle ToC -->
-    <button
-      id="toc-toggle-btn"
-      aria-controls="toc-panel"
-      aria-expanded="false"
-      class="lg:hidden fixed bottom-6 right-4 z-50 bg-accent-blue text-on-accent dark:bg-accent-blue-dark rounded-full p-3 shadow-lg shadow-accent-blue/25 hover:shadow-accent-blue/30 hover:bg-accent-blue/90 dark:hover:bg-accent-blue focus:outline-none focus:ring-2 focus:ring-accent-blue/30"
-      title="Table of contents"
-    >
-      <svg
-        id="toc-toggle-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16"></path>
-      </svg>
-      <span class="sr-only">Toggle table of contents</span>
-    </button>
+    
+<TocFab />
   </div>
 
   {
