@@ -147,7 +147,7 @@ if (otherPosts.length > 1) {
 
     <aside
       id="toc-panel"
-      class="static lg:fixed lg:bottom-40 lg:right-8 z-40 lg:w-72 w-full max-h-[70vh] lg:max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-5 transition-all duration-300"
+      class="hidden lg:block static lg:fixed lg:bottom-40 lg:right-8 z-40 lg:w-72 w-full max-h-[70vh] lg:max-h-[70vh] overflow-y-auto bg-bg-secondary dark:bg-bg-secondary border border-border-light dark:border-border-medium rounded-xl shadow-2xl p-4 lg:p-5 transition-all duration-300"
       role="region"
       aria-label="Table of contents"
     >
@@ -179,6 +179,31 @@ if (otherPosts.length > 1) {
         </ul>
       </nav>
     </aside>
+
+    <!-- Mobile FAB to toggle ToC -->
+    <button
+      id="toc-toggle-btn"
+      aria-controls="toc-panel"
+      aria-expanded="false"
+      class="lg:hidden fixed bottom-6 right-4 z-50 bg-accent-blue text-on-accent dark:bg-accent-blue-dark rounded-full p-3 shadow-lg shadow-accent-blue/25 hover:shadow-accent-blue/30 hover:bg-accent-blue/90 dark:hover:bg-accent-blue focus:outline-none focus:ring-2 focus:ring-accent-blue/30"
+      title="Table of contents"
+    >
+      <svg
+        id="toc-toggle-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <span class="sr-only">Toggle table of contents</span>
+    </button>
   </div>
 
   {
@@ -321,23 +346,133 @@ if (otherPosts.length > 1) {
     }
   }
 
+  // Mobile ToC toggle helpers
+  function openMobileToc(tocPanel: HTMLElement, btn: HTMLElement) {
+    tocPanel.classList.remove("hidden", "static", "w-full");
+    tocPanel.classList.add(
+      "fixed",
+      "left-4",
+      "right-4",
+      "bottom-24",
+      "max-h-[60vh]",
+      "shadow-2xl",
+      "z-50",
+      "rounded-2xl",
+      "bg-bg-elevated",
+      "border",
+      "border-border-light",
+    );
+    btn.setAttribute("aria-expanded", "true");
+    const icon = document.getElementById("toc-toggle-icon");
+    if (icon) {
+      icon.innerHTML =
+        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
+    }
+  }
+
+  function closeMobileToc(tocPanel: HTMLElement, btn: HTMLElement) {
+    tocPanel.classList.add("hidden", "static");
+    tocPanel.classList.remove(
+      "fixed",
+      "left-4",
+      "right-4",
+      "bottom-24",
+      "max-h-[60vh]",
+      "shadow-2xl",
+      "z-50",
+      "rounded-2xl",
+      "bg-bg-elevated",
+      "border",
+      "border-border-light",
+    );
+    tocPanel.classList.add("w-full");
+    btn.setAttribute("aria-expanded", "false");
+    const icon = document.getElementById("toc-toggle-icon");
+    if (icon) {
+      icon.innerHTML =
+        '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+    }
+  }
+
   // Run on scroll and initial load
   window.addEventListener("scroll", updateToc);
   document.addEventListener("DOMContentLoaded", () => {
     updateToc();
 
-    // Keep ToC visible by default. On small screens ToC becomes a static block above/below content
     const tocPanel = document.getElementById("toc-panel");
+    const tocBtn = document.getElementById("toc-toggle-btn");
+
     if (tocPanel) {
-      // Ensure visible in case it was hidden by other scripts/styles
+      // Keep ToC visible by default on large screens; on small screens it is hidden and toggled via FAB
       tocPanel.classList.remove("hidden");
 
       // Re-run TOC highlight after clicking a link
       tocPanel.querySelectorAll("a").forEach((link) => {
         link.addEventListener("click", () => {
           setTimeout(updateToc, 100);
+          // If on mobile, close ToC after selecting
+          if (window.matchMedia("(max-width: 1023px)").matches && tocBtn) {
+            closeMobileToc(tocPanel, tocBtn);
+          }
         });
       });
+
+      // Initialize state: hide on small screens
+      if (window.matchMedia("(max-width: 1023px)").matches) {
+        tocPanel.classList.add("hidden");
+      }
+    }
+
+    if (tocBtn && tocPanel) {
+      tocBtn.addEventListener("click", () => {
+        const isOpen = tocBtn.getAttribute("aria-expanded") === "true";
+        if (isOpen) {
+          closeMobileToc(tocPanel, tocBtn);
+        } else {
+          openMobileToc(tocPanel, tocBtn);
+        }
+      });
+
+      // Close on escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeMobileToc(tocPanel, tocBtn);
+        }
+      });
+
+      // Close mobile panel if viewport becomes large
+      const mq = window.matchMedia("(min-width: 1024px)");
+      mq.addEventListener &&
+        mq.addEventListener("change", (ev) => {
+          if (ev.matches) {
+            // ensure panel is visible and reset mobile classes on large screens
+            tocPanel.classList.remove(
+              "hidden",
+              "fixed",
+              "left-4",
+              "right-4",
+              "bottom-24",
+              "max-h-[60vh]",
+              "shadow-2xl",
+              "z-50",
+              "rounded-2xl",
+              "bg-bg-elevated",
+              "border",
+              "border-border-light",
+            );
+            tocPanel.classList.add("w-full");
+            tocBtn.setAttribute("aria-expanded", "false");
+            const icon = document.getElementById("toc-toggle-icon");
+            if (icon) {
+              icon.innerHTML =
+                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+            }
+          } else {
+            // hide on small screens by default
+            tocPanel.classList.add("hidden", "static");
+            tocBtn.setAttribute("aria-expanded", "false");
+          }
+        });
     }
   });
 </script>
