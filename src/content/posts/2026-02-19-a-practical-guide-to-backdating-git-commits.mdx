@@ -1,0 +1,130 @@
+---
+title: "A Practical Guide to Backdating Git Commits"
+description: "A detailed guide on how to safely and responsibly backdate Git commits using environment variables for transparency and historical accuracy."
+publishedDate: "2026-02-19"
+updatedDate: "2026-02-19"
+tags: ["Git", "Version Control", "Commits", "Advanced Git"]
+banner: "/images/banners/2026-02-19-a-practical-guide-to-backdating-git-commits.png"
+bannerAlt: "A Practical Guide to Backdating Git Commits banner"
+---
+
+## Introduction
+Version control systems are designed to preserve the integrity and timeline of a project’s history. However, there are legitimate and professional scenarios where adjusting commit timestamps becomes necessary.
+
+Backdating Git commits can be useful in situations such as:
+
+- **Migrating work from another system** where original timestamps need to be preserved.
+- **Reconstructing project history** after offline development or delayed repository initialization.
+- **Maintaining accurate chronological records** for compliance, auditing, or documentation purposes.
+- **Correcting incorrect system time configurations** that resulted in wrong commit dates.
+- **Replaying commits** during repository restructuring or history rewriting.
+
+When done transparently and responsibly, customizing commit dates can help maintain historical accuracy rather than distort it.
+
+This guide explains how Git handles timestamps and how to safely create commits with specific past dates.
+
+## Understanding Git Timestamps
+
+Each Git commit contains two separate timestamps:
+
+1. **Author Date** - When the changes were originally made.
+2. **Committer Date** - When the commit was actually created.
+
+In most normal workflows, these two dates are identical. However, Git allows you to manually define them when necessary.
+
+## Creating a Commit with a Specific Date
+
+How you define these timestamps depends on your operating system and shell.
+
+### Linux and macOS (Bash/Zsh)
+
+On Unix-based systems, you can define both timestamps in a single command using environment variables:
+
+```zsh
+git add .
+
+GIT_AUTHOR_DATE="2026-02-18 18:06:14" \
+GIT_COMMITTER_DATE="2026-02-18 18:06:14" \
+git commit -m "docs(repo): Add community standards files"
+```
+
+### Windows (PowerShell)
+
+In PowerShell, use environment variables for the current session:
+
+```powershell
+git add .
+
+$env:GIT_AUTHOR_DATE="2026-02-18 18:06:14"
+$env:GIT_COMMITTER_DATE="2026-02-18 18:06:14"
+git commit -m "docs(repo): Add community standards files"
+```
+
+### Windows (Command Prompt)
+
+In `cmd.exe`, use the `set` command:
+
+```cmd
+git add .
+
+set GIT_AUTHOR_DATE=2026-02-18 18:06:14
+set GIT_COMMITTER_DATE=2026-02-18 18:06:14
+git commit -m "docs(repo): Add community standards files"
+```
+
+### Date Format
+
+Git accepts the following format:
+
+```
+YYYY-MM-DD HH:MM:SS
+```
+
+Example:
+
+```
+2026-02-18 19:34:21
+```
+
+## Creating Multiple Backdated Commits
+
+To create several commits on the same historical date with different times:
+
+```bash
+git add .
+GIT_AUTHOR_DATE="2026-02-18 18:06:14" \
+GIT_COMMITTER_DATE="2026-02-18 18:06:14" \
+git commit -m "docs(repo): Add community standards files"
+
+git add .
+GIT_AUTHOR_DATE="2026-02-18 18:49:32" \
+GIT_COMMITTER_DATE="2026-02-18 18:49:32" \
+git commit -m "docs(.github): Add copilot-instructions.md"
+
+git add .
+GIT_AUTHOR_DATE="2026-02-18 19:34:21" \
+GIT_COMMITTER_DATE="2026-02-18 19:34:21" \
+git commit -m "docs(.github): Add commit.prompt.md"
+
+git add .
+GIT_AUTHOR_DATE="2026-02-18 20:27:58" \
+GIT_COMMITTER_DATE="2026-02-18 20:27:58" \
+git commit -m "chore(repo): Initialize Astro project"
+```
+
+## Important Considerations
+
+Before modifying commit timestamps, keep the following in mind:
+
+- **Transparency matters.** Altering history in shared repositories can affect collaborators.
+- **Avoid rewriting public history** unless absolutely necessary.
+- Use `git rebase` carefully if modifying existing commits.
+- Ensure the backdated timeline reflects real work, not fabricated activity.
+
+Git provides flexibility, but that flexibility should be used responsibly.
+
+## Final Thoughts
+
+Backdating commits is not about manipulating history, it is about maintaining accuracy when timelines need correction or reconstruction. Understanding how Git manages timestamps gives you greater control over your repository while preserving professionalism and integrity.
+
+Used thoughtfully, this technique becomes another powerful tool in an advanced Git workflow.
