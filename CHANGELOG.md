@@ -11,7 +11,7 @@ Changes are organized into the following categories:
 
 ## [Unreleased]
 
-- Changes for the next release are available in development branches.
+- Custom 404 page
 
 ## [v1.0.0] - 2026-02-04
 

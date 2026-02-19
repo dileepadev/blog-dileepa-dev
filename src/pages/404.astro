@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  title="404 - Page Not Found"
+  description="The page you are looking for does not exist."
+>
+  <section class="min-h-[70vh] flex items-center justify-center text-center">
+    <div class="max-w-3xl mx-auto px-4">
+      <div class="space-y-6">
+        <h1
+          class="text-8xl md:text-9xl font-bold text-accent-blue animate-pulse"
+        >
+          404
+        </h1>
+        <div class="space-y-4">
+          <h2 class="text-3xl md:text-4xl font-semibold text-text-primary">
+            Page Not Found
+          </h2>
+          <p class="text-lg text-text-secondary">
+            Oops! The page you are looking for does not exist or has been moved.
+          </p>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6"
+        >
+          <a
+            href="/"
+            class="px-8 py-4 text-lg bg-brand-primary text-white hover:bg-brand-primary/90 dark:bg-accent-blue dark:text-on-accent dark:hover:bg-accent-blue/90 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 ease-out rounded-lg inline-flex items-center justify-center"
+          >
+            Back to Home
+          </a>
+          <a
+            href="mailto:contact@dileepa.dev"
+            class="px-8 py-4 text-lg border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white dark:border-accent-blue dark:text-accent-blue dark:hover:bg-accent-blue dark:hover:text-on-accent hover:scale-105 transition-all duration-300 ease-out rounded-lg inline-flex items-center justify-center"
+          >
+            Contact Me
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
