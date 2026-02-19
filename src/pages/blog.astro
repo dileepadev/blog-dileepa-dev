@@ -207,7 +207,6 @@ function formatShortDate(date: string) {
                 <th class="p-3 w-36">Date</th>
                 <th class="p-3">Title</th>
                 <th class="p-3 hidden sm:table-cell">Description</th>
-                <th class="p-3 w-36 hidden sm:table-cell">Tags</th>
               </tr>
             </thead>
             <tbody>
@@ -224,7 +223,6 @@ function formatShortDate(date: string) {
                     </td>
                     <td class="p-3 font-medium"><a href={`/blog/${post.slug}`} class="text-text-primary hover:text-accent-blue">{post.title}</a></td>
                     <td class="p-3 text-text-secondary truncate hidden sm:table-cell" style="max-width:45ch">{post.description || ''}</td>
-                    <td class="p-3 text-text-secondary hidden sm:table-cell">{post.tags ? post.tags.join(', ') : ''}</td>
                   </tr>
                 );
               })}
