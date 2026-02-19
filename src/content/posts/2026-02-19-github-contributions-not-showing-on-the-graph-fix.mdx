@@ -1,0 +1,111 @@
+---
+title: "GitHub Contributions Not Showing on the Graph? Here's How to Fix It"
+description: "A troubleshooting guide to fix missing GitHub contributions by verifying author email, branch status, and rewriting commit history when necessary."
+publishedDate: "2026-02-19"
+updatedDate: "2026-02-19"
+tags: ["GitHub", "Git", "Troubleshooting", "Contributions", "Open Source"]
+banner: "/images/banners/2026-02-19-github-contributions-not-showing-on-the-graph-fix.png"
+bannerAlt: "GitHub Contributions Not Showing on the Graph? Here's How to Fix It banner"
+---
+
+## Introduction
+You might have experienced this frustrating situation. You **contributed to a repository, pushed commits at the correct date and time**, but GitHub **does not show your contributions on the graph**.
+
+This isn't the same as “GitHub showing the wrong date”, it's about **commits not appearing at all** in your contribution activity.
+
+### Why This Happens
+
+GitHub determines whether a commit counts as a contribution based on a few rules:
+
+1. **The commit must be made with the email associated with your GitHub account.**
+2. **The commit must be pushed to a repository that is not a fork.**
+3. **The commit must be on the default branch (`main` or `master`) or a branch merged into it.**
+4. **GitHub tracks the commit date (`AuthorDate`), not when it was pushed.**
+
+Even if your commit satisfies these conditions, it **may still not show** due to subtle issues:
+
+* The author email in Git does not match your GitHub account.
+* The commit is on a branch that **appears to be the default** but for some reason GitHub hasn't recognized it yet.
+* The commit is very recent, and GitHub hasn't refreshed the contributions graph yet (rare).
+
+### How to Fix Missing Contributions
+
+If your commits are **correct locally** but **not appearing**, the solution is to ensure both the **author information** and **commit dates** are correct.
+
+#### 1. Check Your Git Config
+
+Make sure your commits use the correct GitHub email:
+
+```bash
+git config user.name
+git config user.email
+```
+
+Your `user.email` must match one of the emails in your GitHub account.
+
+#### 2. Interactive Rebase to Fix Commits
+
+If multiple commits need fixing:
+
+```bash
+git rebase -i HEAD~N
+```
+
+* Replace `N` with the number of commits to rewrite.
+* Change `pick` → `edit` for each commit you want to fix.
+* Leave other commits untouched.
+
+#### 3. Amend Each Commit
+
+When Git stops at a commit:
+
+```bash
+GIT_COMMITTER_DATE="2026-02-18 21:25:24 +0530" \
+git commit --amend --no-edit --date "2026-02-18 21:25:24 +0530"
+git rebase --continue
+```
+
+* Repeat for each commit.
+* Adjust the timestamp if needed (for contributions to show on the correct day).
+* Ensure the author email matches your GitHub account.
+
+#### 4. Verify the Commit Dates
+
+After the rebase finishes:
+
+```bash
+git log --pretty=fuller --date=local
+```
+
+Check that:
+
+* `AuthorDate` is correct.
+* The author email matches your GitHub account.
+* The branch is the default or merged into default.
+
+#### 5. Push the Updated Branch
+
+Since history was rewritten, force push is required:
+
+```bash
+git push origin main --force
+```
+
+After this, GitHub should recognize your commits and display them in the contributions graph.
+
+### Key Takeaways
+
+* **Missing contributions aren't always a date issue** email, branch, or repo type can prevent commits from showing.
+* Even if your commits are on the **default branch**, GitHub may not show them if author/email or commit metadata is off.
+* **Rewriting commit history** with correct author dates and email usually fixes the issue.
+* Always **verify locally** before force-pushing rewritten commits.
+
+### Final Thoughts
+
+GitHub's contributions graph can be surprisingly strict, but understanding how it counts commits ensures your work is recognized. By checking:
+
+* Author email
+* Branch and merge status
+* Commit dates
+
+…and using interactive rebase when needed, you can fix missing contributions and make your GitHub graph accurately reflect your hard work.
