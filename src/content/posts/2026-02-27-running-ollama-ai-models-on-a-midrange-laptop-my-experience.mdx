@@ -1,0 +1,142 @@
+---
+title: "Running Ollama AI Models on a Midrange Laptop: My Experience"
+description: "My experience installing and testing Ollama AI models locally on a midrange laptop with 16GB RAM and a 2GB GPU."
+publishedDate: "2026-02-27"
+updatedDate: "2026-02-27"
+tags: ["AI", "Ollama", "Local AI", "LLM", "Hardware"]
+banner: "/images/banners/2026-02-27-running-ollama-ai-models-on-a-midrange-laptop-my-experience.png"
+bannerAlt: "Running Ollama AI Models on a Midrange Laptop banner"
+---
+
+## Introduction
+If you're curious about running AI language models locally, Ollama makes it possible, even on a midrange laptop. Here's my experience installing and testing models on my ASUS VivoBook 15.
+
+## System Details
+
+Before diving into AI, let's look at my hardware and software setup:
+
+* **Laptop:** ASUSTeK VivoBook 15 X542UF
+* **CPU:** Intel® Core™ i7-8550U x 8 threads
+* **RAM:** 16 GB
+* **GPU:** NVIDIA GeForce MX130 (2 GB VRAM) + Intel UHD Graphics 620
+* **Disk:** 1.8 TB SSD
+* **OS:** Ubuntu 24.04.4 LTS, 64-bit, GNOME 46, Linux Kernel 6.17
+
+This is a typical midrange laptop, good for everyday tasks, but limited for large AI models.
+
+## Installing Ollama
+
+Installing Ollama is straightforward on Ubuntu:
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+The installer will:
+
+* Create an `ollama` user
+* Add you to the appropriate GPU/video groups
+* Set up a systemd service
+* Detect NVIDIA GPU if present
+
+After installation, verify the version:
+
+```bash
+ollama --version
+# e.g., ollama version 0.17.4
+```
+
+## Running AI Models
+
+### First Attempt: LLaMA 3.2
+
+I tried to run the flagship model:
+
+```bash
+ollama run llama3.2
+```
+
+The download worked perfectly, but the process immediately crashed:
+
+```
+Error: 500 Internal Server Error: llama runner process has terminated: exit status 2
+```
+
+Why?
+
+* The MX130 GPU has **only 2 GB VRAM**, far below the 24 GB+ needed for LLaMA 3.2.
+* CPU mode is also impossible for this model on a 16 GB RAM laptop it requires **≥32 GB RAM**.
+* Ollama tried to use the GPU automatically, and the model process failed instantly.
+
+### Working Models on My Laptop
+
+Smaller models work perfectly, including:
+
+| Model         | RAM Requirement | Notes                             |
+| ------------- | --------------- | --------------------------------- |
+| `gemma3:270m` | ~1-2 GB         | Works flawlessly, very responsive |
+| `gemma3:1b`   | ~4-6 GB         | Works, slower on CPU              |
+| `llama2:7b`   | ~12-14 GB       | Fits, CPU-only, may swap          |
+| `llama3:3b`   | ~8-10 GB        | Works, slow on CPU                |
+
+> **Tip:** Always start with the smallest models first to test performance.
+
+Models that **do not run**:
+
+* `llama3.2`
+* LLaMA 2 13B+ or 70B
+* Any model requiring ≥24 GB GPU memory or ≥32 GB RAM
+
+### Removing Non-Working Models
+
+Once I realized `llama3.2` would not run, I removed it to free up disk space. Ollama provides a simple command:
+
+```bash
+ollama rm llama3.2
+```
+
+After running this, checking the list of models confirms it's gone:
+
+```bash
+ollama list
+# Only gemma3:1b and gemma3:270m remain
+```
+
+This is a useful step to **keep your system clean** and avoid clutter with large, unusable models.
+
+### Checking Your System Before Running Models
+
+1. **GPU visibility:**
+
+```bash
+nvidia-smi
+```
+
+2. **Available RAM:**
+
+```bash
+free -h
+```
+
+3. **List available Ollama models:**
+
+```bash
+ollama list
+```
+
+> Only pick models that fit in your RAM or GPU limits.
+
+## Key Takeaways
+
+1. **Hardware matters:** Midrange laptops can run small models (hundreds of millions to a few billion parameters) but cannot handle flagship models locally.
+2. **GPU vs CPU:** Ollama auto-detects GPU. If your GPU is too small, large models will crash.
+3. **RAM is critical:** Large LLaMA models require **≥32 GB RAM** to run on CPU.
+4. **Start small:** Models like `gemma3:270m` give you instant results and let you experiment safely.
+5. **Remove non-working models:** Use `ollama rm <model-name>` to free disk space.
+6. **Cloud is an option:** For LLaMA 3.2 or 70B models, consider Ollama Cloud, Google Colab Pro, AWS EC2 GPU instances or Azure VMs with sufficient resources.
+
+## Conclusion
+
+Running Ollama AI locally is possible, even on a modest laptop. The trick is to **match model size to hardware limits**. With 16 GB RAM and a small GPU, smaller models like `gemma3:270m` or `llama2:7b` are perfect for learning, testing, and experimentation.
+
+Once you upgrade your hardware or move to a cloud instance, you can explore larger models like LLaMA 3.2 and beyond.
