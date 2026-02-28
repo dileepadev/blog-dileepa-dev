@@ -77,6 +77,21 @@ This is done at build-time by scanning `src/content/posts`.
 - The site is compatible with `GitHub Pages` and other static hosts that support Astro builds.
 - For `GitHub Pages` read this official documentation: [Deploy your Astro Site to GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)
 
+### What Happens When You Push a New Post
+
+When you push a new blog post to `main`, the GitHub Actions workflow runs automatically:
+
+1. **Build** — Installs dependencies and builds the Astro site to static HTML.
+2. **Deploy** — Publishes the built site to GitHub Pages. Your blog is now live.
+3. **Sync** — Runs `scripts/sync-blogs.mjs`, which reads all `.mdx` posts, extracts frontmatter (title, date, description, banner, etc.), and calls the `POST /blogs/sync` API endpoint for each post.
+
+The API upserts each post by slug — new posts are created, existing ones are updated. This keeps the blog database in sync with the repository automatically.
+
+> **Setup:** This requires two GitHub repository secrets:
+>
+> - `API_BASE_URL` — Base URL of the API (e.g. `https://api.dileepa.dev`)
+> - `BLOG_SYNC_API_KEY` — A shared API key that must match the `BLOG_SYNC_API_KEY` in the API's environment
+
 ## 🧪 Testing & Local Tools
 
 - Run `npm run dev` to run the dev server with hot reload.

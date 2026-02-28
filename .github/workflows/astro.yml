@@ -91,3 +91,23 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  sync:
+    name: Sync blog posts to API
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Sync blog metadata to API
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          BLOG_SYNC_API_KEY: ${{ secrets.BLOG_SYNC_API_KEY }}
+          SITE_URL: "https://blog.dileepa.dev"
+        run: node scripts/sync-blogs.mjs
