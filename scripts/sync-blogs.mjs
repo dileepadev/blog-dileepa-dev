@@ -119,6 +119,29 @@ async function main() {
 
   console.log(`📝 Found ${files.length} blog post(s)`);
 
+  // Fetch existing blogs from API to preserve indexes and detect new posts
+  let existingBlogs = [];
+  try {
+    const res = await fetch(`${API_BASE_URL}/blogs`);
+    if (res.ok) {
+      existingBlogs = await res.json();
+    }
+  } catch {
+    // If fetch fails, start fresh — new posts will get index 1, 2, ...
+  }
+
+  const existingBySlug = new Map(
+    existingBlogs.map((b) => [b.slug, b])
+  );
+  let maxIndex = existingBlogs.reduce(
+    (max, b) => Math.max(max, b.index || 0),
+    0
+  );
+
+  console.log(
+    `📊 Existing blogs in DB: ${existingBlogs.length} (max index: ${maxIndex})`
+  );
+
   let synced = 0;
   let failed = 0;
 
@@ -133,7 +156,19 @@ async function main() {
       continue;
     }
 
-    const dto = buildBlogDto(filename, frontmatter, i + 1);
+    const slug = filename.replace(/\.mdx$/, "");
+    const existing = existingBySlug.get(slug);
+
+    // Preserve existing index for known posts, assign next index for new ones
+    let index;
+    if (existing) {
+      index = existing.index;
+    } else {
+      maxIndex++;
+      index = maxIndex;
+    }
+
+    const dto = buildBlogDto(filename, frontmatter, index);
 
     try {
       const response = await fetch(`${API_BASE_URL}/blogs/sync`, {
