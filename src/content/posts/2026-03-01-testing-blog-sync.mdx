@@ -1,0 +1,26 @@
+---
+title: "Testing the New Blog Sync Feature"
+description: "This is a temporary post to verify the automated blog sync between the Astro site and the API."
+publishedDate: "2026-03-01"
+updatedDate: "2026-03-01"
+tags: ["DevOps", "Automation", "CI/CD", "Testing"]
+banner: "/images/banners/2026-02-11-welcome.png"
+bannerAlt: "Test post banner"
+---
+
+## Why this post exists
+
+I just implemented a new CI/CD workflow that automatically syncs blog posts from this repository to my centralized API database.
+
+When this post is pushed to the `main` branch, the following should happen:
+
+1. **Build & Deploy:** The Astro site builds and deploys to GitHub Pages.
+2. **Sync Script:** A post-deploy job runs `scripts/sync-blogs.mjs`.
+3. **API Update:** The script sends this post's metadata to `POST /blogs/sync`.
+4. **Database Insert:** The API creates a new record for this post with the next available index.
+
+If you are reading this on the live site, steps 1 is complete. If you see this post in the database (or API response), implementation is fully successful!
+
+---
+
+*This post will be deleted after verification.*
