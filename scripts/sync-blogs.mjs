@@ -119,7 +119,7 @@ async function main() {
 
   console.log(`📝 Found ${files.length} blog post(s)`);
 
-  // Fetch existing blogs from API to preserve indexes and detect new posts
+  // Fetch existing blogs from API to detect which posts are already in the DB
   let existingBlogs = [];
   try {
     const res = await fetch(`${API_BASE_URL}/blogs`);
@@ -127,11 +127,15 @@ async function main() {
       existingBlogs = await res.json();
     }
   } catch {
-    // If fetch fails, start fresh — new posts will get index 1, 2, ...
+    // If fetch fails, treat all posts as new
   }
 
-  const existingBySlug = new Map(
-    existingBlogs.map((b) => [b.slug, b])
+  // Build lookup sets by slug and link for matching existing entries
+  const existingBySlug = new Set(
+    existingBlogs.filter((b) => b.slug).map((b) => b.slug)
+  );
+  const existingByLink = new Set(
+    existingBlogs.map((b) => b.link)
   );
   let maxIndex = existingBlogs.reduce(
     (max, b) => Math.max(max, b.index || 0),
@@ -143,6 +147,7 @@ async function main() {
   );
 
   let synced = 0;
+  let skipped = 0;
   let failed = 0;
 
   for (let i = 0; i < files.length; i++) {
@@ -157,18 +162,18 @@ async function main() {
     }
 
     const slug = filename.replace(/\.mdx$/, "");
-    const existing = existingBySlug.get(slug);
+    const link = `${SITE_URL}/blog/${slug}`;
 
-    // Preserve existing index for known posts, assign next index for new ones
-    let index;
-    if (existing) {
-      index = existing.index;
-    } else {
-      maxIndex++;
-      index = maxIndex;
+    // Skip posts that already exist in the database (match by slug or link)
+    if (existingBySlug.has(slug) || existingByLink.has(link)) {
+      console.log(`⏭️  Skipped (already exists): "${frontmatter.title}"`);
+      skipped++;
+      continue;
     }
 
-    const dto = buildBlogDto(filename, frontmatter, index);
+    // New post — assign next available index
+    maxIndex++;
+    const dto = buildBlogDto(filename, frontmatter, maxIndex);
 
     try {
       const response = await fetch(`${API_BASE_URL}/blogs/sync`, {
@@ -198,7 +203,7 @@ async function main() {
     }
   }
 
-  console.log(`\n🏁 Sync complete: ${synced} synced, ${failed} failed`);
+  console.log(`\n🏁 Sync complete: ${synced} synced, ${skipped} skipped, ${failed} failed`);
 
   if (failed > 0) {
     process.exit(1);
