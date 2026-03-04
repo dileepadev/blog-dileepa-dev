@@ -37,9 +37,11 @@ export async function getPostEntries() {
   const entries = await getCollection("posts", ({ data }) => !data.draft);
 
   return entries.sort((a, b) => {
-    // Keep 'Welcome to My Blog' as the first post
-    if (a.data.title === "Welcome to My Blog") return -1;
-    if (b.data.title === "Welcome to My Blog") return 1;
+    const welcomeTitle = "Welcome to My Blog";
+    
+    // Explicitly pin 'Welcome to My Blog' to the bottom
+    if (a.data.title === welcomeTitle) return 1;
+    if (b.data.title === welcomeTitle) return -1;
 
     // Otherwise, sort by date descending
     return toTimestamp(b.data.publishedDate) - toTimestamp(a.data.publishedDate);

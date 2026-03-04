@@ -274,10 +274,16 @@ const posts: PostView[] = await getPostViews();
         const getTitle = (el) => (el.getAttribute('data-title') || '').toLowerCase();
 
         elements.sort((a, b) => {
+          const titleA = getTitle(a);
+          const titleB = getTitle(b);
+          const welcomeTitle = 'welcome to my blog';
+          if (titleA === welcomeTitle && titleB !== welcomeTitle) return 1;
+          if (titleB === welcomeTitle && titleA !== welcomeTitle) return -1;
+
           if (criteria === 'newest') return getDate(b) - getDate(a);
           if (criteria === 'oldest') return getDate(a) - getDate(b);
-          if (criteria === 'title-asc') return getTitle(a).localeCompare(getTitle(b));
-          if (criteria === 'title-desc') return getTitle(b).localeCompare(getTitle(a));
+          if (criteria === 'title-asc') return titleA.localeCompare(titleB);
+          if (criteria === 'title-desc') return titleB.localeCompare(titleA);
           return 0;
         });
 
@@ -290,10 +296,16 @@ const posts: PostView[] = await getPostViews();
         const getTitle = (r) => (r.getAttribute('data-title') || '').toLowerCase();
 
         rows.sort((a, b) => {
+          const titleA = getTitle(a);
+          const titleB = getTitle(b);
+          const welcomeTitle = 'welcome to my blog';
+          if (titleA === welcomeTitle && titleB !== welcomeTitle) return 1;
+          if (titleB === welcomeTitle && titleA !== welcomeTitle) return -1;
+
           if (criteria === 'newest') return getDate(b) - getDate(a);
           if (criteria === 'oldest') return getDate(a) - getDate(b);
-          if (criteria === 'title-asc') return getTitle(a).localeCompare(getTitle(b));
-          if (criteria === 'title-desc') return getTitle(b).localeCompare(getTitle(a));
+          if (criteria === 'title-asc') return titleA.localeCompare(titleB);
+          if (criteria === 'title-desc') return titleB.localeCompare(titleA);
           return 0;
         });
 
