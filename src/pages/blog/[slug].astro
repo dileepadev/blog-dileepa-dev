@@ -27,7 +27,10 @@ if (!postEntry) {
 const post = toPostView(postEntry);
 const { Content, headings } = await postEntry.render();
 const allPostEntries = await getPostEntries();
-const { latestPost, recommendedPost } = getReadNextPosts(allPostEntries, postEntry);
+const { latestPost, recommendedPost } = getReadNextPosts(
+  allPostEntries,
+  postEntry,
+);
 ---
 
 <Layout title={post.title} description={post.description}>
@@ -117,8 +120,7 @@ const { latestPost, recommendedPost } = getReadNextPosts(allPostEntries, postEnt
       </nav>
     </aside>
 
-    
-<TocFab />
+    <TocFab />
   </div>
 
   {
