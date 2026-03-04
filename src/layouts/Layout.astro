@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import ThemeToggle from "../components/ThemeToggle.astro";
+import { NAV_LINKS, SITE_CONFIG } from "../config/site";
 import pkg from "../../package.json";
 
 interface Props {
@@ -9,14 +10,14 @@ interface Props {
 }
 
 const {
-  title = "Blog | Dileepa Bandara",
-  description = "Personal blog about software engineering, cloud computing, and AI.",
+  title = SITE_CONFIG.defaultTitle,
+  description = SITE_CONFIG.defaultDescription,
 } = Astro.props;
 
-const site = import.meta.env.SITE ?? 'https://blog.dileepa.dev';
+const site = import.meta.env.SITE ?? SITE_CONFIG.siteUrl;
 const canonical = new URL(Astro.url.pathname, site).href;
-const ogImage = new URL('/images/banners/2026-01-30-welcome.png', site).href;
-const twitterHandle = '@dileepadev';
+const ogImage = new URL(SITE_CONFIG.defaultOgImage, site).href;
+const twitterHandle = SITE_CONFIG.twitterHandle;
 ---
 
 <!doctype html>
@@ -30,7 +31,7 @@ const twitterHandle = '@dileepadev';
 
     <link rel="canonical" href={canonical} />
     <meta name="description" content={description} />
-    <meta property="og:site_name" content="blog.dileepa.dev" />
+    <meta property="og:site_name" content={SITE_CONFIG.siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -54,12 +55,12 @@ const twitterHandle = '@dileepadev';
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         url: site,
-        name: title,
+        name: SITE_CONFIG.siteName,
         description,
         publisher: {
           '@type': 'Person',
-          name: 'Dileepa Bandara',
-          url: 'https://dileepa.dev'
+          name: SITE_CONFIG.authorName,
+          url: SITE_CONFIG.authorUrl
         }
       })}
     </script>
@@ -116,24 +117,17 @@ const twitterHandle = '@dileepadev';
           <div
             class="hidden md:flex items-center gap-1 p-1 rounded-full border border-white/5 backdrop-blur-sm"
           >
-            <a
-              href="/"
-              data-href="/"
-              class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
-              >Home</a
-            >
-            <a
-              href="/blog"
-              data-href="/blog"
-              class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
-              >Blog</a
-            >
-            <a
-              href="/about"
-              data-href="/about"
-              class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
-              >About</a
-            >
+            {
+              NAV_LINKS.map((link) => (
+                <a
+                  href={link.href}
+                  data-href={link.href}
+                  class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
+                >
+                  {link.label}
+                </a>
+              ))
+            }
           </div>
 
           <div
@@ -188,27 +182,17 @@ const twitterHandle = '@dileepadev';
           class="md:hidden overflow-hidden transition-all duration-300 max-h-0"
         >
           <div class="flex flex-col gap-1 pt-4 border-t border-border-light">
-            <a
-              href="/"
-              data-href="/"
-              class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
-            >
-              Home
-            </a>
-            <a
-              href="/blog"
-              data-href="/blog"
-              class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
-            >
-              Blog
-            </a>
-            <a
-              href="/about"
-              data-href="/about"
-              class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
-            >
-              About
-            </a>
+            {
+              NAV_LINKS.map((link) => (
+                <a
+                  href={link.href}
+                  data-href={link.href}
+                  class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
+                >
+                  {link.label}
+                </a>
+              ))
+            }
           </div>
         </div>
       </div>
@@ -227,7 +211,7 @@ const twitterHandle = '@dileepadev';
         </p>
         <p class="mt-2">
           <a
-            href="https://github.com/dileepadev/blog-dileepa-dev"
+            href={SITE_CONFIG.sourceRepositoryUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 text-text-muted hover:text-text-primary transition-colors"

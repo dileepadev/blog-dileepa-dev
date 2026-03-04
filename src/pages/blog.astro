@@ -1,41 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { formatShortDate } from "../lib/date";
+import { getPostViews, type PostView } from "../lib/posts";
 
-/** @type {Record<string, any>} */
-const modules = import.meta.glob("../content/posts/**/*.mdx", { eager: true });
-
-const posts = Object.entries(modules)
-  .map(([path, mod]) => {
-    const m = mod as any;
-    const slug =
-      path
-        .split("/")
-        .pop()
-        ?.replace(/\.mdx$/, "") ?? "";
-    return {
-      slug,
-      ...(m.frontmatter || {}),
-    };
-  })
-  .sort(
-    (a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime(),
-  );
-
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-function formatShortDate(date: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-} 
+const posts: PostView[] = await getPostViews();
 ---
 
 <Layout

@@ -3,95 +3,31 @@ import Layout from "../../layouts/Layout.astro";
 import Pre from "../../components/mdx/Pre.astro";
 import Share from "../../components/Share.astro";
 import TocFab from "../../components/TocFab.astro";
+import { formatShortDate } from "../../lib/date";
+import {
+  getPostBySlug,
+  getPostEntries,
+  getReadNextPosts,
+  getPostViews,
+  toPostView,
+} from "../../lib/posts";
 
 export async function getStaticPaths() {
-  const modules = import.meta.glob("../../content/posts/**/*.mdx", {
-    eager: true,
-  });
-
-  return Object.entries(modules).map(([path, mod]) => {
-    const m = mod as any;
-    const slug =
-      path
-        .split("/")
-        .pop()
-        ?.replace(/\.mdx$/, "") ?? "";
-    return {
-      params: { slug },
-      props: {
-        post: {
-          slug,
-          Component: m.default,
-          headings: m.getHeadings(),
-          ...(m.frontmatter || {}),
-        },
-      },
-    };
-  });
+  const posts = await getPostViews();
+  return posts.map((post) => ({ params: { slug: post.slug } }));
 }
 
-const { post } = Astro.props;
+const slug = Astro.params.slug ?? "";
+const postEntry = await getPostBySlug(slug);
 
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+if (!postEntry) {
+  throw new Error(`Post not found: ${slug}`);
 }
 
-function formatShortDate(date: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
-
-// Logic for Latest and Random/Recommended Posts
-const allModules = import.meta.glob("../../content/posts/**/*.mdx", {
-  eager: true,
-});
-const allPosts = Object.entries(allModules).map(([path, mod]) => {
-  const m = mod as any;
-  const slug =
-    path
-      .split("/")
-      .pop()
-      ?.replace(/\.mdx$/, "") ?? "";
-  return {
-    slug,
-    ...(m.frontmatter || {}),
-  };
-});
-
-const otherPosts = allPosts
-  .filter((p) => p.slug !== post.slug)
-  .sort(
-    (a, b) =>
-      new Date(b.publishedDate as string).valueOf() -
-      new Date(a.publishedDate as string).valueOf(),
-  );
-
-const latestPost = otherPosts[0];
-let recommendedPost = null;
-
-if (otherPosts.length > 1) {
-  const remaining = otherPosts.slice(1);
-
-  // Try to find a related post based on tags
-  const currentTags = new Set(post.tags || []);
-  const related = remaining.filter(
-    (p) => p.tags && p.tags.some((t: string) => currentTags.has(t)),
-  );
-
-  if (related.length > 0) {
-    recommendedPost = related[Math.floor(Math.random() * related.length)];
-  } else {
-    // Fallback to random
-    recommendedPost = remaining[Math.floor(Math.random() * remaining.length)];
-  }
-}
+const post = toPostView(postEntry);
+const { Content, headings } = await postEntry.render();
+const allPostEntries = await getPostEntries();
+const { latestPost, recommendedPost } = getReadNextPosts(allPostEntries, postEntry);
 ---
 
 <Layout title={post.title} description={post.description}>
@@ -142,7 +78,7 @@ if (otherPosts.length > 1) {
       </header>
 
       <section class="text-text-primary">
-        <post.Component components={{ pre: Pre }} />
+        <Content components={{ pre: Pre }} />
       </section>
     </article>
 
@@ -162,7 +98,7 @@ if (otherPosts.length > 1) {
       <nav>
         <ul class="space-y-3 text-sm border-l border-border-light">
           {
-            post.headings.map((heading: any) => (
+            headings.map((heading) => (
               <li
                 class:list={[
                   "pl-4 border-l-2 border-transparent hover:border-l-accent-blue hover:text-accent-blue transition-all text-text-muted duration-300 ease-in-out",
