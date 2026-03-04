@@ -1,4 +1,4 @@
-# blog.dileepa.dev 📝
+# blog.dileepa.dev
 
 This repository contains the source for my personal dev blog where I write about AI, cloud computing, and software development.
 
