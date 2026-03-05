@@ -50,6 +50,15 @@ const twitterHandle = SITE_CONFIG.twitterHandle;
 
     <title>{title}</title>
 
+    <!-- Microsoft Clarity tracking code -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "vr38fxavk2");
+    </script>
+
     <script type="application/ld+json">
       {JSON.stringify({
         '@context': 'https://schema.org',
@@ -110,9 +119,7 @@ const twitterHandle = SITE_CONFIG.twitterHandle;
             href="/"
             class="text-lg font-bold text-text-primary hover:text-accent-blue transition-colors tracking-tight"
           >
-            blog<span class="text-accent-blue">.</span>dileepa<span
-              class="text-accent-blue">.</span
-            >dev
+            /<span class="text-accent-blue">.</span>
           </a>
           <div
             class="hidden md:flex items-center gap-1 p-1 rounded-full border border-white/5 backdrop-blur-sm"
@@ -122,7 +129,7 @@ const twitterHandle = SITE_CONFIG.twitterHandle;
                 <a
                   href={link.href}
                   data-href={link.href}
-                  class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-muted hover:text-text-primary hover:bg-white/5"
+                  class="nav-link px-4 py-1.5 text-xs font-medium transition-all duration-300 rounded-full text-text-primary hover:text-text-muted hover:bg-white/5"
                 >
                   {link.label}
                 </a>
@@ -187,7 +194,7 @@ const twitterHandle = SITE_CONFIG.twitterHandle;
                 <a
                   href={link.href}
                   data-href={link.href}
-                  class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:text-text-primary hover:bg-bg-secondary rounded-lg"
+                  class="mobile-nav-link w-full text-left px-4 py-3 text-base font-medium text-text-primary transition-colors hover:text-text-secondary hover:bg-bg-secondary rounded-lg"
                 >
                   {link.label}
                 </a>
@@ -247,14 +254,14 @@ const twitterHandle = SITE_CONFIG.twitterHandle;
         const activeClasses =
           "bg-accent-blue text-on-accent shadow-lg shadow-accent-blue/25";
         const inactiveClasses =
-          "text-text-muted hover:text-text-primary hover:bg-white/5";
+          "text-text-primary hover:text-text-muted hover:bg-white/5";
 
         const mobileBaseClass =
           "w-full text-left px-4 py-3 text-base font-medium transition-colors rounded-lg";
         const mobileActiveClasses =
           "bg-accent-blue text-on-accent";
         const mobileInactiveClasses =
-          "text-text-secondary hover:text-text-primary hover:bg-bg-secondary";
+          "text-text-primary hover:text-text-secondary hover:bg-bg-secondary";
 
         function setActiveByPath() {
           const path = window.location.pathname.replace(/\/$/, "") || "/";
