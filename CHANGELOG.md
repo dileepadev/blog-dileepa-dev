@@ -11,7 +11,32 @@ Changes are organized into the following categories:
 
 ## [Unreleased]
 
+- Changes for the next release are available in development branches.
+
+## [v1.1.0] - 2026-03-06
+
+### Added - v1.1.0
+
+- Add published date and updated date
+- Change `pubDate` to `publishedDate`
+- Show a floating action button for ToC on mobile view
 - Custom 404 page
+- Add blog sync workflow and script
+- Centralize site metadata, content schema, and utilities
+- Pin welcome post to the bottom of the list
+- Add analytics and monitoring:
+  - Microsoft Clarity
+  - Google Analytics
+
+### Changed - v1.1.0
+
+- Update layout title
+- Update welcome page hero title size
+- Fix font sizes across all screen resolutions
+- Display 2-3 cards on one row
+- Improve UI of search and filter
+- Improve UI of blogs page table view
+- Remove tags column on blogs page table view
 
 ## [v1.0.0] - 2026-02-04
 
@@ -45,4 +70,5 @@ Changes are organized into the following categories:
 <!-- v0.0.1 -->
 
 [Unreleased]: https://github.com/dileepadev/blog-dileepa-dev/branches
+[v1.1.0]: https://github.com/dileepadev/blog-dileepa-dev/releases/tag/v1.1.0
 [v1.0.0]: https://github.com/dileepadev/blog-dileepa-dev/releases/tag/v1.0.0
