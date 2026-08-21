@@ -32,11 +32,11 @@ The roles you'll actually use:
 
 | Role | What it's for |
 |---|---|
-| **Foundry User** | Baseline for developers — create and run agents, use the playground. This is what you needed back in Part 3. |
+| **Foundry User** | Baseline for developers: create and run agents, use the playground. This is what you needed back in Part 3. |
 | **Foundry Project Manager** | Publish agents, conditionally assign Foundry User to others. |
 | **Foundry Account Owner** | Create Foundry resources/projects, deploy models, manage quota, content blocklists. This was you in Part 2. |
 | **Foundry Owner** | Fine-tuning, hosted agent deployment, combined data + control plane access. |
-| **Owner** / **Contributor** (subscription-level) | Broadest access — role assignments, resource provisioning. Reserve for admins, not day-to-day developers. |
+| **Owner** / **Contributor** (subscription-level) | Broadest access: role assignments, resource provisioning. Reserve for admins, not day-to-day developers. |
 
 The practical move for a team: assign **Foundry User** to every developer at the project scope, keep **Foundry Account Owner** and **Owner** limited to a small admin group, and use **Foundry Project Manager** for whoever owns publishing agents to production. Nobody building agents day-to-day needs subscription-level Owner.
 
@@ -49,49 +49,49 @@ az role assignment create \
 
 ## Network Isolation
 
-By default, your Foundry project accepts traffic from the public internet — fine for a tutorial, not fine for anything handling sensitive data. Foundry gives you three areas to lock down:
+By default, your Foundry project accepts traffic from the public internet: fine for a tutorial, not fine for anything handling sensitive data. Foundry gives you three areas to lock down:
 
-1. **Inbound access** to the project — controlled by the public network access (PNA) flag. You can go fully private, allow selected IP ranges, or leave it public.
-2. **Outbound access** from the Foundry resource to other Azure services — secured with Private Link so traffic to storage, Key Vault, and monitoring never touches the public internet.
-3. **Outbound access from the Agent client** — the compute that actually runs your agents gets injected into a subnet you control, so its calls to Azure PaaS services stay inside your network boundary too.
+1. **Inbound access** to the project: controlled by the public network access (PNA) flag. You can go fully private, allow selected IP ranges, or leave it public.
+2. **Outbound access** from the Foundry resource to other Azure services: secured with Private Link so traffic to storage, Key Vault, and monitoring never touches the public internet.
+3. **Outbound access from the Agent client**: the compute that actually runs your agents gets injected into a subnet you control, so its calls to Azure PaaS services stay inside your network boundary too.
 
 The most common setup is a private endpoint:
 
 1. Create (or reuse) a virtual network with a subnet for the private endpoint.
 2. In the Foundry portal, go to your resource's **Networking** settings and add a private endpoint into that subnet.
-3. Confirm a private DNS zone for the `privatelink` subdomain exists and is linked to the VNet — without it, DNS resolution will keep returning the public IP even though the private endpoint exists.
+3. Confirm a private DNS zone for the `privatelink` subdomain exists and is linked to the VNet; without it, DNS resolution will keep returning the public IP even though the private endpoint exists.
 4. Set the public network access flag to disabled, or to "selected IP addresses" if you need a transition period.
 
-This requires **Contributor** or **Owner** on the Foundry resource, **Network Contributor** on the VNet, and **Private DNS Zone Contributor** on the DNS zone — three roles, potentially three different people, which is exactly why the RBAC table above matters before you start.
+This requires **Contributor** or **Owner** on the Foundry resource, **Network Contributor** on the VNet, and **Private DNS Zone Contributor** on the DNS zone: three roles, potentially three different people, which is exactly why the RBAC table above matters before you start.
 
-If you'd rather not manage a VNet yourself, Foundry's **managed virtual network** option isolates resources behind Microsoft-managed networking with less setup on your end — a reasonable default if you don't have specific VNet topology requirements to meet.
+If you'd rather not manage a VNet yourself, Foundry's **managed virtual network** option isolates resources behind Microsoft-managed networking with less setup on your end, a reasonable default if you don't have specific VNet topology requirements to meet.
 
 ## Per-Agent Identity
 
-Every agent you've built in this series has been running under your own credentials, via `DefaultAzureCredential`. That's fine for development, but it means the agent has exactly your permissions — too much access, and no way to tell "the agent did this" from "you did this" in an audit log.
+Every agent you've built in this series has been running under your own credentials, via `DefaultAzureCredential`. That's fine for development, but it means the agent has exactly your permissions: too much access, and no way to tell "the agent did this" from "you did this" in an audit log.
 
 In production, Foundry can give each agent a **dedicated Microsoft Entra identity**. This buys you:
 
-- Scoped, least-privilege access to the specific resources the agent needs — not your entire permission set.
+- Scoped, least-privilege access to the specific resources the agent needs, not your entire permission set.
 - OAuth on-behalf-of (OBO) support, so an agent can act as the signed-in user against external MCP servers when that's the right model.
-- A real audit trail — sign-in logs show the agent's identity, not yours, which is what you actually want when something goes wrong at 2 AM.
+- A real audit trail: sign-in logs show the agent's identity, not yours, which is what you actually want when something goes wrong at 2 AM.
 - Centralized management: every agent identity across Foundry, Copilot Studio, and other Microsoft agent platforms shows up in **Entra ID** > **Agent ID** > **All agent identities** in the Entra admin center, where you can apply Conditional Access and Identity Protection policies to them like any other identity.
 
-If you've been using `DefaultAzureCredential` for convenience through this series (as the docs themselves do for development), treat that as a signal to switch before production — swap it for a managed identity or the agent's dedicated Entra identity, scoped to only what that specific agent needs.
+If you've been using `DefaultAzureCredential` for convenience through this series (as the docs themselves do for development), treat that as a signal to switch before production: swap it for a managed identity or the agent's dedicated Entra identity, scoped to only what that specific agent needs.
 
 ## Content Safety Guardrails
 
-Guardrails are Foundry's content filtering system, and — this is the detail that trips people up — **an agent uses the guardrail explicitly assigned to it, not the guardrail of its underlying model.** If you deploy a tightly filtered model but attach a looser guardrail to the agent using it, the agent's guardrail wins.
+Guardrails are Foundry's content filtering system, and (this is the detail that trips people up) **an agent uses the guardrail explicitly assigned to it, not the guardrail of its underlying model.** If you deploy a tightly filtered model but attach a looser guardrail to the agent using it, the agent's guardrail wins.
 
-Guardrails check four intervention points: user input, tool calls, tool responses, and output. The last three matter specifically for agents — a plain model deployment only ever checks input and output, but an agent can also have something harmful smuggled in through a tool's response, which is exactly the kind of indirect prompt injection risk that agent-specific guardrails are built to catch.
+Guardrails check four intervention points: user input, tool calls, tool responses, and output. The last three matter specifically for agents: a plain model deployment only ever checks input and output, but an agent can also have something harmful smuggled in through a tool's response, which is exactly the kind of indirect prompt injection risk that agent-specific guardrails are built to catch.
 
 To attach one:
 
 1. In the Foundry portal, create or select a guardrail (RAI policy) under your Foundry resource's guardrails settings, and set severity thresholds (Low/Medium/High) per risk category.
-2. Reference the guardrail's resource ID from your agent definition — for hosted agents this is set at deploy time via the Azure Developer CLI, SDK, or REST API.
+2. Reference the guardrail's resource ID from your agent definition: for hosted agents this is set at deploy time via the Azure Developer CLI, SDK, or REST API.
 3. Verify by testing a prompt designed to trip the filter and confirming it's actually blocked, not just configured.
 
-Don't assume the default guardrail is doing what you want just because it exists — check it explicitly for anything customer-facing.
+Don't assume the default guardrail is doing what you want just because it exists; check it explicitly for anything customer-facing.
 
 ## Production Governance Checklist
 
@@ -101,10 +101,10 @@ Pulling the whole series together, here's what I'd actually check before calling
 - [ ] **Network**: Public network access is disabled or restricted; private endpoints and DNS are verified working.
 - [ ] **Identity**: Agents run under dedicated Entra identities or managed identities, not developer credentials.
 - [ ] **Guardrails**: Content safety is explicitly assigned to each production agent and tested against known bad inputs.
-- [ ] **Tracing**: Application Insights is connected (Part 7), and access to trace data is restricted to those who need it — traces can contain user inputs and PII.
+- [ ] **Tracing**: Application Insights is connected (Part 7), and access to trace data is restricted to those who need it; traces can contain user inputs and PII.
 - [ ] **Evaluation**: Continuous evaluation is running against live traffic, not just a one-time batch run from before launch.
 - [ ] **Model choice**: You've actually compared candidates on the leaderboard (Part 4) rather than defaulting to whatever you prototyped with.
-- [ ] **Secrets**: API keys aren't hardcoded anywhere — use Key Vault connections or managed identity instead.
+- [ ] **Secrets**: API keys aren't hardcoded anywhere, use Key Vault connections or managed identity instead.
 
 None of this is exotic. It's the difference between "it works on my machine, with my permissions, talking to the public internet" and something you can actually hand to a security review without flinching.
 
@@ -112,7 +112,7 @@ None of this is exotic. It's the difference between "it works on my machine, wit
 
 Eight parts ago, this series started with an empty Azure subscription. You now have a Foundry project, a deployed model you chose deliberately instead of by default, an agent grounded in your own data and the live web, a multi-agent pipeline, full tracing and evaluation, and a real governance checklist to run it all through.
 
-That's genuinely the full loop — zero to agent, and agent to something you could defend in a production review. Foundry itself won't stay still (it didn't even stay still across the eight weeks I wrote this), so treat this series as the shape of the thing rather than a permanent reference, and check the docs for whatever's changed by the time you're reading this.
+That's genuinely the full loop: zero to agent, and agent to something you could defend in a production review. Foundry itself won't stay still (it didn't even stay still across the eight weeks I wrote this), so treat this series as the shape of the thing rather than a permanent reference, and check the docs for whatever's changed by the time you're reading this.
 
 Thanks for following along. If you build something with this, or hit a wall I didn't cover, I'd genuinely like to hear about it.
 

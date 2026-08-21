@@ -21,7 +21,7 @@ By the end of this post, you'll have:
 - Your first API call working from the command line
 - The endpoint and credentials you need to build on this in later parts
 
-This part is pure infrastructure — no agents yet, no custom tools. Just the scaffolding you need. Think of it as "prove that the lights are on" before you build the house.
+This part is pure infrastructure: no agents yet, no custom tools. Just the scaffolding you need. Think of it as "prove that the lights are on" before you build the house.
 
 ## What You'll Need
 
@@ -86,7 +86,7 @@ az cognitiveservices account create \
 - `--custom-domain`: Also must be globally unique. Reuse your resource name if you want.
 - `--allow-project-management`: This flag is required. Without it, you can't create projects inside this resource. You can't add it later, so don't skip it.
 
-The resource usually provisions in 1-2 minutes. If it takes longer, that's fine—Azure is just thinking.
+The resource usually provisions in 1-2 minutes. If it takes longer, that's fine; Azure is just thinking.
 
 ### Via Azure Portal
 
@@ -107,7 +107,7 @@ The resource will appear in your resource group once it finishes provisioning (u
 
 ## Step 4: Create Your First Project
 
-Your project is where you'll actually work—models, agents, data, everything else lives here.
+Your project is where you'll actually work: models, agents, data, everything else lives here.
 
 ### Via Azure CLI
 
@@ -180,8 +180,8 @@ Look for `"provisioningState": "Succeeded"`. Deployments usually take 2-5 minute
 3. Search for `gpt-5.1-mini` in the model catalog.
 4. Click on the **gpt-5.1-mini** result.
 5. Click **Deploy** → **Default settings**.
-6. You'll see a deployment name (defaulted to something like `gpt-5.1-mini-1`). You can change it if you want. Note this name—you'll need it later.
-7. Click **Deploy**. The deployment will show up in your Models list with a "Provisioning" status. Come back in a few minutes—when it says "Succeeded", it's ready to use.
+6. You'll see a deployment name (defaulted to something like `gpt-5.1-mini-1`). You can change it if you want. Note this name: you'll need it later.
+7. Click **Deploy**. The deployment will show up in your Models list with a "Provisioning" status. Come back in a few minutes, when it says "Succeeded", it's ready to use.
 
 ## Step 6: Get Your Project Endpoint
 
@@ -203,7 +203,7 @@ Your API key is what authenticates your requests. Don't share it.
 
 1. In the Foundry portal, click **Settings** (usually a gear icon, top-right).
 2. Look for **Keys and endpoint** or similar.
-3. Copy one of the keys (Key 1 or Key 2—they both work).
+3. Copy one of the keys (Key 1 or Key 2, they both work).
 
 If you can't find it in the portal:
 
@@ -345,7 +345,7 @@ You've now got:
 - ✅ A deployed model
 - ✅ An endpoint that responds to requests
 
-In Part 3, we'll build a simple agent on top of this foundation—one that can actually do things beyond chat. We'll add tools, give it grounding data, and turn this dumb pipe into something that actually thinks.
+In Part 3, we'll build a simple agent on top of this foundation: one that can actually do things beyond chat. We'll add tools, give it grounding data, and turn this dumb pipe into something that actually thinks.
 
 For now, bookmark your endpoint and API key. You're going to need them.
 

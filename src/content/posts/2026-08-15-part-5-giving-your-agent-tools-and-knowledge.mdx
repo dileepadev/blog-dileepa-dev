@@ -1,6 +1,6 @@
 ---
 title: "Part 5: Giving Your Agent Tools and Knowledge"
-description: "Wire up File Search so your agent answers from your own documents, and Web Search so it can pull current information from the public web — with working Python code for both."
+description: "Wire up File Search so your agent answers from your own documents, and Web Search so it can pull current information from the public web, with working Python code for both."
 publishedDate: "2026-08-15"
 updatedDate: "2026-08-15"
 tags: ["Microsoft Foundry", "AI", "Agents", "RAG", "Azure", "Tutorial", "Series"]
@@ -16,8 +16,8 @@ import SeriesBox from "../../components/SeriesBox.astro";
 
 Every agent we've built so far answers purely from the model's training data. Ask it about your product, your internal docs, or anything that happened after the model's knowledge cutoff, and it either guesses or admits it doesn't know. Today we fix both problems with two built-in tools:
 
-- **File Search** — grounds the agent in documents you upload, so it answers from your content instead of guessing
-- **Web Search** — lets the agent pull current information from the public web, with citations
+- **File Search**: grounds the agent in documents you upload, so it answers from your content instead of guessing
+- **Web Search**: lets the agent pull current information from the public web, with citations
 
 By the end, you'll have an agent that can answer a question only your own document can answer, and a second one that can tell you something that happened after its training cutoff.
 
@@ -25,11 +25,11 @@ By the end, you'll have an agent that can answer a question only your own docume
 
 - The project and agent from Parts 2–4.
 - `pip install "azure-ai-projects>=2.3.0" azure-identity` if you don't have it already.
-- No extra Azure resources for either tool in this post — both run through your existing project. (Grounding with Bing Search, a more configurable alternative to Web Search, needs a separate Bing resource — more on that below.)
+- No extra Azure resources for either tool in this post: both run through your existing project. (Grounding with Bing Search, a more configurable alternative to Web Search, needs a separate Bing resource, more on that below.)
 
 ## File Search: Grounding in Your Own Documents
 
-File Search works by chunking and indexing documents into a **vector store**, then letting the agent retrieve relevant chunks at query time instead of relying on what it memorized during training. Your files stay in your own storage — Foundry's Azure AI Search resource does the ingestion, but you keep control of the data.
+File Search works by chunking and indexing documents into a **vector store**, then letting the agent retrieve relevant chunks at query time instead of relying on what it memorized during training. Your files stay in your own storage; Foundry's Azure AI Search resource does the ingestion, but you keep control of the data.
 
 One thing worth knowing upfront: file search has additional charges beyond the usual token-based model fees, since it's running retrieval infrastructure behind the scenes.
 
@@ -97,13 +97,13 @@ response = openai.responses.create(
 print(response.output_text)
 ```
 
-Run it, and the answer should come back with the exact colors and return window from your file — not a guess. Ask something the file doesn't cover, and the agent should say it doesn't know rather than inventing an answer, since your instructions told it to answer from the documentation.
+Run it, and the answer should come back with the exact colors and return window from your file, not a guess. Ask something the file doesn't cover, and the agent should say it doesn't know rather than inventing an answer, since your instructions told it to answer from the documentation.
 
-`upload_and_poll` blocks until ingestion finishes, which matters — if you query before the file finishes indexing, you'll get an empty or generic response with nothing to ground on.
+`upload_and_poll` blocks until ingestion finishes, which matters: if you query before the file finishes indexing, you'll get an empty or generic response with nothing to ground on.
 
 ## Web Search: Grounding in Current Information
 
-File Search answers from what you gave it. Web Search answers from what's happening right now. Both are knowledge tools, but they solve opposite problems — one for private data, one for public, current data.
+File Search answers from what you gave it. Web Search answers from what's happening right now. Both are knowledge tools, but they solve opposite problems: one for private data, one for public, current data.
 
 ```python
 from azure.identity import DefaultAzureCredential
@@ -136,26 +136,26 @@ response = openai.responses.create(
 print(response.output_text)
 ```
 
-The response should include information the model couldn't have known from training alone, along with citations pointing back to the sources it searched. That citation behavior isn't cosmetic — it's what lets you (or a user) actually verify a grounded answer instead of trusting it blindly.
+The response should include information the model couldn't have known from training alone, along with citations pointing back to the sources it searched. That citation behavior isn't cosmetic: it's what lets you (or a user) actually verify a grounded answer instead of trusting it blindly.
 
 ### Web Search vs. Grounding with Bing Search
 
 Foundry actually gives you two web-grounding tools, and it's worth knowing which one you just used:
 
-- **Web Search** (what's above) — no extra Azure resource required, managed by Microsoft, works with Azure OpenAI models. This is the one to start with.
-- **Grounding with Bing Search** — needs its own Bing resource and project connection, but supports more parameters (`freshness`, `market`, `set_lang`) and works with non-OpenAI Foundry models too.
+- **Web Search** (what's above): no extra Azure resource required, managed by Microsoft, works with Azure OpenAI models. This is the one to start with.
+- **Grounding with Bing Search**: needs its own Bing resource and project connection, but supports more parameters (`freshness`, `market`, `set_lang`) and works with non-OpenAI Foundry models too.
 
-If you're migrating from the classic agents platform or need domain-restricted search (only searching sites you approve), Grounding with Bing Custom Search is the one to reach for instead — but for "give my agent access to the current web," Web Search is the simpler default and where you should start.
+If you're migrating from the classic agents platform or need domain-restricted search (only searching sites you approve), Grounding with Bing Custom Search is the one to reach for instead, but for "give my agent access to the current web," Web Search is the simpler default and where you should start.
 
 ## A Limit Worth Knowing
 
-You can attach multiple tools to one agent, but only **one instance of each knowledge tool type** — one File Search, one Web Search, and so on. If you need to search across multiple distinct document sets, the answer isn't multiple File Search tools on the same agent; it's either multiple vector stores behind the same File Search tool, or splitting the work across connected agents, which is exactly what [Part 6](/blog/2026-08-16-part-6-multi-agent-systems) covers next.
+You can attach multiple tools to one agent, but only **one instance of each knowledge tool type**: one File Search, one Web Search, and so on. If you need to search across multiple distinct document sets, the answer isn't multiple File Search tools on the same agent; it's either multiple vector stores behind the same File Search tool, or splitting the work across connected agents, which is exactly what [Part 6](/blog/2026-08-16-part-6-multi-agent-systems) covers next.
 
 ## Troubleshooting
 
 ### File search returns generic answers, ignoring the document
 
-Check that `upload_and_poll` actually completed before you queried — if you're uploading and querying in separate script runs, add a short wait or re-check the vector store's file status before asking questions.
+Check that `upload_and_poll` actually completed before you queried: if you're uploading and querying in separate script runs, add a short wait or re-check the vector store's file status before asking questions.
 
 ### "Storage Blob Data Contributor" permission error on upload
 
@@ -167,10 +167,10 @@ Citations show up as `url_citation` annotations on the response's output content
 
 ### Unexpected charges
 
-Both tools bill beyond standard token costs — File Search for ingestion and storage, Web Search/Bing grounding per search call. Keep an eye on usage if you're testing heavily.
+Both tools bill beyond standard token costs: File Search for ingestion and storage, Web Search/Bing grounding per search call. Keep an eye on usage if you're testing heavily.
 
 ## What's Next
 
-Your agent can now ground answers in your own data and in the live web — two separate tools solving two separate problems. Part 6 is where we stop building single agents and start coordinating several of them: one agent that knows when to hand off to a specialist instead of trying to do everything itself.
+Your agent can now ground answers in your own data and in the live web: two separate tools solving two separate problems. Part 6 is where we stop building single agents and start coordinating several of them: one agent that knows when to hand off to a specialist instead of trying to do everything itself.
 
 <SeriesBox seriesKey="microsoft-foundry" current={5} />
