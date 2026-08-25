@@ -1,0 +1,48 @@
+# Indexes blog content into the API.
+#
+# This repository is content only — a directory of Markdown and the script that
+# indexes it. There is no build and no deploy: post bodies are read straight
+# from Git by dileepa-dev at build time, and the API holds metadata alone.
+# See dileepadev/docs/architecture/content-pipeline.md.
+name: Sync blog posts to API
+
+on:
+  push:
+    branches: ["main"]
+    # Only content and the script that reads it can change what gets synced.
+    paths:
+      - "content/posts/**"
+      - "scripts/sync-blogs.mjs"
+      - ".github/workflows/sync.yml"
+
+  workflow_dispatch:
+
+# A later commit's index supersedes an earlier one, so a superseded run has no
+# value — but never interrupt a sync that is already writing to the API.
+concurrency:
+  group: "blog-sync"
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # No dependency install: sync-blogs.mjs imports only node: built-ins.
+      #
+      # SITE_URL is gone. The API stores a relative `path` and composes the
+      # canonical URL itself, because the host is moving and a stored absolute
+      # URL would have to be rewritten row by row when it does.
+      - name: Sync blog metadata to API
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          BLOG_SYNC_API_KEY: ${{ secrets.BLOG_SYNC_API_KEY }}
+        run: node scripts/sync-blogs.mjs
