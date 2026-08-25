@@ -4,8 +4,6 @@ description: "A troubleshooting guide to fix missing GitHub contributions by ver
 publishedDate: "2026-02-19"
 updatedDate: "2026-02-19"
 tags: ["GitHub", "Git", "Troubleshooting", "Contributions", "Open Source"]
-banner: "/images/banners/2026-02-19-github-contributions-not-showing-on-the-graph-fix.png"
-bannerAlt: "GitHub Contributions Not Showing on the Graph? Here's How to Fix It banner"
 ---
 
 ## Introduction

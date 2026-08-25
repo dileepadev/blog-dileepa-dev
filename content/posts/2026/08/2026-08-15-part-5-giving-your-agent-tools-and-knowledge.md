@@ -6,11 +6,7 @@ updatedDate: "2026-08-15"
 tags: ["Microsoft Foundry", "AI", "Agents", "RAG", "Azure", "Tutorial", "Series"]
 series: "microsoft-foundry"
 seriesOrder: 5
-banner: "/images/banners/2026-08-15-part-5-giving-your-agent-tools-and-knowledge.png"
-bannerAlt: "Part 5: Giving Your Agent Tools and Knowledge banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## What We're Doing Today
 
@@ -173,4 +169,3 @@ Both tools bill beyond standard token costs: File Search for ingestion and stora
 
 Your agent can now ground answers in your own data and in the live web: two separate tools solving two separate problems. Part 6 is where we stop building single agents and start coordinating several of them: one agent that knows when to hand off to a specialist instead of trying to do everything itself.
 
-<SeriesBox seriesKey="microsoft-foundry" current={5} />

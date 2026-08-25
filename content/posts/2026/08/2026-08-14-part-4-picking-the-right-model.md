@@ -6,11 +6,7 @@ updatedDate: "2026-08-14"
 tags: ["Microsoft Foundry", "AI", "Model Catalog", "Azure", "Tutorial", "Series"]
 series: "microsoft-foundry"
 seriesOrder: 4
-banner: "/images/banners/2026-08-14-part-4-picking-the-right-model.png"
-bannerAlt: "Part 4: Picking the Right Model banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## What We're Doing Today
 
@@ -148,4 +144,3 @@ You need at least two models selected in the model selector for the trade-off ch
 
 You now have two deployed models and a repeatable way to compare more. In Part 5, we go back to the agent itself and give it something more useful to do than answer from memory: File Search over your own documents, and Bing grounding for real-time web data.
 
-<SeriesBox seriesKey="microsoft-foundry" current={4} />

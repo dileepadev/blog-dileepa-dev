@@ -4,14 +4,11 @@ description: "Explore why naming conventions matter, common styles across langua
 publishedDate: "2026-02-26"
 updatedDate: "2026-02-26"
 tags: ["Programming", "Best Practices", "Clean Code", "Naming Conventions"]
-banner: "/images/banners/2026-02-26-naming-conventions-in-programming.png"
-bannerAlt: "Naming Conventions in Programming banner"
 ---
 
 ## Introduction
 
 Good naming conventions improve readability, maintainability, and collaboration. Poor naming creates confusion, bugs, and long onboarding sessions. In this post, we'll explore why naming conventions matter, common styles across languages, and practical tips for naming things well.
-
 
 ## Why Naming Conventions Matter
 

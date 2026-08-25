@@ -6,11 +6,7 @@ updatedDate: "2026-08-18"
 tags: ["Microsoft Foundry", "AI", "Security", "RBAC", "Governance", "Azure", "Series"]
 series: "microsoft-foundry"
 seriesOrder: 8
-banner: "/images/banners/2026-08-18-part-8-locking-it-down-for-production.png"
-bannerAlt: "Part 8: Locking It Down for Production banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## What We're Doing Today
 
@@ -116,4 +112,3 @@ That's genuinely the full loop: zero to agent, and agent to something you could 
 
 Thanks for following along. If you build something with this, or hit a wall I didn't cover, I'd genuinely like to hear about it.
 
-<SeriesBox seriesKey="microsoft-foundry" current={8} />

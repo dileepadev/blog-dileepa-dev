@@ -4,8 +4,6 @@ description: "A detailed guide on how to safely and responsibly backdate Git com
 publishedDate: "2026-02-19"
 updatedDate: "2026-02-19"
 tags: ["Git", "Version Control", "Commits", "Advanced Git"]
-banner: "/images/banners/2026-02-19-a-practical-guide-to-backdating-git-commits.png"
-bannerAlt: "A Practical Guide to Backdating Git Commits banner"
 ---
 
 ## Introduction

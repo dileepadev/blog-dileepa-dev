@@ -6,11 +6,7 @@ updatedDate: "2026-08-13"
 tags: ["Microsoft Foundry", "AI", "Agents", "Azure", "Tutorial", "Series"]
 series: "microsoft-foundry"
 seriesOrder: 3
-banner: "/images/banners/2026-08-13-part-3-building-your-first-agent.png"
-bannerAlt: "Part 3: Building Your First Agent banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## What We're Doing Today
 
@@ -177,4 +173,3 @@ You've now got an agent with a persona, built two ways: click-through in the por
 
 In Part 4, we step back from building and look at the model catalog itself: how to actually pick between the 1,900+ models on offer instead of defaulting to whatever's fastest to type.
 
-<SeriesBox seriesKey="microsoft-foundry" current={3} />

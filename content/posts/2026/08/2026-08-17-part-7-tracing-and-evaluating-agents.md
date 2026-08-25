@@ -6,11 +6,7 @@ updatedDate: "2026-08-17"
 tags: ["Microsoft Foundry", "AI", "Observability", "Evaluation", "Azure", "Tutorial", "Series"]
 series: "microsoft-foundry"
 seriesOrder: 7
-banner: "/images/banners/2026-08-17-part-7-tracing-and-evaluating-agents.png"
-bannerAlt: "Part 7: Observability - Tracing and Evaluating Agents banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## What We're Doing Today
 
@@ -209,4 +205,3 @@ Batch evaluations can take a few minutes depending on dataset size and evaluator
 
 You can now see what your agent does and measure how well it does it. The last piece is making sure it's safe to actually put in front of real users and real data. Part 8 covers Entra identity, RBAC, network isolation, and the governance checklist to work through before you ship.
 
-<SeriesBox seriesKey="microsoft-foundry" current={7} />

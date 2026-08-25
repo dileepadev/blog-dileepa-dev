@@ -4,10 +4,7 @@ description: "A practical 2026 guide to building AI agents using Microsoft's eco
 publishedDate: "2026-02-11"
 updatedDate: "2026-02-11"
 tags: ["AI", "Microsoft", "Agents", "Copilot", "AzureAI", "AgentFramework", "Development", "Cloud"]
-banner: "/images/banners/2026-02-11-building-ai-agents-with-microsoft-technologies.png"
-bannerAlt: "Building AI Agents with Microsoft Technologies banner"
 ---
-
 
 ## Introduction
 
@@ -18,7 +15,6 @@ In 2026, Microsoft's ecosystem offers a **rich set of tools and platforms** for 
 AI agents are systems that perceive input (text, voice, etc.), reason about goals, and **take actions autonomously or semi-autonomously** on behalf of users. Common examples include virtual assistants, automated workflows, task bots, and intelligent customer support agents.
 
 Microsoft's approach spans **low-code builders, pro-code SDKs, open-source frameworks, and cloud services** empowering you at every stage.
-
 
 ## 1. Copilot Studio
 
@@ -129,7 +125,6 @@ AutoGen can be used standalone or integrated into the **Microsoft Agent Framewor
 * Official Website: https://microsoft.github.io/autogen/stable
 * Official GitHub Repo: https://github.com/microsoft/autogen
 
-
 ## Interoperability with Protocols
 
 To enable agents to **discover and collaborate with each other**, Microsoft supports open protocols such as Model Context Protocol (MCP) and **Agent2Agent (A2A)** allowing agents built on different frameworks to securely exchange goals and results.
@@ -168,8 +163,7 @@ Ready to build your first agent? Dive into Microsoft's official documentation an
 7. [Microsoft Learn - "Using MCP Tools with Agents"](https://learn.microsoft.com/en-us/agent-framework/user-guide/model-context-protocol/using-mcp-tools)
 8. [Microsoft Research - "AutoGen"](https://www.microsoft.com/en-us/research/project/autogen/)
 
-
-{/* References */}
+<!-- References -->
 
 [1]: https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/copilot-studio-is-enhancing-its-platform-with-knowledge-improvements-azure-ai-integration-and-more/?utm_source=chatgpt.com "Copilot Studio is enhancing its platform with knowledge improvements, Azure AI integration, and more | Microsoft Copilot Blog"
 [2]: https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/create-deploy-agents-sdk?utm_source=chatgpt.com "Create and Deploy a Custom Engine Agent with Microsoft 365 Agents SDK | Microsoft Learn"

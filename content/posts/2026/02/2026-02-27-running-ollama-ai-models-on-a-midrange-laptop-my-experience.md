@@ -4,8 +4,6 @@ description: "My experience installing and testing Ollama AI models locally on a
 publishedDate: "2026-02-27"
 updatedDate: "2026-02-27"
 tags: ["AI", "Ollama", "Local AI", "LLM", "Hardware"]
-banner: "/images/banners/2026-02-27-running-ollama-ai-models-on-a-midrange-laptop-my-experience.png"
-bannerAlt: "Running Ollama AI Models on a Midrange Laptop banner"
 ---
 
 ## Introduction

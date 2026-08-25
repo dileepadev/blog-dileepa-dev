@@ -6,11 +6,7 @@ updatedDate: "2026-08-06"
 tags: ["Microsoft Foundry", "AI", "Series", "Enterprise AI", "Developer Tools"]
 series: "microsoft-foundry"
 seriesOrder: 1
-banner: "/images/banners/2026-08-06-part-1-kicking-off-the-series.png"
-bannerAlt: "Part 1: Kicking Off the Series (and What We'll Build) banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## Why This Series Exists
 
@@ -53,8 +49,6 @@ I'll call out anything extra (a specific SDK version, a preview feature, a regio
 ## The Roadmap
 
 Here's the full series as planned. I'll update this list and link each part as it goes live, so bookmark this post if you want a table of contents for the whole thing.
-
-<SeriesBox seriesKey="microsoft-foundry" current={1} />
 
 Topics and order may shift a little as Foundry itself changes (it's a fast-moving platform), but the destination stays the same: you, a working agent, and an actual understanding of how it got there.
 

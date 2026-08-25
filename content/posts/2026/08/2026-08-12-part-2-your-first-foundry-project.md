@@ -6,11 +6,7 @@ updatedDate: "2026-08-12"
 tags: ["Microsoft Foundry", "AI", "Getting Started", "Azure", "Tutorial", "Series"]
 series: "microsoft-foundry"
 seriesOrder: 2
-banner: "/images/banners/2026-08-12-part-2-your-first-foundry-project.png"
-bannerAlt: "Part 2: Standing Up Your First Foundry Project banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## What We're Doing Today
 
@@ -349,4 +345,3 @@ In Part 3, we'll build a simple agent on top of this foundation: one that can ac
 
 For now, bookmark your endpoint and API key. You're going to need them.
 
-<SeriesBox seriesKey="microsoft-foundry" current={2} />

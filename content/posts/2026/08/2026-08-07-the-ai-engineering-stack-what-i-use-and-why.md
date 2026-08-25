@@ -4,8 +4,6 @@ description: "Every tool in my AI engineering toolbox, what it actually is, and 
 publishedDate: "2026-08-07"
 updatedDate: "2026-08-07"
 tags: ["AI", "AI Engineering", "Python", "LLM", "Developer Tools", "RAG", "Agents"]
-banner: "/images/banners/2026-08-07-the-ai-engineering-stack-what-i-use-and-why.png"
-bannerAlt: "The AI Engineering Stack: What I Use, and Why banner"
 ---
 
 ## Why a Stack Post

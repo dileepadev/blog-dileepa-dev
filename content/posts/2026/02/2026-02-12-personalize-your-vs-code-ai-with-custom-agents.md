@@ -4,8 +4,6 @@ description: "How to create and manage Custom Agents in VS Code to make Copilot 
 publishedDate: "2026-02-12"
 updatedDate: "2026-02-12"
 tags: ["VS Code", "Copilot", "Custom Agents", "Developer Tools", "AI", "Productivity"]
-banner: "/images/banners/2026-02-12-personalize-your-vs-code-ai-with-custom-agents.png"
-bannerAlt: "Custom Agents banner"
 ---
 
 ## Introduction
@@ -59,9 +57,9 @@ Act as a senior engineer. Review the provided diff or file, call out bugs, secur
 
 This structure makes it easy to define *what* the agent does and *how* it does it.
 
-![How to view custom agents](../../../public/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/2.png)
+![How to view custom agents](/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/2.png)
 
-![Example of a custom agent file](../../../public/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/3.png)
+![Example of a custom agent file](/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/3.png)
 
 ## Where to Put Your Custom Agents
 
@@ -72,7 +70,7 @@ You can create custom agents in different locations depending on how you want to
 
 VS Code automatically detects `.agent.md` files placed in the appropriate agents folder within your workspace.
 
-![Custom Agents Folder](../../../public/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/1.png)
+![Custom Agents Folder](/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/1.png)
 
 ## Advanced Features
 

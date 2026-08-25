@@ -4,8 +4,6 @@ description: "A complete tour of Microsoft Agent Framework's core capabilities: 
 publishedDate: "2026-08-21"
 updatedDate: "2026-08-21"
 tags: ["Microsoft Agent Framework", "Agent Framework", "AI", "Agents", "Multi-Agent", "MCP", "Azure", "Developer Tools"]
-banner: "/images/banners/2026-08-21-what-is-microsoft-agent-framework.png"
-bannerAlt: "What Is Microsoft Agent Framework? banner"
 ---
 
 ## The SDK Behind Every Agent in This Series

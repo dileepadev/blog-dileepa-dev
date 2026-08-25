@@ -4,8 +4,6 @@ description: "A complete guide to Microsoft Foundry - Microsoft's unified enterp
 publishedDate: "2026-02-16"
 updatedDate: "2026-08-06"
 tags: ["Microsoft Foundry", "Microsoft AI Platform", "AI", "Enterprise AI","Developer Tools"]
-banner: "/images/banners/2026-02-16-what-is-microsoft-foundry.png"
-bannerAlt: "What Is Microsoft Foundry? banner"
 ---
 
 ## A Complete Guide to Microsoft's Enterprise AI Platform

@@ -6,11 +6,7 @@ updatedDate: "2026-08-16"
 tags: ["Microsoft Foundry", "AI", "Multi-Agent", "Agent Framework", "Azure", "Tutorial", "Series"]
 series: "microsoft-foundry"
 seriesOrder: 6
-banner: "/images/banners/2026-08-16-part-6-multi-agent-systems.png"
-bannerAlt: "Part 6: Multi-Agent Systems banner"
 ---
-
-import SeriesBox from "../../components/SeriesBox.astro";
 
 ## What We're Doing Today
 
@@ -67,7 +63,6 @@ from agent_framework import SequentialBuilder
 from agent_framework.foundry import FoundryChatClient
 from azure.identity import AzureCliCredential
 
-
 async def main() -> None:
     client = FoundryChatClient(
         project_endpoint=os.environ["FOUNDRY_PROJECT_ENDPOINT"],
@@ -98,7 +93,6 @@ async def main() -> None:
     ):
         if event.type == "output":
             print(event.data)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -144,4 +138,3 @@ That's not a bug: it's the deprecation described above. Export your YAML from th
 
 You now have two agents cooperating instead of one agent trying to do everything. But right now, you're only finding out something went wrong by reading console output. Part 7 turns tracing and evaluation on, so you can actually see what each agent decided, why, and whether it's getting worse over time instead of better.
 
-<SeriesBox seriesKey="microsoft-foundry" current={6} />
