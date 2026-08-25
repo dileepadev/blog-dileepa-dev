@@ -1,23 +1,39 @@
 /**
  * sync-blogs.mjs
  *
- * Reads all MDX blog posts from src/content/posts/, extracts frontmatter,
- * and syncs each post to the API via the POST /blogs/sync endpoint.
+ * Reads every post under content/posts/, extracts its front matter, and upserts
+ * it into the API through POST /blogs/sync.
  *
- * The API endpoint uses upsert-by-slug, so this script is idempotent —
- * running it multiple times won't create duplicates.
+ * The API stores metadata only — bodies stay in Git and are read from there by
+ * dileepa-dev at build time. See
+ * dileepadev/docs/architecture/content-pipeline.md.
+ *
+ * Three things changed from the v1 script, and each was a real bug:
+ *
+ * 1. v1 wrote absolute `link` and `bannerUrl` values built from SITE_URL. The
+ *    host is moving, so consumers compose the URL now: this sends a relative
+ *    `path` and nothing else. SITE_URL is gone.
+ * 2. v1 *skipped* any slug that already existed, so an edited post never
+ *    updated. The endpoint is an upsert; the skip was never needed. This sends
+ *    every post and lets the upsert decide.
+ * 3. There is no banner. Posts carry no images of their own — anything a post
+ *    shows is an ordinary Markdown image pointing at a URL in the body.
+ *
+ * `published` is deliberately not sent. Visibility follows `draft`, so the front
+ * matter stays the single place an author decides whether a post is live.
  *
  * Environment variables:
- *   BLOG_SYNC_API_KEY  — API key for the x-api-key header
- *   API_BASE_URL       — Base URL of the API (e.g. https://api.dileepa.dev)
- *   SITE_URL           — Blog site URL (e.g. https://blog.dileepa.dev)
+ *   BLOG_SYNC_API_KEY  — API key for the x-api-key header (required)
+ *   API_BASE_URL       — Base URL of the API, e.g. https://api.dileepa.dev (required)
  *
  * Usage:
  *   node scripts/sync-blogs.mjs
+ *   node scripts/sync-blogs.mjs --dry-run
  */
 
-import { readFileSync, readdirSync } from "fs";
-import { join, basename } from "path";
+import { createHash } from "node:crypto";
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join, relative, basename, extname } from "node:path";
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -25,79 +41,134 @@ import { join, basename } from "path";
 
 const API_BASE_URL = process.env.API_BASE_URL;
 const BLOG_SYNC_API_KEY = process.env.BLOG_SYNC_API_KEY;
-const SITE_URL = process.env.SITE_URL || "https://blog.dileepa.dev";
-const POSTS_DIR = join(process.cwd(), "src", "content", "posts");
+const POSTS_DIR = join(process.cwd(), "content", "posts");
+const DRY_RUN = process.argv.includes("--dry-run");
 
 if (!API_BASE_URL) {
-  console.error("❌ Missing API_BASE_URL environment variable");
+  console.error("Missing API_BASE_URL environment variable.");
   process.exit(1);
 }
 
-if (!BLOG_SYNC_API_KEY) {
-  console.error("❌ Missing BLOG_SYNC_API_KEY environment variable");
+if (!BLOG_SYNC_API_KEY && !DRY_RUN) {
+  console.error("Missing BLOG_SYNC_API_KEY environment variable.");
   process.exit(1);
 }
+
+// Average reading speed, words per minute. Whole minutes only — a post that
+// says "7.3 min" is pretending to a precision it does not have.
+const WORDS_PER_MINUTE = 220;
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
-/**
- * Parse YAML frontmatter from an MDX file.
- * Returns an object with the frontmatter fields.
- */
-function parseFrontmatter(content) {
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!match) return null;
-
-  const frontmatter = {};
-  const lines = match[1].split("\n");
-
-  for (const line of lines) {
-    const colonIndex = line.indexOf(":");
-    if (colonIndex === -1) continue;
-
-    const key = line.slice(0, colonIndex).trim();
-    let value = line.slice(colonIndex + 1).trim();
-
-    // Strip surrounding quotes
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
+/** Every .md file under content/posts, at any depth. Posts are grouped by year and month. */
+function findPosts(dir) {
+  const found = [];
+  for (const name of readdirSync(dir).sort()) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) {
+      found.push(...findPosts(full));
+    } else if (extname(name) === ".md") {
+      found.push(full);
     }
-
-    // Parse arrays (tags)
-    if (value.startsWith("[") && value.endsWith("]")) {
-      value = value
-        .slice(1, -1)
-        .split(",")
-        .map((v) => v.trim().replace(/^["']|["']$/g, ""));
-    }
-
-    frontmatter[key] = value;
   }
-
-  return frontmatter;
+  return found;
 }
 
 /**
- * Build a blog DTO from frontmatter and filename.
+ * Split a file into its front matter block and its body.
+ *
+ * The parser below handles the subset this repo actually uses — scalars,
+ * booleans, numbers, and inline arrays. It is deliberately not a YAML parser:
+ * a dependency here would have to be installed in CI to sync a directory of
+ * text files. If the front matter ever needs nested structure, take the
+ * dependency rather than growing this.
  */
-function buildBlogDto(filename, frontmatter, index) {
-  const slug = filename.replace(/\.mdx$/, "");
+function splitFrontmatter(content) {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!match) return null;
+  return { raw: match[1], body: match[2] };
+}
+
+function parseScalar(value) {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  if (/^-?\d+$/.test(value)) return Number(value);
+  if (
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"))
+  ) {
+    return value.slice(1, -1);
+  }
+  return value;
+}
+
+function parseFrontmatter(raw) {
+  const frontmatter = {};
+  for (const line of raw.split("\n")) {
+    const colonIndex = line.indexOf(":");
+    if (colonIndex === -1 || line.trimStart().startsWith("#")) continue;
+
+    const key = line.slice(0, colonIndex).trim();
+    const value = line.slice(colonIndex + 1).trim();
+
+    if (value.startsWith("[") && value.endsWith("]")) {
+      const inner = value.slice(1, -1).trim();
+      frontmatter[key] = inner
+        ? inner.split(",").map((item) => String(parseScalar(item.trim())))
+        : [];
+      continue;
+    }
+
+    frontmatter[key] = parseScalar(value);
+  }
+  return frontmatter;
+}
+
+function readingTimeMinutes(body) {
+  // Code blocks are skimmed rather than read, and counting them makes a
+  // tutorial claim twice the time it takes.
+  const prose = body.replace(/```[\s\S]*?```/g, " ");
+  const words = prose.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
+
+function toIsoDate(value) {
+  if (!value) return undefined;
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? undefined : date.toISOString();
+}
+
+/**
+ * The body the API's BlogSync model expects.
+ *
+ * `sourcePath` is the repo path, so a row can be traced back to the file that
+ * produced it. `contentHash` is over the whole file, front matter included, so
+ * a metadata-only edit still registers as a change.
+ */
+function buildBlogDto(filepath, frontmatter, body, content, index) {
+  const slug = basename(filepath, ".md");
+  const publishedDate = toIsoDate(frontmatter.publishedDate);
+  if (!publishedDate) return null;
 
   return {
     slug,
-    index,
     title: frontmatter.title,
-    date: frontmatter.publishedDate,
-    excerpt: frontmatter.description,
-    link: `${SITE_URL}/blog/${slug}`,
-    bannerUrl: frontmatter.banner
-      ? `${SITE_URL}${frontmatter.banner}`
-      : "",
+    description: frontmatter.description ?? "",
+    path: `/blog/${slug}`,
+    publishedDate,
+    updatedDate: toIsoDate(frontmatter.updatedDate),
+    tags: frontmatter.tags ?? [],
+    series: frontmatter.series
+      ? { name: frontmatter.series, order: frontmatter.seriesOrder ?? 0 }
+      : null,
+    readingTimeMinutes: readingTimeMinutes(body),
+    draft: frontmatter.draft === true,
+    featured: frontmatter.featured === true,
+    order: index,
+    sourcePath: relative(process.cwd(), filepath),
+    contentHash: createHash("sha256").update(content).digest("hex").slice(0, 40),
   };
 }
 
@@ -106,74 +177,55 @@ function buildBlogDto(filename, frontmatter, index) {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  console.log("📖 Reading blog posts from:", POSTS_DIR);
-
-  const files = readdirSync(POSTS_DIR)
-    .filter((f) => f.endsWith(".mdx"))
-    .sort(); // Chronological order by filename convention
+  console.log(`Reading posts from ${POSTS_DIR}`);
+  const files = findPosts(POSTS_DIR);
 
   if (files.length === 0) {
-    console.log("⚠️  No MDX files found. Nothing to sync.");
+    console.log("No Markdown files found. Nothing to sync.");
     return;
   }
 
-  console.log(`📝 Found ${files.length} blog post(s)`);
-
-  // Fetch existing blogs from API to detect which posts are already in the DB
-  let existingBlogs = [];
-  try {
-    const res = await fetch(`${API_BASE_URL}/blogs`);
-    if (res.ok) {
-      existingBlogs = await res.json();
-    }
-  } catch {
-    // If fetch fails, treat all posts as new
-  }
-
-  // Build lookup sets by slug and link for matching existing entries
-  const existingBySlug = new Set(
-    existingBlogs.filter((b) => b.slug).map((b) => b.slug)
-  );
-  const existingByLink = new Set(
-    existingBlogs.map((b) => b.link)
-  );
-  let maxIndex = existingBlogs.reduce(
-    (max, b) => Math.max(max, b.index || 0),
-    0
-  );
-
-  console.log(
-    `📊 Existing blogs in DB: ${existingBlogs.length} (max index: ${maxIndex})`
-  );
+  console.log(`Found ${files.length} post(s).`);
+  if (DRY_RUN) console.log("Dry run — nothing will be sent.\n");
 
   let synced = 0;
-  let skipped = 0;
   let failed = 0;
 
-  for (let i = 0; i < files.length; i++) {
-    const filename = files[i];
-    const filepath = join(POSTS_DIR, filename);
+  for (const [index, filepath] of files.entries()) {
     const content = readFileSync(filepath, "utf-8");
-    const frontmatter = parseFrontmatter(content);
+    const split = splitFrontmatter(content);
 
-    if (!frontmatter || !frontmatter.title) {
-      console.warn(`⚠️  Skipping ${filename} — missing or invalid frontmatter`);
+    if (!split) {
+      console.warn(`  ! ${relative(process.cwd(), filepath)} has no front matter. Skipped.`);
+      failed++;
       continue;
     }
 
-    const slug = filename.replace(/\.mdx$/, "");
-    const link = `${SITE_URL}/blog/${slug}`;
-
-    // Skip posts that already exist in the database (match by slug or link)
-    if (existingBySlug.has(slug) || existingByLink.has(link)) {
-      console.log(`⏭️  Skipped (already exists): "${frontmatter.title}"`);
-      skipped++;
+    const frontmatter = parseFrontmatter(split.raw);
+    if (!frontmatter.title) {
+      console.warn(`  ! ${relative(process.cwd(), filepath)} has no title. Skipped.`);
+      failed++;
       continue;
     }
 
-    // New post — assign next available index
-    maxIndex++;
-    const dto = buildBlogDto(filename, frontmatter, maxIndex);
+    // Ordering is by position in the chronological file listing, so a
+    // re-sync produces the same order rather than appending to whatever the
+    // database happened to hold.
+    const dto = buildBlogDto(filepath, frontmatter, split.body, content, index + 1);
+    if (!dto) {
+      console.warn(
+        `  ! ${relative(process.cwd(), filepath)}: publishedDate ` +
+          `"${frontmatter.publishedDate}" could not be read. Skipped.`,
+      );
+      failed++;
+      continue;
+    }
+
+    if (DRY_RUN) {
+      console.log(`  ${dto.slug}  (${dto.readingTimeMinutes} min${dto.draft ? ", draft" : ""})`);
+      synced++;
+      continue;
+    }
 
     try {
       const response = await fetch(`${API_BASE_URL}/blogs/sync`, {
@@ -186,28 +238,21 @@ async function main() {
       });
 
       if (!response.ok) {
-        const errorBody = await response.text();
-        console.error(
-          `❌ Failed to sync "${dto.title}" (${response.status}): ${errorBody}`
-        );
+        console.error(`  ! ${dto.slug} failed (${response.status}): ${await response.text()}`);
         failed++;
         continue;
       }
 
-      const result = await response.json();
-      console.log(`✅ Synced: "${dto.title}" → ${result._id || "ok"}`);
+      console.log(`  ${dto.slug}`);
       synced++;
     } catch (error) {
-      console.error(`❌ Network error syncing "${dto.title}":`, error.message);
+      console.error(`  ! ${dto.slug} failed: ${error.message}`);
       failed++;
     }
   }
 
-  console.log(`\n🏁 Sync complete: ${synced} synced, ${skipped} skipped, ${failed} failed`);
-
-  if (failed > 0) {
-    process.exit(1);
-  }
+  console.log(`\n${synced} synced, ${failed} failed.`);
+  if (failed > 0) process.exit(1);
 }
 
 main();
