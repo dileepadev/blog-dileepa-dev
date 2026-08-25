@@ -1,110 +1,129 @@
-# blog.dileepa.dev
+# blog-dileepa-dev
 
-This repository contains the source for my personal dev blog where I write about AI, cloud computing, and software development.
+The blog content behind **[dileepa.dev/blog](https://dileepa.dev/blog)** — a directory of
+Markdown posts and the script that indexes them.
 
-![blog.dileepa.dev screenshot](https://dileepadev.github.io/images/blog-dileepa-dev/preview.png)
+This repository holds **words, not a website**. There is no build, no dependencies, and nothing
+to deploy. The main site ([`dileepa-dev`](https://github.com/dileepadev/dileepa-dev)) reads these
+files straight from Git at build time and renders them.
 
-## 🔧 Quick Start
+> [!NOTE]
+> Until v2.0.0 this was a standalone Astro site at `blog.dileepa.dev`. That site is retired and
+> its posts now live at `dileepa.dev/blog/{slug}` — the same path, a different host.
 
-### Prerequisites
+## 🗂️ Layout
 
-- Node.js 22.x or later
-- npm (or yarn/pnpm)
+| Path | What it is |
+| --- | --- |
+| `content/posts/<year>/<month>/` | The posts, as `.md`. **The file name is the slug.** |
+| `schema/frontmatter.md` | The front-matter contract |
+| `scripts/sync-blogs.mjs` | Pushes post metadata to the API. No dependencies |
+| `.github/workflows/sync.yml` | Runs the sync when content changes on `main` |
 
-### Install & Run (Development)
-
-```bash
-git clone https://github.com/dileepadev/blog-dileepa-dev.git
-cd blog-dileepa-dev
-npm install
-npm run dev
-```
-
-Open <http://localhost:4321> to view the site locally.
-
-### Build & Preview (Production)
-
-```bash
-npm run build
-npm run preview
-```
-
-## 🗂️ Project Structure
-
-Key folders/files:
-
-- `src/content/posts/` - Add blog posts as `.mdx` files (filename becomes the slug)
-- `src/pages/blog/[slug].astro` - Post template (renders MDX & generates ToC)
-- `src/layouts/Layout.astro` - Site layout and metadata
-- `src/components/` - Reusable components (Share, ThemeToggle, etc.)
-- `public/images/banners/` - Banner images for posts
+The year and month directories are **grouping only**. They were never part of the URL and are
+stripped when the file id becomes a slug.
 
 ## ✍️ Writing a Post
 
-Create a new MDX file in `src/content/posts/` using the pattern `YYYY-MM-DD-your-slug.mdx`.
-Include frontmatter at the top of the file. Recommended fields:
+Create a Markdown file at `content/posts/<year>/<month>/YYYY-MM-DD-your-slug.md`:
 
 ```md
-title: "My Post Title"
-description: "Short summary for listing and social cards"
+---
+title: "My post title"
+description: "Short summary for the listing and social cards"
 publishedDate: "2026-02-03"
 updatedDate: "2026-02-03" # optional
 tags: ["AI", "Cloud"]
-banner: "/images/banners/my-banner.png"
-bannerAlt: "A short description of the banner image"
+series: "microsoft-foundry" # optional
+seriesOrder: 3 # required if series is set
+---
 
 ## Content
 
-Write content here using MDX...
+Write the post here, in plain Markdown.
 ```
 
-**Note:**
+Commit it to `main`. That is the whole publishing process — there is no release to cut.
 
-- The `slug` is derived from the file name (without the date and extension).
-- `publishedDate` should be an ISO date string (YYYY-MM-DD).
+The full contract is in [`schema/frontmatter.md`](schema/frontmatter.md). Three things worth
+knowing before you write one:
 
-## 🔁 Read Next (Behavior)
+- **The file name is the slug, and the slug is the URL.** **Never rename a published file** —
+  there is no way to notice the break from inside this repository.
+- **There is no banner field.** Posts carry no image of their own. Anything a post shows is an
+  ordinary Markdown image in the body pointing at a URL.
+- **Posts are `.md`, not `.mdx`.** If a post needs a component, the renderer is missing a
+  feature — add it to the main site rather than writing JSX into prose.
 
-The post page now shows a **Read Next** section under each post with two cards:
+## 🖼️ Images
 
-- **Latest** — the most recent post (excluding the current one)
-- **Recommended** — a tag-related post (falls back to a random post if no tag-match exists)
+Images live on Cloudinary, not in this repository. Upload one through `POST /uploads` — the
+admin's media screen, or the endpoint directly — and paste the URL it returns:
 
-This is done at build-time by scanning `src/content/posts`.
+```md
+![The Foundry project overview](https://res.cloudinary.com/dileepadev/image/upload/blog/foundry-overview.png)
+```
 
-## 🚀 Deployment
+This removes a whole moving part: no image sync step, and no way for a post's images to fall out
+of step with its words.
 
-- The site is compatible with `GitHub Pages` and other static hosts that support Astro builds.
-- For `GitHub Pages` read this official documentation: [Deploy your Astro Site to GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)
+> [!WARNING]
+> `public/images/posts/` still holds three screenshots that predate this rule, and the post that
+> embeds them points at root-relative paths. Nothing serves those paths any more. They are
+> pending upload to Cloudinary — see [TODO.md](TODO.md).
 
-### What Happens When You Push a New Post
+## 🔁 How the Main Site Consumes This
 
-When you push a new blog post to `main`, the GitHub Actions workflow runs automatically:
+```text
+  content/posts/2026/08/my-post.md
+            │
+            │  push to main
+            ▼
+   sync workflow ──▶ POST /blogs/sync ──▶ api-dileepa-dev   (metadata index)
+            │
+            ▼
+   dileepa-dev build
+     • post bodies ◀── GitHub API, pinned to a ref
+     • post list   ◀── api-dileepa-dev
+     → /blog and /blog/{slug} as static pages
+```
 
-1. **Build** — Installs dependencies and builds the Astro site to static HTML.
-2. **Deploy** — Publishes the built site to GitHub Pages. Your blog is now live.
-3. **Sync** — Runs `scripts/sync-blogs.mjs`, which reads all `.mdx` posts, extracts frontmatter (title, date, description, banner, etc.), and calls the `POST /blogs/sync` API endpoint for each post.
+Three stores, each holding what it is good at: **Git** holds the words, **Cloudinary** holds the
+images, **MongoDB** holds the index.
 
-The API upserts each post by slug — new posts are created, existing ones are updated. This keeps the blog database in sync with the repository automatically.
+**The API stores metadata only.** The words stay in Git and are read from there. If post bodies
+ever start appearing in the database, the source of truth has quietly moved.
 
-> **Setup:** This requires two GitHub repository secrets:
+**Publishing a post requires a rebuild of the main site.** That is a webhook, and for a blog that
+publishes a few times a month it is the right cost.
+
+Full detail:
+[`dileepadev/docs/architecture/content-pipeline.md`](https://github.com/dileepadev/dileepadev/blob/main/docs/architecture/content-pipeline.md).
+
+## 🧪 Running the Sync by Hand
+
+The script imports only `node:` built-ins, so there is nothing to install:
+
+```bash
+API_BASE_URL=http://localhost:8000 node scripts/sync-blogs.mjs --dry-run
+```
+
+Drop `--dry-run` to actually write. The API upserts by slug, so new posts are created and
+existing ones updated — running it twice is harmless.
+
+> **Setup:** two GitHub repository secrets:
 >
 > - `API_BASE_URL` — Base URL of the API (e.g. `https://api.dileepa.dev`)
-> - `BLOG_SYNC_API_KEY` — A shared API key that must match the `BLOG_SYNC_API_KEY` in the API's environment
-
-## 🧪 Testing & Local Tools
-
-- Run `npm run dev` to run the dev server with hot reload.
-- `npm run build` produces a static build into `.output`/`dist` depending on Astro config.
+> - `BLOG_SYNC_API_KEY` — must match the `BLOG_SYNC_API_KEY` in the API's environment
 
 ## 🤝 Contributing
 
-- Please open issues or submit pull requests.
-- Follow the repository's [CONTRIBUTING.md](.github/CONTRIBUTING.md) and use the branch/commit naming guidelines.
+Open an issue or a pull request. Follow [CONTRIBUTING.md](CONTRIBUTING.md) and the branch and
+commit naming guidelines.
 
 ## ⚖️ License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file.
+MIT. See [LICENSE](LICENSE).
 
 ## 📫 Contact
 
