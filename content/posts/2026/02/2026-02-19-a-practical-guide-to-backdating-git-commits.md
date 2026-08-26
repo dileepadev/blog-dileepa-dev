@@ -7,6 +7,7 @@ tags: ["Git", "Version Control", "Commits", "Advanced Git"]
 ---
 
 ## Introduction
+
 Version control systems are designed to preserve the integrity and timeline of a project’s history. However, there are legitimate and professional scenarios where adjusting commit timestamps becomes necessary.
 
 Backdating Git commits can be useful in situations such as:
@@ -74,13 +75,13 @@ git commit -m "docs(repo): Add community standards files"
 
 Git accepts the following format:
 
-```
+```git
 YYYY-MM-DD HH:MM:SS
 ```
 
 Example:
 
-```
+```git
 2026-02-18 19:34:21
 ```
 

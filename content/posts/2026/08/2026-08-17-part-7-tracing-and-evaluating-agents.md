@@ -204,4 +204,3 @@ Batch evaluations can take a few minutes depending on dataset size and evaluator
 ## What's Next
 
 You can now see what your agent does and measure how well it does it. The last piece is making sure it's safe to actually put in front of real users and real data. Part 8 covers Entra identity, RBAC, network isolation, and the governance checklist to work through before you ship.
-

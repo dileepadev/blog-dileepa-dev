@@ -28,10 +28,10 @@ Microsoft's approach spans **low-code builders, pro-code SDKs, open-source frame
 
 This option is ideal for **quick prototypes** and productivity-focused solutions.
 
-### Official Resources
+### Official Resources: Copilot Studio
 
-- Official Website: https://microsoft.com/microsoft-365-copilot/microsoft-copilot-studio  
-- Official Documentation: https://learn.microsoft.com/en-us/microsoft-copilot-studio
+* Official Website: <https://microsoft.com/microsoft-365-copilot/microsoft-copilot-studio>  
+* Official Documentation: <https://learn.microsoft.com/en-us/microsoft-copilot-studio>
 
 ## 2. Microsoft 365 Agents SDK
 
@@ -48,10 +48,10 @@ With the SDK you can:
 
 This path suits **developers building custom, robust agent solutions** connected to enterprise systems.
 
-### Official Resources
+### Official Resources: Microsoft 365 Agents SDK
 
-- Official Documentation: https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/
-- Official GitHub Repo: https://github.com/microsoft/Agents
+* Official Documentation: <https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/>
+* Official GitHub Repo: <https://github.com/microsoft/Agents>
 
 ## 3. Microsoft Agent Framework
 
@@ -68,10 +68,10 @@ Highlights include:
 
 This framework is powerful for **distributed agent ecosystems** and production-scale deployments.
 
-### Official Resources
+### Official Resources: Microsoft Agent Framework
 
-- Official Documentation: https://learn.microsoft.com/en-us/agent-framework
-- Official GitHub Repo: https://github.com/microsoft/agent-framework
+* Official Documentation: <https://learn.microsoft.com/en-us/agent-framework>
+* Official GitHub Repo: <https://github.com/microsoft/agent-framework>
 
 ## 4. Microsoft Foundry
 
@@ -85,10 +85,10 @@ This framework is powerful for **distributed agent ecosystems** and production-s
 
 Foundry agents can be used directly in Copilot Studio or referenced from custom code giving you flexibility in how your logic is hosted and consumed.
 
-### Official Resources
+### Official Resources: Microsoft Foundry
 
-- Official Website: https://ai.azure.com
-- Official Documentation: https://learn.microsoft.com/en-us/azure/ai-foundry
+* Official Website: <https://ai.azure.com>
+* Official Documentation: <https://learn.microsoft.com/en-us/azure/ai-foundry>
 
 ## 5. Semantic Kernel
 
@@ -102,10 +102,10 @@ Foundry agents can be used directly in Copilot Studio or referenced from custom 
 
 It's especially useful for developers who want **fine-grained control** over how their agents think and act.
 
-### Official Resources
+### Official Resources: Semantic Kernel
 
-- Official Documentation: https://learn.microsoft.com/en-us/semantic-kernel
-- Official GitHub Repo: https://github.com/microsoft/semantic-kernel
+* Official Documentation: <https://learn.microsoft.com/en-us/semantic-kernel>
+* Official GitHub Repo: <https://github.com/microsoft/semantic-kernel>
 
 ## 6. AutoGen
 
@@ -120,10 +120,10 @@ It's especially useful for developers who want **fine-grained control** over how
 
 AutoGen can be used standalone or integrated into the **Microsoft Agent Framework** for enterprise-scale orchestration.
 
-### Official Resources
+### Official Resources: AutoGen
 
-* Official Website: https://microsoft.github.io/autogen/stable
-* Official GitHub Repo: https://github.com/microsoft/autogen
+* Official Website: <https://microsoft.github.io/autogen/stable>
+* Official GitHub Repo: <https://github.com/microsoft/autogen>
 
 ## Interoperability with Protocols
 
@@ -140,7 +140,7 @@ This interoperability is key to building **complex distributed intelligent syste
 | Copilot Studio            | Beginner / Business Users | Quick setup and internal productivity agents    |
 | Microsoft 365 Agents SDK  | Intermediate Developers   | Custom, cross-channel intelligent agents        |
 | Microsoft Agent Framework | Advanced Developers/Teams | Enterprise-scale multi-agent orchestration      |
-| Microsoft Foundry          | DevOps + Developers       | Cloud-hosted AI brains and scalable deployments |
+| Microsoft Foundry         | DevOps + Developers       | Cloud-hosted AI brains and scalable deployments |
 | Semantic Kernel           | Developers                | Orchestration, planning, plugins                |
 | AutoGen                   | Researchers/Developers    | Open-source multi-agent collaboration           |
 
@@ -164,12 +164,3 @@ Ready to build your first agent? Dive into Microsoft's official documentation an
 8. [Microsoft Research - "AutoGen"](https://www.microsoft.com/en-us/research/project/autogen/)
 
 <!-- References -->
-
-[1]: https://www.microsoft.com/en-us/microsoft-copilot/blog/copilot-studio/copilot-studio-is-enhancing-its-platform-with-knowledge-improvements-azure-ai-integration-and-more/?utm_source=chatgpt.com "Copilot Studio is enhancing its platform with knowledge improvements, Azure AI integration, and more | Microsoft Copilot Blog"
-[2]: https://learn.microsoft.com/en-us/microsoft-365-copilot/extensibility/create-deploy-agents-sdk?utm_source=chatgpt.com "Create and Deploy a Custom Engine Agent with Microsoft 365 Agents SDK | Microsoft Learn"
-[3]: https://devblogs.microsoft.com/foundry/introducing-microsoft-agent-framework-the-open-source-engine-for-agentic-ai-apps/?utm_source=chatgpt.com "Introducing Microsoft Agent Framework: The Open-Source Engine for Agentic AI Apps | Microsoft Foundry Blog"
-[4]: https://www.microsoft.com/en-us/microsoft-cloud/blog/2025/05/07/empowering-multi-agent-apps-with-the-open-agent2agent-a2a-protocol/?msockid=178bdf8c614a6f8308f2c92f60f46e38&utm_source=chatgpt.com "Empowering multi-agent apps with the open Agent2Agent (A2A) protocol | The Microsoft Cloud Blog"
-[5]: https://techcommunity.microsoft.com/blog/azure-ai-foundry-blog/build-custom-engine-agents-in-ai-foundry-for-microsoft-365-copilot/4449623?utm_source=chatgpt.com "Build Custom Engine Agents for Microsoft 365 Copilot"
-[6]: https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/using-semantic-kernel-agent-framework?utm_source=chatgpt.com "Use Semantic Kernel and Agent Framework in Agents SDK | Microsoft Learn"
-[7]: https://learn.microsoft.com/en-us/agent-framework/user-guide/model-context-protocol/using-mcp-tools "Using MCP Tools with Agents| Microsoft Learn"
-[8]: https://www.microsoft.com/en-us/research/project/autogen/ "AutoGen | Microsoft Research"

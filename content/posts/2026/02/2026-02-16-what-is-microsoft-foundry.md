@@ -51,7 +51,7 @@ Rather than navigating multiple dashboards and disconnected services, Foundry ce
 
 ## A Brief History
 
-**Previous Names and Evolution**
+Previous Names and Evolution.
 
 One of the most common questions about Microsoft Foundry is:
 
@@ -230,15 +230,15 @@ For AI developers, architects, and enterprise leaders, understanding Microsoft F
 ## References
 
 1. Microsoft Azure - Microsoft Foundry Product Page  
-   https://azure.microsoft.com/en-us/products/ai-foundry
+   <https://azure.microsoft.com/en-us/products/ai-foundry>
 
 2. Microsoft Foundry Blog (Microsoft for Developers)  
-   https://devblogs.microsoft.com/foundry
+   <https://devblogs.microsoft.com/foundry>
 
 3. Microsoft Foundry Documentation  
-   https://docs.microsoft.com/en-us/azure/ai-foundry
+   <https://docs.microsoft.com/en-us/azure/ai-foundry>
 
 4. Microsoft Foundry Official Website  
-   https://ai.azure.com
+   <https://ai.azure.com>
 
-4. LinkedIn announcement discussing Azure AI Foundry renaming
+5. LinkedIn announcement discussing Azure AI Foundry renaming

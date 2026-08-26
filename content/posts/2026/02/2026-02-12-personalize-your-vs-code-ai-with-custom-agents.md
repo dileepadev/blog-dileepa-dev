@@ -57,9 +57,9 @@ Act as a senior engineer. Review the provided diff or file, call out bugs, secur
 
 This structure makes it easy to define *what* the agent does and *how* it does it.
 
-![How to view custom agents](/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/2.png)
+![How to view custom agents](https://res.cloudinary.com/dileepadev/image/upload/v1787683460/api-dileepa-dev/blogs/q4uvzxptmtj9sfx7cqpr.png)
 
-![Example of a custom agent file](/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/3.png)
+![Example of a custom agent file](https://res.cloudinary.com/dileepadev/image/upload/v1787683488/api-dileepa-dev/blogs/fjeu2gi3ptislyjdenji.png)
 
 ## Where to Put Your Custom Agents
 
@@ -70,7 +70,7 @@ You can create custom agents in different locations depending on how you want to
 
 VS Code automatically detects `.agent.md` files placed in the appropriate agents folder within your workspace.
 
-![Custom Agents Folder](/images/posts/2026-02-12-personalize-your-vs-code-ai-with-custom-agents/1.png)
+![Custom Agents Folder](https://res.cloudinary.com/dileepadev/image/upload/v1787683422/api-dileepa-dev/blogs/tv3vpkdhyjtjb4jyeojb.png)
 
 ## Advanced Features
 

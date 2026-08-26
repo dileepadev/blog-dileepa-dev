@@ -7,6 +7,7 @@ tags: ["AI", "Ollama", "Local AI", "LLM", "Hardware"]
 ---
 
 ## Introduction
+
 If you're curious about running AI language models locally, Ollama makes it possible, even on a midrange laptop. Here's my experience installing and testing models on my ASUS VivoBook 15.
 
 ## System Details
@@ -56,7 +57,7 @@ ollama run llama3.2
 
 The download worked perfectly, but the process immediately crashed:
 
-```
+```shell
 Error: 500 Internal Server Error: llama runner process has terminated: exit status 2
 ```
 
@@ -110,13 +111,13 @@ This is a useful step to **keep your system clean** and avoid clutter with large
 nvidia-smi
 ```
 
-2. **Available RAM:**
+1. **Available RAM:**
 
 ```bash
 free -h
 ```
 
-3. **List available Ollama models:**
+1. **List available Ollama models:**
 
 ```bash
 ollama list

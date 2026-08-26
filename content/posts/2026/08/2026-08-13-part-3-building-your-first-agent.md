@@ -40,7 +40,7 @@ Foundry's Agent Service gives you two fundamentally different ways to build an a
 Here's the practical difference:
 
 | | Prompt agents | Hosted agents |
-|---|---|---|
+| --- | --- | --- |
 | **You write** | Instructions + config | Application code |
 | **Runtime to maintain** | None | Your container/logic |
 | **Compute to manage** | None, fully managed | Foundry-managed containers |
@@ -62,7 +62,7 @@ You are a helpful assistant that answers questions about geography.
 Keep answers to two sentences unless asked for more detail.
 ```
 
-7. Select **Create**. Foundry saves this as version 1 of your agent.
+1. Select **Create**. Foundry saves this as version 1 of your agent.
 
 That's it: no deploy step, no waiting for provisioning. The agent exists the moment you save it.
 
@@ -172,4 +172,3 @@ Make sure you're reusing the same `conversation.id` across calls. Each new `conv
 You've now got an agent with a persona, built two ways: click-through in the portal and reproducible in code. Both point at the same underlying model deployment from Part 2, so you can keep iterating on either path.
 
 In Part 4, we step back from building and look at the model catalog itself: how to actually pick between the 1,900+ models on offer instead of defaulting to whatever's fastest to type.
-

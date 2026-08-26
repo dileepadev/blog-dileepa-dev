@@ -168,4 +168,3 @@ Both tools bill beyond standard token costs: File Search for ingestion and stora
 ## What's Next
 
 Your agent can now ground answers in your own data and in the live web: two separate tools solving two separate problems. Part 6 is where we stop building single agents and start coordinating several of them: one agent that knows when to hand off to a specialist instead of trying to do everything itself.
-

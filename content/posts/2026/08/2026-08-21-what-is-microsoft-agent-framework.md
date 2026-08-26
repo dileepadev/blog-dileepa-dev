@@ -19,7 +19,7 @@ The other thing worth knowing up front: Agent Framework isn't a from-scratch pro
 Agent Framework's own documentation structures everything around four primary areas, plus a set of building blocks that cut across all of them:
 
 | Area | What it is |
-|---|---|
+| --- | --- |
 | **Agents** | Individual agents that use an LLM to process input, call tools and MCP servers, and generate responses. |
 | **Harness Agent** | An opinionated, batteries-included agent for long, multi-step tasks: planning, context compaction, file memory, tool approval, observability, all pre-wired. |
 | **Workflows** | Functional and graph-based workflows that connect agents and functions through explicit execution paths. |
@@ -93,7 +93,7 @@ This is the piece missing from most "core features" lists, including the one tha
 An **agent harness** is runtime scaffolding that turns a plain model-calling agent into one capable of long, multi-step, semi-autonomous work: the shape of thing you'd want for research, coding, or open-ended data analysis, not a single Q&A turn. Rather than making you assemble planning, memory, and approval logic yourself, Agent Framework ships an opinionated, **batteries-included harness** with all of it pre-wired and individually toggleable:
 
 | Capability | Behavior by default |
-|---|---|
+| --- | --- |
 | Function invocation | Enabled, with a configurable iteration limit |
 | Todo tracking & plan/execute modes | Enabled |
 | Context compaction | Enabled when token limits are set |
@@ -118,7 +118,7 @@ Pending requests aren't lost if a process restarts, either: they're captured as 
 Agent Framework ships five built-in orchestration patterns for coordinating multiple agents through a workflow:
 
 | Pattern | Shape |
-|---|---|
+| --- | --- |
 | **Sequential** | Agent A → Agent B → Agent C, each consuming the previous output |
 | **Concurrent** | Agents run in parallel, results aggregated |
 | **Handoff** | Control transfers between agents based on context; interactive by default |

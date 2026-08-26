@@ -43,7 +43,7 @@ Also, note: Microsoft renamed the Foundry RBAC roles recently. "Azure AI Owner" 
 
 A resource group is just a folder in Azure. Putting all your Foundry stuff in one keeps it organized and makes cleanup easier later.
 
-### Via Azure CLI
+### Via Azure CLI: Create the Resource Group
 
 ```bash
 az group create --name my-foundry-rg --location eastus
@@ -51,7 +51,7 @@ az group create --name my-foundry-rg --location eastus
 
 Replace `eastus` with a region close to you if you prefer. See [Microsoft Foundry's region support](https://learn.microsoft.com/en-us/azure/foundry/reference/region-support) for full options.
 
-### Via Azure Portal
+### Via Azure Portal: Create the Resource Group
 
 1. Go to the [Azure portal](https://portal.azure.com).
 2. Search for "resource groups" in the search bar at the top.
@@ -62,7 +62,7 @@ Replace `eastus` with a region close to you if you prefer. See [Microsoft Foundr
 
 This is the actual "thing" in Azure that hosts your projects. One Foundry resource can contain multiple projects.
 
-### Via Azure CLI
+### Via Azure CLI: Create the Foundry Resource
 
 ```bash
 az cognitiveservices account create \
@@ -84,7 +84,7 @@ az cognitiveservices account create \
 
 The resource usually provisions in 1-2 minutes. If it takes longer, that's fine; Azure is just thinking.
 
-### Via Azure Portal
+### Via Azure Portal: Create the Foundry Resource
 
 1. Go to the [Azure portal](https://portal.azure.com).
 2. Click **Create a resource**.
@@ -105,7 +105,7 @@ The resource will appear in your resource group once it finishes provisioning (u
 
 Your project is where you'll actually work: models, agents, data, everything else lives here.
 
-### Via Azure CLI
+### Via Azure CLI: Create the Project
 
 ```bash
 az cognitiveservices account project create \
@@ -126,7 +126,7 @@ az cognitiveservices account project show \
 
 Look for `"provisioningState": "Succeeded"` in the output. If you see `"Succeeded"`, you're good.
 
-### Via Azure Portal
+### Via Azure Portal: Create the Project
 
 1. Go to the [Microsoft Foundry portal](https://ai.azure.com) and sign in with your Azure account.
 2. Look in the top-left corner. If this is your first time, you'll see a dropdown saying "Create a new project". Click it.
@@ -142,7 +142,7 @@ Wait for the project overview page to load. When you see it, your project is rea
 
 Now that you have a project, you need a model to talk to. Foundry's model catalog includes 1,900+ models from OpenAI, Anthropic, Meta, and others. For this part, we'll use **GPT-5.1-mini**, which is small, fast, and cheap.
 
-### Via Azure CLI
+### Via Azure CLI: Deploy the Model
 
 ```bash
 az cognitiveservices account deployment create \
@@ -169,7 +169,7 @@ az cognitiveservices account deployment show \
 
 Look for `"provisioningState": "Succeeded"`. Deployments usually take 2-5 minutes to spin up.
 
-### Via Azure Portal
+### Via Azure Portal: Deploy the Model
 
 1. In the Foundry portal, make sure you're in your project.
 2. Click **Build** in the top-right navigation, then click **Models** in the left pane.
@@ -188,6 +188,7 @@ Your project has a single endpoint that you'll use for all API calls. You need t
 3. Copy the full endpoint URL. It looks like: `https://my-foundry-resource.services.ai.azure.com/`
 
 If you can't find it:
+
 - Click **Build** in the top-right.
 - The endpoint often appears at the top of the page or in the models section.
 
@@ -222,6 +223,7 @@ Now the fun part. Let's actually use the model.
 The endpoint is `https://<your-resource-name>.services.ai.azure.com/openai/deployments/<deployment-name>/chat/completions?api-version=2024-10-01-preview`
 
 Replace:
+
 - `<your-resource-name>` with your resource name (e.g., `my-foundry-resource`)
 - `<deployment-name>` with your deployment name (e.g., `gpt-5-1-mini-demo`)
 
@@ -344,4 +346,3 @@ You've now got:
 In Part 3, we'll build a simple agent on top of this foundation: one that can actually do things beyond chat. We'll add tools, give it grounding data, and turn this dumb pipe into something that actually thinks.
 
 For now, bookmark your endpoint and API key. You're going to need them.
-

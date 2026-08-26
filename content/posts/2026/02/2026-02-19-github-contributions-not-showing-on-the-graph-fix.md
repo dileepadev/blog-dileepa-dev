@@ -7,6 +7,7 @@ tags: ["GitHub", "Git", "Troubleshooting", "Contributions", "Open Source"]
 ---
 
 ## Introduction
+
 You might have experienced this frustrating situation. You **contributed to a repository, pushed commits at the correct date and time**, but GitHub **does not show your contributions on the graph**.
 
 This isn't the same as “GitHub showing the wrong date”, it's about **commits not appearing at all** in your contribution activity.

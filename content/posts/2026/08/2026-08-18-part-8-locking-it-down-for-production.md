@@ -27,7 +27,7 @@ Foundry splits permissions into **control plane** actions (creating projects, de
 The roles you'll actually use:
 
 | Role | What it's for |
-|---|---|
+| --- | --- |
 | **Foundry User** | Baseline for developers: create and run agents, use the playground. This is what you needed back in Part 3. |
 | **Foundry Project Manager** | Publish agents, conditionally assign Foundry User to others. |
 | **Foundry Account Owner** | Create Foundry resources/projects, deploy models, manage quota, content blocklists. This was you in Part 2. |
@@ -111,4 +111,3 @@ Eight parts ago, this series started with an empty Azure subscription. You now h
 That's genuinely the full loop: zero to agent, and agent to something you could defend in a production review. Foundry itself won't stay still (it didn't even stay still across the eight weeks I wrote this), so treat this series as the shape of the thing rather than a permanent reference, and check the docs for whatever's changed by the time you're reading this.
 
 Thanks for following along. If you build something with this, or hit a wall I didn't cover, I'd genuinely like to hear about it.
-

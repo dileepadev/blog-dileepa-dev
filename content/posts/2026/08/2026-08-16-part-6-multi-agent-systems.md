@@ -44,7 +44,7 @@ If you previously read about **Connected Agents** in Foundry (classic), a main a
 Agent Framework ships five built-in patterns. You don't need to memorize the implementation details, just which shape fits your problem:
 
 | Pattern | Shape | Use it when |
-|---|---|---|
+| --- | --- | --- |
 | **Sequential** | Agent A → Agent B → Agent C | Each step builds on the last: research, then write, then review |
 | **Concurrent** | Agents A, B, C run in parallel, results aggregated | Independent subtasks, and you want to cut latency |
 | **Handoff** | Control passes between agents based on context | Routing to a specialist, support triage, for example |
@@ -137,4 +137,3 @@ That's not a bug: it's the deprecation described above. Export your YAML from th
 ## What's Next
 
 You now have two agents cooperating instead of one agent trying to do everything. But right now, you're only finding out something went wrong by reading console output. Part 7 turns tracing and evaluation on, so you can actually see what each agent decided, why, and whether it's getting worse over time instead of better.
-

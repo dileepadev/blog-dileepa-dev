@@ -143,4 +143,3 @@ You need at least two models selected in the model selector for the trade-off ch
 ## What's Next
 
 You now have two deployed models and a repeatable way to compare more. In Part 5, we go back to the agent itself and give it something more useful to do than answer from memory: File Search over your own documents, and Bing grounding for real-time web data.
-
