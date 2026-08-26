@@ -1,7 +1,7 @@
 /**
  * sync-blogs.mjs
  *
- * Reads every post under content/posts/, extracts its front matter, and upserts
+ * Reads every post under posts/, extracts its front matter, and upserts
  * it into the API through POST /blogs/sync.
  *
  * The API stores metadata only — bodies stay in Git and are read from there by
@@ -41,7 +41,7 @@ import { join, relative, basename, extname } from "node:path";
 
 const API_BASE_URL = process.env.API_BASE_URL;
 const BLOG_SYNC_API_KEY = process.env.BLOG_SYNC_API_KEY;
-const POSTS_DIR = join(process.cwd(), "content", "posts");
+const POSTS_DIR = join(process.cwd(), "posts");
 const DRY_RUN = process.argv.includes("--dry-run");
 
 if (!API_BASE_URL) {
@@ -62,7 +62,7 @@ const WORDS_PER_MINUTE = 220;
 // Helpers
 // ---------------------------------------------------------------------------
 
-/** Every .md file under content/posts, at any depth. Posts are grouped by year and month. */
+/** Every .md file under posts, at any depth. Posts are grouped by year and month. */
 function findPosts(dir) {
   const found = [];
   for (const name of readdirSync(dir).sort()) {

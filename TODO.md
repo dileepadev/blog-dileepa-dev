@@ -11,7 +11,7 @@ in [`dileepadev/TODO.md`](https://github.com/dileepadev/dileepadev/blob/main/TOD
 
 ## Content move ✅
 
-- [x] `src/content/posts/` → `content/posts/<year>/<month>/` — 17 of 18 slugs byte-identical
+- [x] `src/content/posts/` → `posts/<year>/<month>/` — 17 of 18 slugs byte-identical
 - [x] **`2026-02-11-welcome` was renamed to `2026-02-10-welcome`** during the move, and its
       `publishedDate` changed with it. Resolved: the corrected date stays, and `dileepa-dev`
       carries a same-site 301 from the old slug. Tracked in `dileepadev/docs/architecture/redirects.md` §2

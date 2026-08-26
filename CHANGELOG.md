@@ -21,7 +21,7 @@ source for `dileepa.dev/blog`. See [TODO.md](TODO.md).
 
 ### Changed - Unreleased
 
-- Posts move from `src/content/posts/` to `content/posts/<year>/<month>/`, grouped by publication
+- Posts move from `src/content/posts/` to `posts/<year>/<month>/`, grouped by publication
   month. Outside `src/` on purpose: `dileepa-dev` reads the files straight from Git at build time,
   so the Astro app is one reader of this content rather than its owner. **17 of 18 slugs are
   unchanged** — the file name is the slug and the slug is the URL. The exception is

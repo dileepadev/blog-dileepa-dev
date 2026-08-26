@@ -31,16 +31,16 @@ it looks like a site bug.
 ## File layout
 
 ```text
-content/posts/<year>/<month>/<slug>.md
+posts/<year>/<month>/<slug>.md
 ```
 
 The year and month directories are **grouping only** — they were never part of the URL and are
 stripped when the id becomes a slug. What determines the URL is the file name:
 
 ```text
-content/posts/2026/08/2026-08-21-what-is-microsoft-agent-framework.md
-                      └─────────────────── slug ───────────────────┘
-                      → dileepa.dev/blog/2026-08-21-what-is-microsoft-agent-framework
+posts/2026/08/2026-08-21-what-is-microsoft-agent-framework.md
+              └─────────────────── slug ───────────────────┘
+              → dileepa.dev/blog/2026-08-21-what-is-microsoft-agent-framework
 ```
 
 **Never rename a published file.** The slug is the URL, and there is no way to notice the break

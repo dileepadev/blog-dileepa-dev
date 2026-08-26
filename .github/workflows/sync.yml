@@ -11,7 +11,7 @@ on:
     branches: ["main"]
     # Only content and the script that reads it can change what gets synced.
     paths:
-      - "content/posts/**"
+      - "posts/**"
       - "scripts/sync-blogs.mjs"
       - ".github/workflows/sync.yml"
 

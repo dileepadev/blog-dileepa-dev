@@ -30,7 +30,7 @@ cross-repository roadmap lives in `dileepadev/TODO.md`.
 
 | Path | What it is |
 | --- | --- |
-| `content/posts/<year>/<month>/` | 18 `.md` posts, named `YYYY-MM-DD-slug.md`. **The file name is the slug** |
+| `posts/<year>/<month>/` | 18 `.md` posts, named `YYYY-MM-DD-slug.md`. **The file name is the slug** |
 | `schema/frontmatter.md` | The front-matter contract |
 | `scripts/sync-blogs.mjs` | Metadata sync to `POST /blogs/sync`. Dependency-free and idempotent |
 | `.github/workflows/sync.yml` | Runs the sync on content changes to `main` |
@@ -80,7 +80,7 @@ There is nothing to install.
 
 ## Writing a post
 
-- `content/posts/<year>/<month>/YYYY-MM-DD-slug.md`. **The file name is the URL**; the year and
+- `posts/<year>/<month>/YYYY-MM-DD-slug.md`. **The file name is the URL**; the year and
   month directories are grouping only.
 - Front matter per the table above; `publishedDate` as an ISO date string.
 - **No banner.** Embed an image with ordinary Markdown, pointing at a Cloudinary URL.

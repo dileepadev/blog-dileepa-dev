@@ -15,7 +15,7 @@ files straight from Git at build time and renders them.
 
 | Path | What it is |
 | --- | --- |
-| `content/posts/<year>/<month>/` | The posts, as `.md`. **The file name is the slug.** |
+| `posts/<year>/<month>/` | The posts, as `.md`. **The file name is the slug.** |
 | `schema/frontmatter.md` | The front-matter contract |
 | `scripts/sync-blogs.mjs` | Pushes post metadata to the API. No dependencies |
 | `.github/workflows/sync.yml` | Runs the sync when content changes on `main` |
@@ -25,7 +25,7 @@ stripped when the file id becomes a slug.
 
 ## ✍️ Writing a Post
 
-Create a Markdown file at `content/posts/<year>/<month>/YYYY-MM-DD-your-slug.md`:
+Create a Markdown file at `posts/<year>/<month>/YYYY-MM-DD-your-slug.md`:
 
 ```md
 ---
@@ -75,7 +75,7 @@ of step with its words.
 ## 🔁 How the Main Site Consumes This
 
 ```text
-  content/posts/2026/08/my-post.md
+  posts/2026/08/my-post.md
             │
             │  push to main
             ▼
