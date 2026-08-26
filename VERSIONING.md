@@ -4,16 +4,19 @@
 
 Up to `2.0.0` it was an Astro website, and it followed
 [Semantic Versioning](https://semver.org/) like any other application in the platform. `2.0.0`
-is the **final release** — the tag that archives the last build of that site before it was
-removed.
+is the **final release** — the boundary at which this stopped being a software project and
+became the content source for `dileepa.dev/blog`.
 
 What remains is content. Content is not versioned, because a blog post is not a release.
 
 ## The policy
 
-- **Publishing a post is a commit to `main`.** Not a tag, not a release, not a `CHANGELOG` entry.
+- **Publishing a post is a pull request into `main`.** Not a tag, not a release, not a
+  `CHANGELOG` entry.
 - **No version number.** There is no `package.json` to bump and nothing that consumes a version
   of this repository.
+- **No version branches.** `feat/vX.Y.Z` belonged to the application. Content work is a
+  short-lived branch off `main` — see [BRANCH_NAMING_GUIDELINES.md](BRANCH_NAMING_GUIDELINES.md).
 - **`CHANGELOG.md` is frozen at `2.0.0`.** It records the life of the application. It is not a
   log of posts — Git history is that, and it is better at it.
 - **Correcting a published post is an ordinary commit.** If the correction is material, set
@@ -29,12 +32,18 @@ matter and leave the file name alone.
 
 ## How the main site pins content
 
-`dileepa-dev` reads post bodies from this repository at build time **pinned to a ref** — a tag or
-a commit SHA, never `main`. An unpinned fetch would make its builds non-reproducible and could
-ship an in-progress edit by accident.
+`dileepa-dev` reads post bodies from this repository at build time **pinned to a ref** — a commit
+SHA, not a moving branch. An unpinned fetch would make its builds non-reproducible and could ship
+an in-progress edit by accident.
 
 So the ref is the versioning that matters here, and it lives in the consumer. Publishing is two
-steps: commit the post, then bump the pinned ref in `dileepa-dev`.
+steps: merge the post into `main`, then bump `BLOG_CONTENT_REF` in `dileepa-dev` and rebuild.
+
+> [!IMPORTANT]
+> **A ref that predates a post is indistinguishable from a missing post, and worse than one.**
+> Post *metadata* comes from the API rather than from Git, so `/blog` lists the post while
+> `/blog/{slug}` 404s. `dileepa-dev` now fails its build outright when the ref carries no posts
+> at all, which is what pointing at the pre-`2.0.0` tree used to do silently.
 
 See
 [`dileepadev/docs/migration/versioning-policy.md`](https://github.com/dileepadev/dileepadev/blob/main/docs/migration/versioning-policy.md)

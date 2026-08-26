@@ -1,12 +1,13 @@
 # Front matter
 
-The contract every post follows. **Field names are an interface** — the Astro site renders from
-them, `dileepa-dev` renders from them at build time, and `scripts/sync-blogs.mjs` maps them onto
-the API's model. Renaming one breaks rendering in one repository and data in another.
+The contract every post follows. **Field names are an interface** — `dileepa-dev` renders from
+them at build time, and `scripts/sync-blogs.mjs` maps them onto the API's model. Renaming one
+breaks rendering in one repository and data in another.
 
-Enforced by [`../src/content.config.ts`](../src/content.config.ts) at build time. A malformed
-post fails the build here, where the author sees it, rather than in the main site's build where
-it looks like a site bug.
+Enforced by [`../scripts/validate-posts.mjs`](../scripts/validate-posts.mjs), which
+[`validate.yml`](../.github/workflows/validate.yml) runs on every pull request. A malformed post
+fails here, where the author sees it, rather than in the main site's build where it looks like a
+site bug. Run it yourself with `node scripts/validate-posts.mjs`.
 
 ## Fields
 
@@ -18,13 +19,14 @@ it looks like a site bug.
 | `updatedDate` | ISO date | no | Omit unless the post actually changed. |
 | `tags` | string[] | defaults to `[]` | Inline array. |
 | `draft` | boolean | defaults to `false` | A draft is hidden from the site and from every public API caller. |
-| `series` | string | no | The series key, e.g. `microsoft-foundry`. Must exist in [`../src/data/series.ts`](../src/data/series.ts). |
+| `series` | string | no | The series key, e.g. `microsoft-foundry`. Posts sharing one are linked in order. |
 | `seriesOrder` | number | no | The part number. Required if `series` is set. |
 
 ## What is not here
 
 - **No `banner`, no `bannerAlt`.** Posts carry no image of their own. Anything a post shows is an
-  ordinary Markdown image in the body pointing at a URL.
+  ordinary Markdown image in the body pointing at an absolute URL. The validator rejects a
+  root-relative path: this repository serves nothing, so such a path resolves to nothing.
 - **No `slug`.** The file name is the slug. See below.
 - **No `readingTime`.** Computed from the body by the sync script, so it cannot go stale.
 
@@ -51,7 +53,7 @@ from inside this repository. The 18 published slugs are listed in
 
 Posts are `.md`. Eight of them used to import an Astro `SeriesBox` component and call it as JSX,
 which is the only thing that made them MDX. The series box is a rendering concern, not prose:
-both readers now render it from `series` and `seriesOrder`, and the posts are plain Markdown that
+`dileepa-dev` renders it from `series` and `seriesOrder`, and the posts are plain Markdown that
 survives any framework change.
 
 The practical rule: if a post needs a component, the renderer is missing a feature. Add it there.

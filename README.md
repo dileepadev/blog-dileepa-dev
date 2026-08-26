@@ -17,7 +17,9 @@ files straight from Git at build time and renders them.
 | --- | --- |
 | `posts/<year>/<month>/` | The posts, as `.md`. **The file name is the slug.** |
 | `schema/frontmatter.md` | The front-matter contract |
+| `scripts/validate-posts.mjs` | Checks every post against that contract. No dependencies |
 | `scripts/sync-blogs.mjs` | Pushes post metadata to the API. No dependencies |
+| `.github/workflows/validate.yml` | Validates content on every pull request |
 | `.github/workflows/sync.yml` | Runs the sync when content changes on `main` |
 
 The year and month directories are **grouping only**. They were never part of the URL and are
@@ -43,7 +45,13 @@ seriesOrder: 3 # required if series is set
 Write the post here, in plain Markdown.
 ```
 
-Commit it to `main`. That is the whole publishing process — there is no release to cut.
+Open a pull request into `main`. Validation runs on it; once it merges, the sync workflow
+indexes the metadata. That is the whole publishing process — there is no release to cut and no
+version to bump.
+
+One step happens outside this repository: `dileepa-dev` reads post bodies from a **pinned ref**,
+so a post is live only once that ref is bumped and the site rebuilt. See
+[VERSIONING.md](VERSIONING.md).
 
 The full contract is in [`schema/frontmatter.md`](schema/frontmatter.md). Three things worth
 knowing before you write one:
@@ -67,10 +75,9 @@ admin's media screen, or the endpoint directly — and paste the URL it returns:
 This removes a whole moving part: no image sync step, and no way for a post's images to fall out
 of step with its words.
 
-> [!WARNING]
-> `public/images/posts/` still holds three screenshots that predate this rule, and the post that
-> embeds them points at root-relative paths. Nothing serves those paths any more. They are
-> pending upload to Cloudinary — see [TODO.md](TODO.md).
+**The repository holds no image at all.** There is no `public/` directory and nothing here is
+served over HTTP, so a root-relative path like `/images/foo.png` resolves to nothing.
+`validate-posts.mjs` rejects one.
 
 ## 🔁 How the Main Site Consumes This
 
@@ -99,6 +106,23 @@ publishes a few times a month it is the right cost.
 
 Full detail:
 [`dileepadev/docs/architecture/content-pipeline.md`](https://github.com/dileepadev/dileepadev/blob/main/docs/architecture/content-pipeline.md).
+
+## ✅ Validating Content
+
+`validate-posts.mjs` is this repository's only test. It checks every post against
+[`schema/frontmatter.md`](schema/frontmatter.md): required fields and their types, retired fields,
+unknown fields, the `YYYY-MM-DD-slug.md` file name, the date in that name against
+`publishedDate`, the `posts/<year>/<month>/` grouping, duplicate slugs, and images that are not
+absolute URLs.
+
+```bash
+node scripts/validate-posts.mjs
+```
+
+It imports only `node:` built-ins, so there is nothing to install.
+[`validate.yml`](.github/workflows/validate.yml) runs it on every pull request that touches
+content — a malformed post fails here, where you can see it, rather than in the main site's
+build where it looks like a site bug.
 
 ## 🧪 Running the Sync by Hand
 

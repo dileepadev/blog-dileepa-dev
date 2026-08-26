@@ -14,12 +14,22 @@ Changes are organized into the following categories:
 > to live here. After `2.0.0` this repository holds content only, and a blog post is not a
 > release — publishing is a commit to `main`. See [VERSIONING.md](VERSIONING.md).
 
-## [Unreleased]
+## [v2.0.0] - 2026-08-26
 
-Work towards `2.0.0`, in which this repository stops being an application and becomes the content
-source for `dileepa.dev/blog`. See [TODO.md](TODO.md).
+The release in which this repository stopped being an application and became the content source
+for `dileepa.dev/blog`. **This is the final entry.** After it, publishing a post is a pull
+request into `main` — see [VERSIONING.md](VERSIONING.md).
 
-### Changed - Unreleased
+### Added - v2.0.0
+
+- `scripts/validate-posts.mjs` and `.github/workflows/validate.yml` — the front-matter contract,
+  enforced on every pull request. This replaces `src/content.config.ts`, which enforced the same
+  rules at Astro build time and went with the application. Without it the first reader of a
+  malformed post was `dileepa-dev`'s build, where a content fault looks like a site bug.
+- `schema/frontmatter.md` — the contract itself, written down rather than inferred from a Zod
+  schema.
+
+### Changed - v2.0.0
 
 - Posts move from `src/content/posts/` to `posts/<year>/<month>/`, grouped by publication
   month. Outside `src/` on purpose: `dileepa-dev` reads the files straight from Git at build time,
@@ -37,7 +47,7 @@ source for `dileepa.dev/blog`. See [TODO.md](TODO.md).
   skip meant an edited post never updated its index row.
 - The front-matter contract is documented in `schema/frontmatter.md`.
 
-### Removed - Unreleased
+### Removed - v2.0.0
 
 - **Banners.** `banner` and `bannerAlt` are gone from the front matter and `public/images/banners/`
   is deleted — 19 files. Posts carry no image of their own; anything a post shows is an ordinary
@@ -52,7 +62,14 @@ source for `dileepa.dev/blog`. See [TODO.md](TODO.md).
   happens.
 - **`blog.dileepa.dev`.** The host is retired rather than redirected: the links that pointed at
   it were updated at the source. Posts live at `dileepa.dev/blog/{slug}` — the same path on a
-  different host.
+  different host. The repository's GitHub Pages deployment is disabled.
+- **`public/`.** The last seven files that were not words — a favicon, a brand banner, a
+  placeholder and two portraits, all Astro-era leftovers that nothing read. The repository now
+  holds no image at all, which is what makes "every image in a post is an absolute URL" a rule
+  rather than a preference.
+- **The application branching model.** `BRANCH_NAMING_GUIDELINES.md` and
+  `PULL_REQUEST_GUIDELINES.md` describe a content workflow: `main` is the only long-lived branch,
+  there is no `dev`, and there are no `feat/vX.Y.Z` version branches.
 
 ## [v1.1.0] - 2026-03-06
 
@@ -104,12 +121,11 @@ source for `dileepa.dev/blog`. See [TODO.md](TODO.md).
 - This release represents the baseline functionality for the blog and is intended as a stable foundation for future features and improvements.
 
 <!-- e.g., -->
-<!-- Unreleased -->
 <!-- v2.0.0 -->
 <!-- v1.1.0 -->
 <!-- v1.0.0 -->
 <!-- v0.0.1 -->
 
-[Unreleased]: https://github.com/dileepadev/blog-dileepa-dev/branches
+[v2.0.0]: https://github.com/dileepadev/blog-dileepa-dev/releases/tag/v2.0.0
 [v1.1.0]: https://github.com/dileepadev/blog-dileepa-dev/releases/tag/v1.1.0
 [v1.0.0]: https://github.com/dileepadev/blog-dileepa-dev/releases/tag/v1.0.0

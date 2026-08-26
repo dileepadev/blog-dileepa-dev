@@ -16,18 +16,19 @@ Follow this format strictly:
 
 ### Type (`<type>`)
 
-- `feat`: A new feature or enhancement.
-- `fix`: A bug fix.
-- `docs`: Documentation updates.
-- `style`: Formatting, missing semi colons, etc; no logic change.
-- `refactor`: Refactoring code without changing external behavior.
-- `perf`: Performance improvements.
-- `test`: Adding or modifying tests.
-- `chore`: Routine tasks, maintenance, or tooling changes.
+- `content`: A new blog post.
+- `fix`: A correction to a published post, or to a script.
+- `docs`: Repository documentation.
+- `style`: Prose or formatting changes with no change of meaning.
+- `refactor`: Restructuring a script without changing its behavior.
+- `chore`: Routine tasks, workflows, or repository configuration.
+
+`feat`, `perf` and `test` belonged to the Astro application and are not used here.
 
 ### Scope (`<scope>`)
 
-- Optional but recommended (e.g., `repo`, `config`, `auth`, `api`, `ui`, `db`).
+- Optional but recommended (e.g., `repo`, `content`, `schema`, `scripts`, `workflows`). For a
+  change to one post, the post's slug is the better scope.
 
 ### Short Message (`<short message>`)
 
@@ -47,14 +48,14 @@ Follow this format strictly:
 - **Provide the final output as a Zsh-ready command**: You MUST wrap the `git commit` command in a Zsh code block so it can be copied and pasted directly into the terminal.
 - **Example output format**:
   ```zsh
-  git commit -m "feat(ui): Add new navigation menu (refs #2)" -m "Detailed description of changes..."
+  git commit -m "content(agent-framework): Add a post on memory and threads" -m "Detailed description of changes..."
   ```
-- **Current references**: `refs #2`
+- **Current references**: only if the work traces to a GitHub issue. Do not invent a number.
 
 ## Examples
 
-- `feat(ui): Add new navigation menu (refs #2)`
-- `fix(api): Resolve memory leak in user service (#45)`
-- `chore(repo): Update dependencies`
+- `content(agent-framework): Add a post on memory and threads (refs #21)`
+- `fix(part-4-picking-the-right-model): Correct the deployment command`
+- `chore(workflows): Validate posts on pull requests`
 
 Ensure the commit message is professional, concise, and follows these guidelines exactly.

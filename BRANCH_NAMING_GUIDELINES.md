@@ -1,39 +1,40 @@
 # Branch Naming Guidelines
 
-When creating a new branch, please follow this naming convention to maintain consistency and clarity in communication regarding the nature of changes.
+This repository is **content only**. There is no application to release, so the branching model
+is the smallest one that still gets work reviewed.
 
-## Protected Branches
+## `main`
 
-These branches are protected and can only be updated by repository administrators. As a contributor, do **not** commit directly to these branches.
+`main` is the canonical branch and the only long-lived one. It holds the published posts, and
+`dileepa-dev` reads them from it. Do not commit to it directly — open a pull request.
 
-| Branch Name | Description                                                                            |
-| ----------- | -------------------------------------------------------------------------------------- |
-| `main`      | The stable, production-ready version of the website.                                   |
-| `dev`       | The development branch containing features and bug fixes not yet ready for production. |
+> [!NOTE]
+> **There is no `dev` branch, and no version branches.** Up to `v2.0.0` this was an Astro site
+> and it followed the platform's `feat/vX.Y.Z` release model. That ended with the application.
+> A blog post is not a release, so it does not get a version branch.
 
-## Contributing Branches
+## Working branches
 
-These branches are open for contributions from all contributors. Follow these naming conventions when creating a new branch:
+Short-lived, branched from `main`, deleted after the merge.
 
-| Branch Name  | Description                                                                                            |
-| ------------ | ------------------------------------------------------------------------------------------------------ |
-| `feat/x`     | A branch for adding new features or enhancing functionality. Replace `x` with a short description.     |
-| `fix/x`      | A branch for fixing bugs. Replace `x` with a description of the issue being addressed.                 |
-| `docs/x`     | A branch for documentation updates. Replace `x` with a description of the documentation being updated. |
-| `style/x`    | A branch for code style changes (formatting, spacing, etc.). Replace `x` with the style change.        |
-| `refactor/x` | A branch for code refactoring that doesn’t change functionality. Replace `x` with a description.       |
-| `perf/x`     | A branch for performance improvements. Replace `x` with the specific performance enhancement.          |
-| `test/x`     | A branch for adding or modifying tests. Replace `x` with the test being added or modified.             |
-| `chore/x`    | A branch for routine tasks or maintenance (e.g., upgrading dependencies). Replace `x` with the task.   |
+| Branch Name  | Description                                                                                     |
+| ------------ | ----------------------------------------------------------------------------------------------- |
+| `content/x`  | A new post, or an edit to an existing one. Replace `x` with the subject.                        |
+| `fix/x`      | A correction to a published post — a broken link, a wrong command, a factual error.             |
+| `docs/x`     | Repository documentation: the README, the front-matter contract, these guidelines.              |
+| `chore/x`    | The scripts, the workflows, or repository configuration.                                        |
 
 ## Examples
 
-Here are a few examples of valid branch names:
+- `content/agent-framework-memory` — a new post about memory in Agent Framework.
+- `content/part-9-cost-control` — the next post in the Foundry series.
+- `fix/part-4-broken-model-link` — correct a dead link in a published post.
+- `docs/frontmatter-contract` — clarify a field in `schema/frontmatter.md`.
+- `chore/validate-workflow` — adjust the validation workflow.
 
-- `feat/user-auth` - Add user authentication feature.
-- `fix/login` - Bug fix for the login functionality.
-- `docs/readme` - Update to the README documentation.
-- `style/formatting` - Code style formatting changes.
-- `refactor/database` - Refactor the database connection handling.
-- `test/authentication` - Tests for the authentication service.
-- `chore/dependencies` - Update dependencies.
+## The one rule that is not about naming
+
+**Never rename a published post's file.** The file name is the slug and the slug is the URL, so a
+rename breaks a live link and nothing in this repository will notice. If a title has to change,
+change `title` in the front matter and leave the file name alone. See
+[VERSIONING.md](VERSIONING.md).

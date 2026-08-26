@@ -22,7 +22,6 @@
     "linecap",
     "linejoin",
     "Magentic",
-    "nojekyll",
     "Noto",
     "Ollama",
     "pgvector",
@@ -39,7 +38,6 @@
     "rgba",
     "scriptable",
     "Segoe",
-    "shiki",
     "subfolders",
     "superstep",
     "supersteps",
@@ -48,7 +46,6 @@
     "toggleable",
     "underpowering",
     "updateddate",
-    "upserts",
-    "withastro"
+    "upserts"
   ]
 }
