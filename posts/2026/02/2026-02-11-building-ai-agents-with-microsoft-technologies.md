@@ -30,8 +30,8 @@ This option is ideal for **quick prototypes** and productivity-focused solutions
 
 ### Official Resources: Copilot Studio
 
-* Official Website: <https://microsoft.com/microsoft-365-copilot/microsoft-copilot-studio>  
-* Official Documentation: <https://learn.microsoft.com/en-us/microsoft-copilot-studio>
+* Official Website: [https://microsoft.com/microsoft-365-copilot/microsoft-copilot-studio](https://microsoft.com/microsoft-365-copilot/microsoft-copilot-studio)  
+* Official Documentation: [https://learn.microsoft.com/en-us/microsoft-copilot-studio](https://learn.microsoft.com/en-us/microsoft-copilot-studio)
 
 ## 2. Microsoft 365 Agents SDK
 
@@ -50,8 +50,8 @@ This path suits **developers building custom, robust agent solutions** connected
 
 ### Official Resources: Microsoft 365 Agents SDK
 
-* Official Documentation: <https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/>
-* Official GitHub Repo: <https://github.com/microsoft/Agents>
+* Official Documentation: [https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/](https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/)
+* Official GitHub Repo: [https://github.com/microsoft/Agents](https://github.com/microsoft/Agents)
 
 ## 3. Microsoft Agent Framework
 
@@ -70,8 +70,8 @@ This framework is powerful for **distributed agent ecosystems** and production-s
 
 ### Official Resources: Microsoft Agent Framework
 
-* Official Documentation: <https://learn.microsoft.com/en-us/agent-framework>
-* Official GitHub Repo: <https://github.com/microsoft/agent-framework>
+* Official Documentation: [https://learn.microsoft.com/en-us/agent-framework](https://learn.microsoft.com/en-us/agent-framework)
+* Official GitHub Repo: [https://github.com/microsoft/agent-framework](https://github.com/microsoft/agent-framework)
 
 ## 4. Microsoft Foundry
 
@@ -87,8 +87,8 @@ Foundry agents can be used directly in Copilot Studio or referenced from custom 
 
 ### Official Resources: Microsoft Foundry
 
-* Official Website: <https://ai.azure.com>
-* Official Documentation: <https://learn.microsoft.com/en-us/azure/ai-foundry>
+* Official Website: [https://ai.azure.com](https://ai.azure.com)
+* Official Documentation: [https://learn.microsoft.com/en-us/azure/ai-foundry](https://learn.microsoft.com/en-us/azure/ai-foundry)
 
 ## 5. Semantic Kernel
 
@@ -104,8 +104,8 @@ It's especially useful for developers who want **fine-grained control** over how
 
 ### Official Resources: Semantic Kernel
 
-* Official Documentation: <https://learn.microsoft.com/en-us/semantic-kernel>
-* Official GitHub Repo: <https://github.com/microsoft/semantic-kernel>
+* Official Documentation: [https://learn.microsoft.com/en-us/semantic-kernel](https://learn.microsoft.com/en-us/semantic-kernel)
+* Official GitHub Repo: [https://github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel)
 
 ## 6. AutoGen
 
@@ -122,8 +122,8 @@ AutoGen can be used standalone or integrated into the **Microsoft Agent Framewor
 
 ### Official Resources: AutoGen
 
-* Official Website: <https://microsoft.github.io/autogen/stable>
-* Official GitHub Repo: <https://github.com/microsoft/autogen>
+* Official Website: [https://microsoft.github.io/autogen/stable](https://microsoft.github.io/autogen/stable)
+* Official GitHub Repo: [https://github.com/microsoft/autogen](https://github.com/microsoft/autogen)
 
 ## Interoperability with Protocols
 
@@ -162,5 +162,3 @@ Ready to build your first agent? Dive into Microsoft's official documentation an
 6. [Microsoft Learn - "Use Semantic Kernel and Agent Framework in Agents SDK"](https://learn.microsoft.com/en-us/microsoft-365/agents-sdk/using-semantic-kernel-agent-framework)
 7. [Microsoft Learn - "Using MCP Tools with Agents"](https://learn.microsoft.com/en-us/agent-framework/user-guide/model-context-protocol/using-mcp-tools)
 8. [Microsoft Research - "AutoGen"](https://www.microsoft.com/en-us/research/project/autogen/)
-
-<!-- References -->
