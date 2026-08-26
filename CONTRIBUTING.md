@@ -1,6 +1,11 @@
 # Contributing to blog-dileepa-dev
 
-Thank you for your interest in contributing to [blog-dileepa-dev](https://github.com/dileepadev/blog-dileepa-dev)! We welcome contributions, including bug fixes, feature enhancements, documentation improvements, and other general improvements.
+Thank you for your interest in contributing to [blog-dileepa-dev](https://github.com/dileepadev/blog-dileepa-dev)!
+
+This repository is **content, not an application** — the blog posts behind
+[dileepa.dev/blog](https://dileepa.dev/blog), plus the contract they follow and the two scripts
+that read them. There is no build and nothing to install. Corrections to published posts,
+documentation improvements, and fixes to the scripts are all welcome.
 
 ## Getting Started
 
@@ -26,7 +31,7 @@ Thank you for your interest in contributing to [blog-dileepa-dev](https://github
    Make your changes and commit them with a descriptive commit message. Follow the [commit message guidelines](COMMIT_MESSAGE_GUIDELINES.md).
 
    ```bash
-   git commit -m "feat: Add a new feature"
+   git commit -m "content(agent-framework): Add a post on memory and threads"
    ```
 
 5. **Push your changes**  
@@ -45,10 +50,12 @@ Thank you for your interest in contributing to [blog-dileepa-dev](https://github
 
 ## Guidelines
 
-- Follow the project's code style.
+- **Run `node scripts/validate-posts.mjs`** before opening a pull request. It is the same check
+  CI runs, and it imports only `node:` built-ins, so there is nothing to install.
+- Follow the front-matter contract in [schema/frontmatter.md](schema/frontmatter.md).
+- **Never rename a published post's file.** The file name is the slug and the slug is a live URL.
+- Images are absolute URLs; this repository holds none.
 - Update documentation if necessary.
-- Add tests if applicable.
-- Ensure all tests pass before submitting your changes.
 - Keep your pull request focused and avoid unrelated changes.
 - Refer to the following templates and guidelines before submitting your changes:
   - [blog-dileepa-dev/](./) - Root directory of the repository
@@ -61,7 +68,7 @@ Thank you for your interest in contributing to [blog-dileepa-dev](https://github
         - [other.md](./.github/ISSUE_TEMPLATE/other.md) - Template for other types of issues
       - [PULL_REQUEST_TEMPLATE.md](./.github/PULL_REQUEST_TEMPLATE.md) - Template for pull request submissions
     - [BRANCH_NAMING_GUIDELINES.md](./BRANCH_NAMING_GUIDELINES.md) - Branch naming rules
-    - [CHANGELOG.md](./CHANGELOG.md) - Record of project changes
+    - [CHANGELOG.md](./CHANGELOG.md) - Record of the retired Astro application, frozen at 2.0.0
     - [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) - Contributor behavior guidelines
     - [COMMIT_MESSAGE_GUIDELINES.md](./COMMIT_MESSAGE_GUIDELINES.md) - Rules for writing commit messages
     - [CONTRIBUTING.md](./CONTRIBUTING.md) - How to contribute to the project
@@ -69,8 +76,11 @@ Thank you for your interest in contributing to [blog-dileepa-dev](https://github
     - [PULL_REQUEST_GUIDELINES.md](./PULL_REQUEST_GUIDELINES.md) - Pull request submission guidelines
     - [README.md](./README.md) - Project overview
     - [SECURITY.md](./SECURITY.md) - Security policy and reporting
-    - [TODO.md](./TODO.md) - Tasks planned for future releases
-    - [VERSIONING.md](./VERSIONING.md) - Versioning strategy for the project
+    - [TODO.md](./TODO.md) - Open work in this repository
+    - [VERSIONING.md](./VERSIONING.md) - Why content is not versioned
+    - [posts/](./posts) - The blog posts, grouped `posts/<year>/<month>/`
+    - [schema/frontmatter.md](./schema/frontmatter.md) - The front-matter contract every post follows
+    - [scripts/](./scripts) - `validate-posts.mjs` and `sync-blogs.mjs`. Dependency-free
 
 ## Code of Conduct
 

@@ -2,8 +2,8 @@
 
 <!--
 about: Template for Pull Requests
-title: "<type>(<branch>): <message> [#issue_number]"
-# Example: "fix(dev): Link cards to a new username [#6]"
+title: "<type>(<scope>): <message> [#issue_number]"
+# Example: "content(agent-framework): Add a post on memory and threads [#21]"
 -->
 
 ## 📜 Description
@@ -14,19 +14,15 @@ title: "<type>(<branch>): <message> [#issue_number]"
 
 <!-- [REQUIRED] Check the type of change your PR introduces -->
 
-- [ ] 🐞 Bug Fix
-- [ ] 🌱 New Feature / Enhancement
-- [ ] 📝 Documentation Update
-- [ ] 📢 User Feedback / Suggestion
+- [ ] ✍️ New Post
+- [ ] 🐞 Correction to a Published Post
+- [ ] 📝 Repository Documentation
+- [ ] ⚙️ Scripts / Workflows / Configuration
 - [ ] 💡 Other (please explain in Description)
 
 ## ❗ Related Issues
 
 <!-- [REQUIRED] List related issue(s) or PR(s), e.g., "Closes #123" or "Related to #456". -->
-
-## 📸 Screenshots
-
-<!-- [OPTIONAL] If UI-related changes were made, include before/after screenshots here. Remove if not applicable.-->
 
 ## ✅ Checklist
 
@@ -41,15 +37,12 @@ title: "<type>(<branch>): <message> [#issue_number]"
 - [ ] I agree to follow the [Pull Request Guidelines](PULL_REQUEST_GUIDELINES.md).
 - [ ] I agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 - [ ] Documentation has been updated where necessary.
-- [ ] I've tested the changes where applicable.
+- [ ] `node scripts/validate-posts.mjs` passes.
 
-<!-- example:
-- [ ] I've tested the changes where applicable:
-  - [ ] Screen sizes (mobile/tablet/desktop)
-  - [ ] Browsers (Chrome/Firefox/Safari/etc.)
-  - [ ] Devices (iPhone/Android/Laptop/etc.)
-  - [ ] Operating Systems (Windows/macOS/Linux)
-  - [ ] Theme modes (Dark mode / Light mode)
+<!-- For a post, also confirm:
+- [ ] The file is at posts/<year>/<month>/YYYY-MM-DD-slug.md and the date matches publishedDate.
+- [ ] No published file has been renamed — the file name is a live URL.
+- [ ] Every image is an absolute URL; this repository holds none.
 -->
 
 ## 💬 Additional Comments

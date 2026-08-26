@@ -34,14 +34,14 @@ The `<type>` field indicates the nature of the changes made in the commit. Use o
 
 | Type     | Description                                                   |
 |----------|---------------------------------------------------------------|
-| feat     | A new feature or enhancement to existing functionality.       |
-| fix      | A bug fix or correction of an issue.                          |
-| docs     | Documentation updates (e.g., README, code comments).          |
-| style    | Code style changes (e.g., formatting, indentation, no logic). |
-| refactor | Code refactoring without changing external behavior.          |
-| perf     | Performance improvements.                                     |
-| test     | Adding or modifying tests.                                    |
-| chore    | Routine tasks, maintenance, or tooling changes.               |
+| content  | A new blog post.                                              |
+| fix      | A correction to a published post, or to a script.             |
+| docs     | Repository documentation (e.g., README, the contract).        |
+| style    | Prose or formatting changes with no change of meaning.        |
+| refactor | Restructuring a script without changing its behavior.         |
+| chore    | Routine tasks, workflows, or repository configuration.        |
+
+`feat`, `perf` and `test` belonged to the application and are not used here.
 
 ### `<scope>`
 
@@ -49,12 +49,14 @@ The `<scope>` is optional, but recommended. It helps clarify which part of the p
 
 | Scope         | Description                                           |
 |---------------|-------------------------------------------------------|
-| repo          | Project-wide configuration or setup                   |
-| config        | Build scripts, environment, or settings               |
-| auth          | Authentication logic or features                      |
-| api           | API endpoints or integrations                         |
-| ui            | User interface components or styling                  |
-| db            | Database models or queries                            |
+| repo          | Repository-wide configuration or setup                |
+| content       | The posts themselves                                  |
+| schema        | The front-matter contract                             |
+| scripts       | `validate-posts.mjs` or `sync-blogs.mjs`              |
+| workflows     | GitHub Actions                                        |
+
+For a `content` or `fix` commit about one post, the post's slug is a better scope than any of
+these — `fix(part-4-picking-the-right-model)`.
 
 ### `<short message>`
 

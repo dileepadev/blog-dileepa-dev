@@ -1,0 +1,139 @@
+---
+title: "Part 6: Multi-Agent Systems"
+description: "One agent trying to do everything falls over eventually. Orchestrate specialized agents together with Microsoft Agent Framework instead of one giant prompt."
+publishedDate: "2026-08-16"
+updatedDate: "2026-08-16"
+tags: ["Microsoft Foundry", "AI", "Multi-Agent", "Agent Framework", "Azure", "Tutorial", "Series"]
+series: "microsoft-foundry"
+seriesOrder: 6
+---
+
+## What We're Doing Today
+
+Every agent so far has been one agent, one job. That works right up until the job gets complicated (say, "research a topic, then write it up, then check it for accuracy") and you're tempted to cram all three responsibilities into one giant instruction block. Don't. Specialized agents with narrow jobs are easier to debug, easier to reason about, and easier to improve one piece at a time.
+
+By the end of this post, you'll have:
+
+- A clear picture of the multi-agent orchestration patterns Foundry supports, and when to reach for each
+- Two specialized agents (a researcher and a writer) coordinated in a sequential pipeline
+- Working Python code you can extend into handoff or group-chat patterns
+
+## What You'll Need
+
+- The project from earlier parts, and a deployed model (we'll keep using `gpt-5-1-mini-demo`).
+- Python 3.10+.
+
+```bash
+pip install agent-framework agent-framework-foundry azure-identity
+```
+
+- Sign in with `az login` so `AzureCliCredential` has something to authenticate with.
+
+## Two Ways to Orchestrate in Foundry
+
+Foundry actually gives you two paths here, and they're not equally durable right now, so it's worth knowing which one to bet on.
+
+**Foundry Workflows** is a visual, low-code designer in the portal: drag agent nodes onto a canvas, connect them, add branching logic. It's genuinely nice for prototyping. But it's in preview, and Microsoft has already published the migration path off it: after December 1, 2026, the visual designer and in-portal workflow execution won't be supported. Your existing workflow YAML keeps running as a hosted agent, but new work shouldn't start there.
+
+**Microsoft Agent Framework** is the code-first successor: it merges what used to be two separate projects, Semantic Kernel and AutoGen, into one SDK with built-in orchestration patterns. It's the one Microsoft explicitly recommends for new multi-agent work, and it's what we're using today.
+
+If you previously read about **Connected Agents** in Foundry (classic), a main agent delegating to sub-agents, that pattern is also on its way out, superseded by Workflows and, ultimately, Agent Framework. Skip it for anything new.
+
+## The Orchestration Patterns
+
+Agent Framework ships five built-in patterns. You don't need to memorize the implementation details, just which shape fits your problem:
+
+| Pattern | Shape | Use it when |
+| --- | --- | --- |
+| **Sequential** | Agent A → Agent B → Agent C | Each step builds on the last: research, then write, then review |
+| **Concurrent** | Agents A, B, C run in parallel, results aggregated | Independent subtasks, and you want to cut latency |
+| **Handoff** | Control passes between agents based on context | Routing to a specialist, support triage, for example |
+| **Group Chat** | Agents share one conversation, orchestrator picks who speaks | Debate, iterative review, multi-perspective analysis |
+| **Magentic** | A manager agent dynamically directs specialists | Open-ended tasks where the plan itself needs to adapt |
+
+We're building **Sequential** today because it's the easiest to reason about and maps directly onto the "research, then write" example from the intro. Once this works, swapping `SequentialBuilder` for `HandoffBuilder` or a group chat is a small code change, not a redesign.
+
+## Build a Two-Agent Sequential Pipeline
+
+```python
+import asyncio
+import os
+
+from agent_framework import SequentialBuilder
+from agent_framework.foundry import FoundryChatClient
+from azure.identity import AzureCliCredential
+
+async def main() -> None:
+    client = FoundryChatClient(
+        project_endpoint=os.environ["FOUNDRY_PROJECT_ENDPOINT"],
+        model=os.environ["FOUNDRY_MODEL"],  # e.g. "gpt-5-1-mini-demo"
+        credential=AzureCliCredential(),
+    )
+
+    researcher = client.as_agent(
+        name="researcher",
+        instructions=(
+            "Research the user's topic and list three concrete, factual bullet "
+            "points. Bullets only, no prose."
+        ),
+    )
+    writer = client.as_agent(
+        name="writer",
+        instructions=(
+            "Take the bullet points you're given and turn them into a short, "
+            "friendly paragraph. Don't add facts that weren't in the bullets."
+        ),
+    )
+
+    # Output flows researcher -> writer, in that order
+    workflow = SequentialBuilder(participants=[researcher, writer]).build()
+
+    async for event in workflow.run_stream(
+        "Why does Microsoft Foundry support 1,900+ models instead of just one?"
+    ):
+        if event.type == "output":
+            print(event.data)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+Set the two environment variables first:
+
+```bash
+export FOUNDRY_PROJECT_ENDPOINT="your_project_endpoint"
+export FOUNDRY_MODEL="gpt-5-1-mini-demo"
+```
+
+Run it, and you'll see the researcher's bullet points get consumed by the writer, which turns them into a paragraph, without you writing any orchestration logic yourself. `SequentialBuilder` handles passing the previous agent's output into the next agent's input.
+
+A couple of details worth knowing:
+
+- `client.as_agent(...)` creates an **ephemeral agent**: defined in your application code, not persisted as a Foundry resource. This is the quickest way to prototype orchestration. If you want agents that are versioned and reusable across applications, connect to your Part 3 prompt agents instead, using `FoundryAgent` in place of `client.as_agent(...)`.
+- By default, each agent in the sequence sees the full conversation so far, not just the immediately preceding output. If you want strict "only pass forward the last agent's response" behavior (useful for translation pipelines or staged refinement), pass `chain_only_agent_responses=True` to `SequentialBuilder`.
+
+## Giving the Whole Pipeline Shared Tools
+
+If both agents in your pipeline need the same tool (say, both need file search over the same document set), don't wire the tool into each agent separately. Foundry's **toolbox** concept groups tools into one reusable unit behind a single managed MCP endpoint, so you curate the tool once and every agent or workflow that needs it just connects to that endpoint. It also centralizes authentication and versioning, which matters more once you have more than two or three agents sharing infrastructure. Worth reaching for once your multi-agent setup outgrows tools defined per-agent.
+
+## Troubleshooting
+
+### `SequentialBuilder` output only shows the last agent's response
+
+That's expected: by default, only the final terminal event carries the workflow's output. If you want to see each agent's intermediate output as it happens (useful for debugging), check `event.type == "intermediate"` events too, not just `"output"`.
+
+### Authentication errors with `AzureCliCredential`
+
+Run `az login` in the same shell before running the script. If you're running this in a non-interactive environment (CI, a container), swap `AzureCliCredential` for a service principal or managed identity credential instead; `AzureCliCredential` is a development convenience, not a production pattern.
+
+### Workflow hangs or never completes
+
+This usually means one agent's instructions don't clearly signal it's done, so the orchestrator keeps waiting on it. Keep instructions explicit about what the agent should output and when its job is finished; vague instructions are the most common cause of a workflow that runs forever in a group chat or handoff pattern.
+
+### Portal workflow feature seems to be going away
+
+That's not a bug: it's the deprecation described above. Export your YAML from the visual designer's YAML view before December 1, 2026, and port the logic to Agent Framework using the patterns in this post.
+
+## What's Next
+
+You now have two agents cooperating instead of one agent trying to do everything. But right now, you're only finding out something went wrong by reading console output. Part 7 turns tracing and evaluation on, so you can actually see what each agent decided, why, and whether it's getting worse over time instead of better.

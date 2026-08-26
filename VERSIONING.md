@@ -1,76 +1,54 @@
 # Versioning
 
-This project follows a versioning pattern similar to [Semantic Versioning](https://semver.org/) (SemVer) for managing releases.
+**This repository no longer carries application versions.**
 
-## Table of Contents
+Up to `2.0.0` it was an Astro website, and it followed
+[Semantic Versioning](https://semver.org/) like any other application in the platform. `2.0.0`
+is the **final release** — the boundary at which this stopped being a software project and
+became the content source for `dileepa.dev/blog`.
 
-- [Versioning](#versioning)
-  - [Table of Contents](#table-of-contents)
-  - [Format](#format)
-    - [Examples](#examples)
-  - [Release Process](#release-process)
-    - [Typical Steps](#typical-steps)
-  - [Questions or Issues?](#questions-or-issues)
+What remains is content. Content is not versioned, because a blog post is not a release.
 
-## Format
+## The policy
 
-Version numbers follow the structure:
+- **Publishing a post is a pull request into `main`.** Not a tag, not a release, not a
+  `CHANGELOG` entry.
+- **No version number.** There is no `package.json` to bump and nothing that consumes a version
+  of this repository.
+- **No version branches.** `feat/vX.Y.Z` belonged to the application. Content work is a
+  short-lived branch off `main` — see [BRANCH_NAMING_GUIDELINES.md](BRANCH_NAMING_GUIDELINES.md).
+- **`CHANGELOG.md` is frozen at `2.0.0`.** It records the life of the application. It is not a
+  log of posts — Git history is that, and it is better at it.
+- **Correcting a published post is an ordinary commit.** If the correction is material, set
+  `updatedDate` in the front matter so readers can see the post changed.
 
-`MAJOR.MINOR.PATCH`
+## The one thing that behaves like a breaking change
 
-- **MAJOR** – Incompatible API changes or major breaking updates  
-- **MINOR** – Backward-compatible functionality and feature additions  
-- **PATCH** – Backward-compatible bug fixes and small improvements
+**Renaming a published file.** The file name is the slug and the slug is the URL, so a rename
+breaks a live link and nothing in this repository will notice.
 
-### Examples
+Never rename a published post. If a title genuinely has to change, change `title` in the front
+matter and leave the file name alone.
 
-- `1.0.0` – First stable release  
-- `1.1.0` – Adds a new endpoint or feature  
-- `1.1.1` – Fixes a bug or makes a minor improvement
+## How the main site pins content
 
-## Release Process
+`dileepa-dev` reads post bodies from this repository at build time **pinned to a ref** — a commit
+SHA, not a moving branch. An unpinned fetch would make its builds non-reproducible and could ship
+an in-progress edit by accident.
 
-All notable changes are documented in the [CHANGELOG.md](CHANGELOG.md) file.
+So the ref is the versioning that matters here, and it lives in the consumer. Publishing is two
+steps: merge the post into `main`, then bump `BLOG_CONTENT_REF` in `dileepa-dev` and rebuild.
 
-### Typical Steps
+> [!IMPORTANT]
+> **A ref that predates a post is indistinguishable from a missing post, and worse than one.**
+> Post *metadata* comes from the API rather than from Git, so `/blog` lists the post while
+> `/blog/{slug}` 404s. `dileepa-dev` now fails its build outright when the ref carries no posts
+> at all, which is what pointing at the pre-`2.0.0` tree used to do silently.
 
-1. Complete all features and fixes planned for the release
-2. Update the `CHANGELOG.md` with categorized entries:  
-   - **Added**, **Changed**, **Fixed**, **Removed**
-3. Bump the version number in `package.json` (and `package-lock.json` if needed)
-4. Commit changes with a version-related message (e.g. `chore: release v1.2.0`)
-5. Tag the release:
-
-   ```bash
-   git tag v1.2.0
-   git push origin v1.2.0
-    ````
-
-6. (Optional) Create a GitHub release and paste the relevant changelog section
-
-## Pre-release Versions
-
-For beta or release candidates, we use suffixes:
-
-- `1.2.0-beta.1` – Beta release
-- `2.0.0-rc.1` – Release candidate
-
-These versions are intended for testing and may not be fully stable.
-
-## Viewing Tags & Differences
-
-List all version tags:
-
-```bash
-git tag
-```
-
-View differences between versions:
-
-```bash
-git log v1.1.0..v1.2.0
-```
+See
+[`dileepadev/docs/migration/versioning-policy.md`](https://github.com/dileepadev/dileepadev/blob/main/docs/migration/versioning-policy.md)
+for how this fits the rest of the platform.
 
 ## Questions or Issues?
 
-If you have questions about the versioning strategy or encounter version-related problems, feel free to open an issue on the [GitHub repository](https://github.com/dileepadev/blog-dileepa-dev/issues).
+Open an issue: <https://github.com/dileepadev/blog-dileepa-dev/issues>

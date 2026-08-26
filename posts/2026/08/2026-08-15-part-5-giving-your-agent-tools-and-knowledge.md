@@ -1,0 +1,170 @@
+---
+title: "Part 5: Giving Your Agent Tools and Knowledge"
+description: "Wire up File Search so your agent answers from your own documents, and Web Search so it can pull current information from the public web, with working Python code for both."
+publishedDate: "2026-08-15"
+updatedDate: "2026-08-15"
+tags: ["Microsoft Foundry", "AI", "Agents", "RAG", "Azure", "Tutorial", "Series"]
+series: "microsoft-foundry"
+seriesOrder: 5
+---
+
+## What We're Doing Today
+
+Every agent we've built so far answers purely from the model's training data. Ask it about your product, your internal docs, or anything that happened after the model's knowledge cutoff, and it either guesses or admits it doesn't know. Today we fix both problems with two built-in tools:
+
+- **File Search**: grounds the agent in documents you upload, so it answers from your content instead of guessing
+- **Web Search**: lets the agent pull current information from the public web, with citations
+
+By the end, you'll have an agent that can answer a question only your own document can answer, and a second one that can tell you something that happened after its training cutoff.
+
+## What You'll Need
+
+- The project and agent from Parts 2–4.
+- `pip install "azure-ai-projects>=2.3.0" azure-identity` if you don't have it already.
+- No extra Azure resources for either tool in this post: both run through your existing project. (Grounding with Bing Search, a more configurable alternative to Web Search, needs a separate Bing resource, more on that below.)
+
+## File Search: Grounding in Your Own Documents
+
+File Search works by chunking and indexing documents into a **vector store**, then letting the agent retrieve relevant chunks at query time instead of relying on what it memorized during training. Your files stay in your own storage; Foundry's Azure AI Search resource does the ingestion, but you keep control of the data.
+
+One thing worth knowing upfront: file search has additional charges beyond the usual token-based model fees, since it's running retrieval infrastructure behind the scenes.
+
+### Step 1: Create a Test Document
+
+Make a small file with a fact the model can't possibly know on its own:
+
+```bash
+mkdir -p assets
+cat > assets/product_info.md << 'EOF'
+# Contoso Widget Pro
+
+The Contoso Widget Pro ships in three colors: Slate, Ember, and Moss.
+It has a 14-day return window and a 2-year limited warranty.
+Support is available at support@contoso-example.com.
+EOF
+```
+
+### Step 2: Upload It, Index It, and Attach It to an Agent
+
+```python
+from pathlib import Path
+
+from azure.ai.projects import AIProjectClient
+from azure.ai.projects.models import FileSearchTool, PromptAgentDefinition
+from azure.identity import DefaultAzureCredential
+
+PROJECT_ENDPOINT = "your_project_endpoint"
+
+project = AIProjectClient(
+    endpoint=PROJECT_ENDPOINT,
+    credential=DefaultAzureCredential(),
+)
+openai = project.get_openai_client()
+
+# Create a vector store and upload the file into it
+vector_store = openai.vector_stores.create(name="ProductInfoStore")
+
+asset_file_path = Path("assets/product_info.md").resolve()
+with asset_file_path.open("rb") as file_handle:
+    openai.vector_stores.files.upload_and_poll(
+        vector_store_id=vector_store.id,
+        file=file_handle,
+    )
+
+# Create an agent with file search wired to that vector store
+agent = project.agents.create_version(
+    agent_name="docs-helper",
+    definition=PromptAgentDefinition(
+        model="gpt-5-1-mini-demo",
+        instructions=(
+            "You are a helpful agent that answers questions about the Contoso "
+            "Widget Pro. Use file search to answer from the uploaded documentation."
+        ),
+        tools=[FileSearchTool(vector_store_ids=[vector_store.id])],
+    ),
+)
+
+conversation = openai.conversations.create()
+response = openai.responses.create(
+    conversation=conversation.id,
+    input="What colors does the Widget Pro ship in, and what's the return window?",
+    extra_body={"agent_reference": {"name": agent.name, "type": "agent_reference"}},
+)
+print(response.output_text)
+```
+
+Run it, and the answer should come back with the exact colors and return window from your file, not a guess. Ask something the file doesn't cover, and the agent should say it doesn't know rather than inventing an answer, since your instructions told it to answer from the documentation.
+
+`upload_and_poll` blocks until ingestion finishes, which matters: if you query before the file finishes indexing, you'll get an empty or generic response with nothing to ground on.
+
+## Web Search: Grounding in Current Information
+
+File Search answers from what you gave it. Web Search answers from what's happening right now. Both are knowledge tools, but they solve opposite problems: one for private data, one for public, current data.
+
+```python
+from azure.identity import DefaultAzureCredential
+from azure.ai.projects import AIProjectClient
+from azure.ai.projects.models import PromptAgentDefinition, WebSearchTool
+
+PROJECT_ENDPOINT = "your_project_endpoint"
+
+project = AIProjectClient(
+    endpoint=PROJECT_ENDPOINT,
+    credential=DefaultAzureCredential(),
+)
+openai = project.get_openai_client()
+
+agent = project.agents.create_version(
+    agent_name="research-helper",
+    definition=PromptAgentDefinition(
+        model="gpt-5-1-mini-demo",
+        instructions="You are a helpful assistant that can search the web for current information.",
+        tools=[WebSearchTool()],
+    ),
+)
+
+conversation = openai.conversations.create()
+response = openai.responses.create(
+    conversation=conversation.id,
+    input="What is today's date, and what's one notable AI news story from this week?",
+    extra_body={"agent_reference": {"name": agent.name, "type": "agent_reference"}},
+)
+print(response.output_text)
+```
+
+The response should include information the model couldn't have known from training alone, along with citations pointing back to the sources it searched. That citation behavior isn't cosmetic: it's what lets you (or a user) actually verify a grounded answer instead of trusting it blindly.
+
+### Web Search vs. Grounding with Bing Search
+
+Foundry actually gives you two web-grounding tools, and it's worth knowing which one you just used:
+
+- **Web Search** (what's above): no extra Azure resource required, managed by Microsoft, works with Azure OpenAI models. This is the one to start with.
+- **Grounding with Bing Search**: needs its own Bing resource and project connection, but supports more parameters (`freshness`, `market`, `set_lang`) and works with non-OpenAI Foundry models too.
+
+If you're migrating from the classic agents platform or need domain-restricted search (only searching sites you approve), Grounding with Bing Custom Search is the one to reach for instead, but for "give my agent access to the current web," Web Search is the simpler default and where you should start.
+
+## A Limit Worth Knowing
+
+You can attach multiple tools to one agent, but only **one instance of each knowledge tool type**: one File Search, one Web Search, and so on. If you need to search across multiple distinct document sets, the answer isn't multiple File Search tools on the same agent; it's either multiple vector stores behind the same File Search tool, or splitting the work across connected agents, which is exactly what [Part 6](/blog/2026-08-16-part-6-multi-agent-systems) covers next.
+
+## Troubleshooting
+
+### File search returns generic answers, ignoring the document
+
+Check that `upload_and_poll` actually completed before you queried: if you're uploading and querying in separate script runs, add a short wait or re-check the vector store's file status before asking questions.
+
+### "Storage Blob Data Contributor" permission error on upload
+
+File uploads write to your project's backing storage account. You (or your identity) need the **Storage Blob Data Contributor** role on that storage account, not just Foundry User on the project.
+
+### Web search doesn't return citations
+
+Citations show up as `url_citation` annotations on the response's output content, not inline in the printed text. If you're building a UI, parse `response.output` for annotations rather than expecting URLs embedded in `output_text`.
+
+### Unexpected charges
+
+Both tools bill beyond standard token costs: File Search for ingestion and storage, Web Search/Bing grounding per search call. Keep an eye on usage if you're testing heavily.
+
+## What's Next
+
+Your agent can now ground answers in your own data and in the live web: two separate tools solving two separate problems. Part 6 is where we stop building single agents and start coordinating several of them: one agent that knows when to hand off to a specialist instead of trying to do everything itself.

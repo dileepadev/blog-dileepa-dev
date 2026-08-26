@@ -1,0 +1,50 @@
+# Validates blog content against the front-matter contract.
+#
+# This repository is content only, so this is the whole of its CI. It replaces
+# `src/content.config.ts`, which enforced the same rules at Astro build time and
+# was deleted with the application. Without it the first reader of a malformed
+# post is dileepa-dev's build, where a content fault looks like a site bug.
+#
+# The contract is schema/frontmatter.md.
+name: Validate posts
+
+on:
+  pull_request:
+    paths:
+      - "posts/**"
+      - "schema/**"
+      - "scripts/validate-posts.mjs"
+      - ".github/workflows/validate.yml"
+
+  push:
+    branches: ["main"]
+    paths:
+      - "posts/**"
+      - "schema/**"
+      - "scripts/validate-posts.mjs"
+      - ".github/workflows/validate.yml"
+
+  workflow_dispatch:
+
+# A superseded run has nothing to say, and validation writes nowhere, so
+# cancelling one costs nothing.
+concurrency:
+  group: "validate-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # No dependency install: validate-posts.mjs imports only node: built-ins.
+      - name: Validate front matter
+        run: node scripts/validate-posts.mjs

@@ -1,0 +1,177 @@
+---
+title: "What Is Microsoft Agent Framework?"
+description: "A complete tour of Microsoft Agent Framework's core capabilities: agents, the harness, tools, MCP, memory, workflows, orchestration, guardrails, and A2A, and how they actually fit together."
+publishedDate: "2026-08-21"
+updatedDate: "2026-08-21"
+tags: ["Microsoft Agent Framework", "Agent Framework", "AI", "Agents", "Multi-Agent", "MCP", "Azure", "Developer Tools"]
+---
+
+## The SDK Behind Every Agent in This Series
+
+If you've followed the [Zero to Agent](/blog/2026-08-06-part-1-kicking-off-the-series) series, you've already met **Microsoft Agent Framework**: it's what was quietly doing the work every time we wrote `SequentialBuilder`, wired up a tool, or attached middleware to an agent. What we haven't done is stop and look at the framework itself: what it actually is, how Microsoft organizes its pieces, and which capabilities are worth knowing exist before you need them.
+
+That's this post. One correction before we start, because it changes how you should read everything else: **Agent Framework is not a Foundry-exclusive product.** It's an open-source SDK that happens to have first-class Foundry support, but it talks to Microsoft Foundry, Anthropic, Azure OpenAI, OpenAI, Ollama, GitHub Copilot, and more through the same agent abstraction. If you've been assuming "Agent Framework" and "Foundry" are the same thing because this series always shows them together, they're not: Foundry is one very well-supported backend among several.
+
+The other thing worth knowing up front: Agent Framework isn't a from-scratch project. Microsoft's own framing is that it **"combines AutoGen's simple agent abstractions with Semantic Kernel's enterprise-grade features (session-based state management, type safety, middleware, telemetry) and adds graph-based workflows for explicit multi-agent orchestration."** Same teams, same lineage, one SDK. If you've used either predecessor, there are official migration guides for [Semantic Kernel](https://learn.microsoft.com/agent-framework/migration-guide/from-semantic-kernel/) and [AutoGen](https://learn.microsoft.com/agent-framework/migration-guide/from-autogen/).
+
+## The Four Pieces the Docs Are Organized Around
+
+Agent Framework's own documentation structures everything around four primary areas, plus a set of building blocks that cut across all of them:
+
+| Area | What it is |
+| --- | --- |
+| **Agents** | Individual agents that use an LLM to process input, call tools and MCP servers, and generate responses. |
+| **Harness Agent** | An opinionated, batteries-included agent for long, multi-step tasks: planning, context compaction, file memory, tool approval, observability, all pre-wired. |
+| **Workflows** | Functional and graph-based workflows that connect agents and functions through explicit execution paths. |
+| **Integrations** | Connections to model providers, agent services, tools, context providers, middleware, evaluation, and UI frameworks. |
+
+Underneath all four sit the **foundational building blocks**: model clients, an agent **session** for state management, **context providers** for memory, **middleware** for intercepting actions, and **MCP clients** for tool integration. Every capability below is built from some combination of these; there's no separate subsystem for "memory" or "guardrails," just these primitives composed differently.
+
+One more piece of official guidance worth pinning above everything else, because it's the single best filter for whether you need an agent at all:
+
+> Use an agent when the task is open-ended or conversational and needs autonomous tool use and planning. Use a **workflow** when the process has well-defined steps and you need explicit control over execution order. **If you can write a function to handle the task, do that instead of using an AI agent.**
+
+Keep that last sentence in mind through everything that follows: nothing here is a reason to reach for an agent when a function would do.
+
+## 1. Reasoning and Autonomous Task Execution
+
+This is the base layer: an agent that takes natural-language input, decides whether it needs tools, calls them, looks at the results, and decides what to do next, repeating until it has an answer. In Python, the minimum viable version is genuinely this small:
+
+```python
+from agent_framework import Agent
+from agent_framework.foundry import FoundryChatClient
+from azure.identity import AzureCliCredential
+
+agent = Agent(
+    client=FoundryChatClient(
+        project_endpoint="https://your-foundry-service.services.ai.azure.com/api/projects/your-project",
+        model="gpt-5.4-mini",
+        credential=AzureCliCredential(),
+    ),
+    name="HelloAgent",
+    instructions="You are a friendly assistant. Keep your answers brief.",
+)
+
+result = await agent.run("What is the largest city in France?")
+```
+
+Every agent, regardless of provider, supports both streaming and non-streaming runs, structured outputs, and multi-turn conversations through a session. Swap `FoundryChatClient` for an OpenAI, Anthropic, or Ollama client and the rest of your code doesn't change: that's the point of the shared `AIAgent` abstraction.
+
+## 2. Tools and Actions
+
+Custom **function tools** (plain Python or C# functions with type hints, which the framework turns into callable schemas for the model) are the baseline, and every provider supports them. Beyond that, Agent Framework exposes a genuinely long list of **hosted tools** the model provider runs on your behalf: code interpreter, file search, web search, and image generation are provider-agnostic where the provider supports them. Foundry adds its own set on top: Bing Grounding, Bing Custom Search, Azure AI Search, SharePoint, Microsoft Fabric, memory search, computer use, browser automation via Azure Playwright, and an A2A tool for calling a remote agent as if it were just another tool.
+
+Support isn't uniform across providers, though: the docs maintain an explicit support matrix (code interpreter and file search work on Responses and Foundry but not Chat Completion or Ollama, for instance), and several of the Foundry-specific tools are still marked experimental or preview. Worth checking before you build around one.
+
+One composition technique that's easy to miss: you can turn an entire agent into a function tool for another agent with `.as_tool()` (`.AsAIFunction()` in .NET). That's a lighter-weight alternative to full workflow orchestration when all you need is "let agent A ask agent B a question and get a text answer back."
+
+## 3. MCP Integration
+
+MCP support in Agent Framework comes in two flavors that matter differently for architecture:
+
+- **Local MCP tools**: MCP servers your own process runs and connects to, with every provider that supports function tools.
+- **Hosted MCP tools**: MCP servers the *provider's* runtime invokes directly, without your process being in the loop for each call.
+
+It runs in the other direction too: you can expose an Agent Framework agent or workflow *as* an MCP tool, so other MCP clients can call it. Combined with Foundry's **toolbox** (a named, versioned bundle of hosted tool configurations behind one managed MCP endpoint), this is how you keep tool definitions centralized instead of copy-pasted into every agent that needs them.
+
+## 4. Memory, Context, and Sessions
+
+The mechanism behind "the agent remembers" is the **context provider**: a component that runs in two phases around every agent invocation: a *before* hook that injects context (messages, instructions, tools) into the prompt, and an *after* hook that processes the response, extracting and storing whatever should persist. Register several (a history provider, a RAG provider, a custom preferences provider) and they compose in registration order, all session-aware so they load and save data scoped to a specific conversation.
+
+The catch the docs are explicit about: every piece of injected context consumes tokens, and history keeps growing. **Compaction** strategies summarize or trim older history to stay under the model's context limit before performance degrades, and this is a first-class concept, not something you bolt on yourself once conversations get long.
+
+## 5. Knowledge and RAG
+
+RAG isn't a separate subsystem from memory: it's the same context-provider mechanism, pointed at a knowledge source instead of conversation history. Depending on where your data lives, that's `TextSearchProvider` against a vector store, `FoundryMemoryProvider` for Foundry-managed semantic memory, or dedicated providers for Azure AI Search, Redis (full-text or hybrid vector search), and Neo4j (including GraphRAG over an existing knowledge graph). For curated document sets Foundry itself should own, hosted file-search is a tool rather than a context provider, worth knowing which one you're reaching for, since they solve different problems (Foundry owning ingestion vs. your application owning retrieval).
+
+Real security note buried in the Redis and Neo4j guidance and worth repeating here: **treat retrieved memory as untrusted input.** Anything pulled from an external store and injected into the prompt is a vector for indirect prompt injection, same as tool output.
+
+## 6. The Agent Harness
+
+This is the piece missing from most "core features" lists, including the one that kicked off this post, and it's arguably the most consequential addition Agent Framework makes over its predecessors.
+
+An **agent harness** is runtime scaffolding that turns a plain model-calling agent into one capable of long, multi-step, semi-autonomous work: the shape of thing you'd want for research, coding, or open-ended data analysis, not a single Q&A turn. Rather than making you assemble planning, memory, and approval logic yourself, Agent Framework ships an opinionated, **batteries-included harness** with all of it pre-wired and individually toggleable:
+
+| Capability | Behavior by default |
+| --- | --- |
+| Function invocation | Enabled, with a configurable iteration limit |
+| Todo tracking & plan/execute modes | Enabled |
+| Context compaction | Enabled when token limits are set |
+| File memory | Session-scoped, enabled by default |
+| Tool approval | Standing approvals and auto-approval rules enabled |
+| OpenTelemetry observability | Enabled |
+| Background agents | Optional parallel delegation to named child agents |
+| Bounded looping | Optional, driven by evaluators or predicates |
+
+Creating one is a single call (`create_harness_agent(client=...)` in Python, `chatClient.AsHarnessAgent()` in .NET), and the result is still a normal Agent Framework agent underneath, using the same session and context-provider abstractions as everything else. You disable what you don't want (`disable_todo`, `disable_web_search`, `disable_compaction`, and so on) rather than building it up from nothing.
+
+## 7. Human-in-the-Loop
+
+The underlying mechanism is a request/response pattern: an executor calls `ctx.request_info()` (or sends a message through a `RequestPort` in .NET/Go), the workflow emits a `request_info` event and pauses, and execution resumes only once your application supplies a response. That's the same plumbing whether the "human" on the other end is approving a $25,000 purchase order or answering "which of these three drafts do you prefer."
+
+**Tool approval** (an agent pausing before it calls a tool marked as requiring approval) is built on this exact mechanism, not a separate feature. It works out of the box with sequential, concurrent, and group-chat orchestrations. If what you actually need is free-form back-and-forth with a user mid-task rather than a binary approve/reject, reach for **handoff orchestration** instead: it's interactive by default, returning control to the user whenever an agent responds without handing off.
+
+Pending requests aren't lost if a process restarts, either: they're captured as part of workflow checkpoints (more on those below) and re-emitted for you to answer again on resume.
+
+## 8. Multi-Agent Orchestration
+
+Agent Framework ships five built-in orchestration patterns for coordinating multiple agents through a workflow:
+
+| Pattern | Shape |
+| --- | --- |
+| **Sequential** | Agent A → Agent B → Agent C, each consuming the previous output |
+| **Concurrent** | Agents run in parallel, results aggregated |
+| **Handoff** | Control transfers between agents based on context; interactive by default |
+| **Group Chat** | Agents share one conversation; an orchestrator picks who speaks next |
+| **Magentic** | A manager agent dynamically directs specialists as the plan evolves |
+
+We built the Sequential pattern hands-on back in [Part 6](/blog/2026-08-16-part-6-multi-agent-systems) of the Foundry series, so I won't repeat the code here, but it's worth being precise about a distinction that's easy to blur: those five are **workflow-level orchestration patterns**, built on the graph-based `Workflow` abstraction. **Agent-as-a-tool** (section 2) is a lighter, separate composition technique: one agent called synchronously by another, in-process, with no workflow graph involved. Reach for orchestration when you need explicit control over multi-step execution; reach for agent-as-a-tool when one agent just needs to ask another a question.
+
+## 9. Workflows
+
+Workflows are the explicit, graph-based alternative to letting an agent freewheel. You define executors and the edges between them, and the framework runs them in **supersteps**, executing every ready executor in a step before advancing to the next. On top of that graph model, Agent Framework layers real production behaviors:
+
+- **Composition**: agents can participate as workflow nodes, and a workflow itself can be exposed back out through the standard agent interface (`workflows-as-agents`), so workflows nest inside larger workflows.
+- **Declarative workflows**: defined through configuration rather than code, where that fits your team's workflow.
+- **Human-in-the-loop and checkpointing**: covered above and below.
+- **Observability and visualization**: workflow spans, metrics, events, and delivery status export, plus rendering the topology itself.
+
+This is what gives you typed routing, conditional branches, and parallel execution as first-class constructs, instead of prompt engineering an agent into behaving predictably.
+
+## 10. Guardrails and Middleware
+
+Middleware comes in three distinct types, each intercepting a different layer of execution, and the distinction matters for where you put a given guardrail:
+
+- **Agent middleware** wraps an entire run: the right layer for input validation or blocking a request outright before anything happens.
+- **Chat middleware** wraps each individual call to the model: it runs once *per model call*, which means multiple times in a single run if the agent is doing multi-turn tool calling. Useful for logging or rewriting exactly what's sent to inference.
+- **Function middleware** wraps each tool call: the layer for validating arguments or auditing what a tool returned.
+
+Middleware chains: multiple registered at once form a pipeline where each calls the next, and any middleware can **terminate execution early** by setting a custom result and raising `MiddlewareTermination`, which is the actual mechanism behind a security check that blocks a request outright (Microsoft's own sample checks for the words "password" or "secret" in the user's message and short-circuits the run if found). Middleware can also **override results** after the fact, non-streaming or streaming, which is how response transformation or content filtering gets bolted on without touching agent logic.
+
+For a more opinionated, fail-closed control boundary spanning all three middleware types at once, there's also **Agent Hooks**, worth a look if per-type middleware starts to feel like scattered plumbing for what's conceptually one policy.
+
+## 11. Observability
+
+Agent Framework has OpenTelemetry-based tracing built in and enabled by default when you use the harness: agent runs, tool calls, and model calls all emit spans without extra wiring. That gets you a vendor-neutral trace of *why* the agent made a decision, exportable to whatever OTel-compatible backend you already run.
+
+Foundry layers more on top for deployed agents specifically (broader tracing, metrics, and Application Insights integration), which is the ground [Part 7](/blog/2026-08-17-part-7-tracing-and-evaluating-agents) of the Foundry series covers in depth. The framework-level tracing works regardless of which provider is behind your agent; the Foundry-specific layer is what you get in addition, if Foundry happens to be that provider.
+
+## 12. Long-Running Tasks and Checkpointing
+
+Checkpoints are captured automatically at the end of every superstep, and each one captures the *complete* state needed to resume: executor state, all messages queued for the next superstep, pending human-in-the-loop requests, and shared workflow state. Storage backends include file storage and Cosmos DB out of the box, and the docs are blunt about the security implication: **checkpoint storage is a trust boundary**, treat it as trusted, private infrastructure, and never load a checkpoint from a source you don't control.
+
+One distinction worth keeping straight because the names are easy to conflate: **background agents** (a harness feature: delegating a task to a named child agent that runs in parallel) are not the same as **background responses** (a provider-level feature: polling or resuming one long-running provider request via a continuation token). One is about splitting work across agents; the other is about not blocking on a single slow model call.
+
+## 13. Agent-to-Agent (A2A) Communication
+
+**A2A** is a real open protocol, not a Microsoft invention, designed for agents that need to cross a boundary in-process composition can't reach: different services, different teams, different organizations, or just agents built in a completely different framework or language. Agents publish an **agent card** (discoverable at a well-known URL) describing what they do, and Agent Framework provides both directions: an A2A client for calling remote agents, and A2A hosting for exposing your own agents to be called the same way. Microsoft's own framing for it is blunt and accurate: A2A is "the HTTP of agent communication."
+
+It's worth being deliberate about when you reach for it, though, rather than defaulting to it. A2A calls are HTTP requests, real network overhead compared to in-process agent-as-a-tool calls, and the remote agent owns its own conversation state, keyed by a context ID you don't control. If it restarts and loses that state, your side loses continuity too. Use it when a boundary genuinely exists (a partner team's agent, a different codebase, a different release cycle); skip it when everything lives in one process and one team owns it.
+
+## Putting It Together
+
+None of these thirteen things are independent products bolted onto each other. They're combinations of the same handful of primitives: an agent, a session, context providers, middleware, and (once things get multi-step or multi-agent) a workflow. The harness is what you reach for when one agent needs to do a lot on its own. Orchestration and workflows are what you reach for when several agents need to coordinate on something with real structure. A2A is what you reach for only once "several agents" stops meaning "several agents in my process."
+
+If you're building on Foundry specifically, the rest of the [Zero to Agent](/blog/2026-08-06-part-1-kicking-off-the-series) series puts a lot of this into working code: [Part 5](/blog/2026-08-15-part-5-giving-your-agent-tools-and-knowledge) for tools and knowledge, [Part 6](/blog/2026-08-16-part-6-multi-agent-systems) for orchestration, [Part 7](/blog/2026-08-17-part-7-tracing-and-evaluating-agents) for observability, and [Part 8](/blog/2026-08-18-part-8-locking-it-down-for-production) for the production checklist. But everything in this post applies just as directly if the model behind your agent is Anthropic, OpenAI, or something running locally through Ollama; that's the entire point of building on Agent Framework instead of a provider's SDK directly.
+
+And if none of this actually calls for autonomous reasoning or multi-step planning, if what you're describing is a fixed sequence of steps with no judgment calls in the middle, go re-read that quote from section one. Write the function.

@@ -1,37 +1,47 @@
 # Pull Request Guidelines
 
-When creating a pull request, please follow the commit message convention for the pull request title. This convention helps in providing a clear and standardized way to communicate the nature of the changes.
+Every change to this repository — a new post, a correction, a documentation edit — arrives as a
+pull request into `main`. There is no release to cut and no version to bump.
 
 ## PR Title Format
 
-The pull request title should follow the format:
-
 ```md
-<type>(<branch>): <message> [#issue_number]
+<type>(<scope>): <message> [#issue_number]
 ```
 
-- `<type>`: Type of the change. Use one of the following:
+- `<type>`: one of
 
-  - `feat`: A new feature or enhancement to existing functionality.
-  - `fix`: A bug fix or correction of an issue.
-  - `docs`: Documentation updates (e.g., README, comments).
-  - `style`: Code style changes (e.g., formatting, indentation).
-  - `refactor`: Code refactoring or restructuring without changing functionality.
-  - `perf`: Performance improvements.
-  - `test`: Adding or modifying tests.
-  - `chore`: Routine tasks, maintenance, or tooling changes.
+  - `content`: a new post.
+  - `fix`: a correction to a published post or to a script.
+  - `docs`: repository documentation — README, the front-matter contract, these guidelines.
+  - `chore`: scripts, workflows, or repository configuration.
 
-- `<branch>`: Branch where the changes are made, e.g., `feature/<name>` (use feature branches for new work).
+- `<scope>`: what the change is about — the post slug for content and fixes, the file or area
+  otherwise.
 
-- `<message>`: A short, clear, and concise description of the changes.
+- `<message>`: a short, clear description, in sentence case.
 
-- `[#issue_number]` (optional): If the pull request is related to a GitHub issue, include the issue number.
+- `[#issue_number]` (optional): the related GitHub issue, if there is one.
 
 ## Examples
 
-- `feat(feature/new-footer): Add new footer [#09]`
-- `fix(fix/login): Resolve issue with login [#123]`
-- `docs(docs/readme): Update installation instructions`
-- `style(style/formatting): Format code according to style guide`
+- `content(agent-framework): Add a post on memory and threads [#21]`
+- `fix(part-4-picking-the-right-model): Correct the deployment command`
+- `docs(frontmatter): Document seriesOrder`
+- `chore(workflows): Validate posts on pull requests`
 
-Please adhere to this naming convention to maintain consistency and clarity.
+## Before you open one
+
+- **Run the validator.** `node scripts/validate-posts.mjs` — the same check CI runs. Nothing to
+  install.
+- **Check the file name.** `posts/<year>/<month>/YYYY-MM-DD-slug.md`, with the date in the name
+  matching `publishedDate`. **The file name is the URL.**
+- **Never rename a published post.** A rename breaks a live link and nothing here will notice.
+- **Images are absolute URLs.** Upload through `POST /uploads` and paste the URL it returns; this
+  repository holds no images.
+
+## What happens after the merge
+
+1. The sync workflow indexes the post's metadata into the API.
+2. `dileepa-dev` reads the post body from a **pinned ref**, so the post is live once that ref is
+   bumped and the site rebuilt. See [VERSIONING.md](VERSIONING.md).
