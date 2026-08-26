@@ -24,20 +24,14 @@ in [`dileepadev/TODO.md`](https://github.com/dileepadev/dileepadev/blob/main/TOD
 - [ ] Front-matter validation in CI, so a malformed post fails here rather than in the main
       site's build
 
-## Images
+## Images ✅
 
-> [!WARNING]
-> **This is the one open item that affects published content.** With the Astro app gone, nothing
-> serves `/images/posts/**` any more. Until these three images are on Cloudinary, the post
-> `2026-02-12-personalize-your-vs-code-ai-with-custom-agents` renders with three broken images
-> on `dileepa.dev`.
-
-- [ ] **Upload the three inline post images to Cloudinary** and rewrite the Markdown to the
-      returned URLs. Blocked: the development Cloudinary API key is refused with
-      `Request forbidden due to missing permissions (actions=["create"])`, so `POST /uploads`
-      cannot create anything. Fix the key's permissions, then re-run the upload
-- [ ] Delete `public/` once those three resolve from Cloudinary — it is the last directory in
-      the repository that is not words
+- [x] **The three inline post images are on Cloudinary.** `2026-02-12-personalize-your-vs-code-ai-with-custom-agents`
+      now points at `res.cloudinary.com/dileepadev/...` URLs, and `public/images/posts/` is gone.
+      No post references a root-relative path any more — the repository holds no image a post
+      depends on, which is what §4 of the content pipeline has said all along
+- [ ] Delete the rest of `public/` — `favicon.ico`, `favicon.svg` and `images/brand/` are Astro-era
+      leftovers that nothing reads. It is the last directory here that is not words
 
 ## Sync pipeline ✅
 

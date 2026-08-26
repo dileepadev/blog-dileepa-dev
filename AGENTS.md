@@ -34,7 +34,7 @@ cross-repository roadmap lives in `dileepadev/TODO.md`.
 | `schema/frontmatter.md` | The front-matter contract |
 | `scripts/sync-blogs.mjs` | Metadata sync to `POST /blogs/sync`. Dependency-free and idempotent |
 | `.github/workflows/sync.yml` | Runs the sync on content changes to `main` |
-| `public/images/posts/<slug>/` | **Temporary.** Three inline images pending Cloudinary — see Gotchas |
+| `public/` | **Astro-era leftovers.** A favicon and brand images nothing reads; due for deletion |
 
 The year and month directories are grouping only; they are stripped when the id becomes a slug.
 
@@ -146,12 +146,11 @@ There is barely any code here, and it should stay that way. What exists:
   was read against the published URL list. That is the whole hazard in one example: the rename
   looked like a date correction and cost a permanent redirect rule. **Renaming a published file
   is never a local change.**
-- **Three inline post images are still in `public/`, and nothing serves them.** The screenshots
-  in `2026-02-12-personalize-your-vs-code-ai-with-custom-agents` point at
-  `/images/posts/<slug>/N.png`, which the Astro app used to serve. That app is gone, so **those
-  three images are broken on the live post** until they are uploaded to Cloudinary through
-  `POST /uploads` and the Markdown is rewritten to the returned URLs. This is the highest-priority
-  open item in [TODO.md](TODO.md).
+- **The repository holds no image a post depends on.** Every image in every post is an absolute
+  Cloudinary URL. Keep it that way: upload through `POST /uploads` and paste the URL back. The
+  three screenshots that used to live in `public/` are the reason this rule is stated twice —
+  they were root-relative, the Astro app served them, and deleting that app broke them until they
+  were moved.
 - **The main site pins a ref.** `dileepa-dev` fetches post bodies from a tag or commit SHA, never
   `main`. Committing a post does not publish it — the pinned ref in `dileepa-dev` has to be
   bumped too.
