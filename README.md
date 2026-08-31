@@ -11,7 +11,7 @@ files straight from Git at build time and renders them.
 > Until v2.0.0 this was a standalone Astro site at `blog.dileepa.dev`. That site is retired and
 > its posts now live at `dileepa.dev/blog/{slug}` — the same path, a different host.
 
-## 🗂️ Layout
+## Layout
 
 | Path | What it is |
 | --- | --- |
@@ -25,7 +25,7 @@ files straight from Git at build time and renders them.
 The year and month directories are **grouping only**. They were never part of the URL and are
 stripped when the file id becomes a slug.
 
-## ✍️ Writing a Post
+## Writing a Post
 
 Create a Markdown file at `posts/<year>/<month>/YYYY-MM-DD-your-slug.md`:
 
@@ -63,7 +63,7 @@ knowing before you write one:
 - **Posts are `.md`, not `.mdx`.** If a post needs a component, the renderer is missing a
   feature — add it to the main site rather than writing JSX into prose.
 
-## 🖼️ Images
+## Images
 
 Images live on Cloudinary, not in this repository. Upload one through `POST /uploads` — the
 admin's media screen, or the endpoint directly — and paste the URL it returns:
@@ -79,7 +79,7 @@ of step with its words.
 served over HTTP, so a root-relative path like `/images/foo.png` resolves to nothing.
 `validate-posts.mjs` rejects one.
 
-## 🔁 How the Main Site Consumes This
+## How the Main Site Consumes This
 
 ```text
   posts/2026/08/my-post.md
@@ -107,7 +107,7 @@ publishes a few times a month it is the right cost.
 Full detail:
 [`dileepadev/docs/architecture/content-pipeline.md`](https://github.com/dileepadev/dileepadev/blob/main/docs/architecture/content-pipeline.md).
 
-## ✅ Validating Content
+## Validating Content
 
 `validate-posts.mjs` is this repository's only test. It checks every post against
 [`schema/frontmatter.md`](schema/frontmatter.md): required fields and their types, retired fields,
@@ -124,7 +124,7 @@ It imports only `node:` built-ins, so there is nothing to install.
 content — a malformed post fails here, where you can see it, rather than in the main site's
 build where it looks like a site bug.
 
-## 🧪 Running the Sync by Hand
+## Running the Sync by Hand
 
 The script imports only `node:` built-ins, so there is nothing to install:
 
@@ -140,16 +140,16 @@ existing ones updated — running it twice is harmless.
 > - `API_BASE_URL` — Base URL of the API (e.g. `https://api.dileepa.dev`)
 > - `BLOG_SYNC_API_KEY` — must match the `BLOG_SYNC_API_KEY` in the API's environment
 
-## 🤝 Contributing
+## Contributing
 
 Open an issue or a pull request. Follow [CONTRIBUTING.md](CONTRIBUTING.md) and the branch and
 commit naming guidelines.
 
-## ⚖️ License
+## License
 
 MIT. See [LICENSE](LICENSE).
 
-## 📫 Contact
+## Contact
 
 - Website: <https://dileepa.dev>
 - Email: <contact@dileepa.dev>
