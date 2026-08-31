@@ -43,7 +43,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
 
       # No dependency install: validate-posts.mjs imports only node: built-ins.
       - name: Validate front matter
