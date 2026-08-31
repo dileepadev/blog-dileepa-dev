@@ -47,16 +47,19 @@ The `<type>` field indicates the nature of the changes made in the commit. Use o
 
 The `<scope>` is optional, but recommended. It helps clarify which part of the project the commit affects. For example:
 
-| Scope         | Description                                           |
-|---------------|-------------------------------------------------------|
-| repo          | Repository-wide configuration or setup                |
-| content       | The posts themselves                                  |
-| schema        | The front-matter contract                             |
-| scripts       | `validate-posts.mjs` or `sync-blogs.mjs`              |
-| workflows     | GitHub Actions                                        |
+| Scope         | Description                                                                                                   |
+|---------------|---------------------------------------------------------------------------------------------------------------|
+| repo          | Repository-wide configuration or setup                                                                        |
+| schema        | The front-matter contract                                                                                     |
+| scripts       | `validate-posts.mjs` or `sync-blogs.mjs`                                                                      |
+| workflows     | GitHub Actions                                                                                                |
+| `<topic>`     | A concise 1–2 word topic or series for a post (`foundry`, `evals`, `certifications`, `agent-framework`, etc.) |
 
-For a `content` or `fix` commit about one post, the post's slug is a better scope than any of
-these — `fix(part-4-picking-the-right-model)`.
+For a `content` or `fix` commit about a post, use a **concise topic or series name** rather than the full file slug. This keeps commit headers under 50–72 characters while retaining clear context in `git log --oneline`:
+
+- `content(certifications): Add 2026 Microsoft AI guide (refs #3)`
+- `content(evals): Add agent evaluation testing guide (refs #3)`
+- `fix(foundry): Correct project endpoint parameter (refs #3)`
 
 ### `<short message>`
 
@@ -99,48 +102,48 @@ Use GitHub keywords to link commits to issues, and standard notation for PRs.
 **Straightforward PR reference:**
 
 ```md
-chore(repo): Migrate v1.1.0 codebase to new repository (#5)
+chore(repo): Update repository settings (#5)
 ```
 
 **Issue + PR:**
 
 ```md
-fix(auth): Prevent session expiration bug (fixes #42) (#102)
+fix(scripts): Fix front-matter array parsing (fixes #42) (#102)
 ```
 
 **Multiple Issues + PR:**
 
 ```md
-chore(repo): Migrate v1.1.0 codebase to new repository (refs #1, #2) (#5)
+docs(schema): Update front-matter contract documentation (refs #1, #2) (#5)
 ```
 
 ### Summary Table for Issue and PR Linking (with Scope)
 
-| Purpose                | Example Commit Message                                              | Result                             |
-| ---------------------- | ------------------------------------------------------------------- | ---------------------------------- |
-| Close single issue     | `fix(ui): Resolve button alignment issue (fixes #12) (#100)`        | Closes #12, links PR #100          |
-| Reference single issue | `docs(config): Clarify setup instructions (refs #34) (#105)`        | Links issue #34, PR #105           |
-| Reference PR Only      | `chore(deps): Bump version (#45)`                                   | Links PR #45                       |
-| Close multiple issues  | `feat(api): Add registration (fixes #56, #57) (#200)`               | Closes #56, #57, links PR #200     |
-| Mixed References       | `fix(api): Handle edge case (fixes #12, refs #23) (#150)`           | Closes #12, refs #23, links PR #150|
-| Multiple PRs (rare)    | `chore(repo): Sync repos (#5, #6)`                                  | Links PR #5 and #6                 |
+| Purpose                | Example Commit Message                                                   | Result                             |
+| ---------------------- | -----------------------------------------------------------------------  | ---------------------------------- |
+| Close single issue     | `fix(scripts): Resolve validation regex bug (fixes #12) (#100)`          | Closes #12, links PR #100          |
+| Reference single issue | `docs(schema): Clarify frontmatter rules (refs #34) (#105)`              | Links issue #34, PR #105           |
+| Reference PR Only      | `chore(workflows): Update sync action (#45)`                             | Links PR #45                       |
+| Close multiple issues  | `content(evals): Add testing guide (fixes #56, #57) (#200)`              | Closes #56, #57, links PR #200     |
+| Mixed References       | `fix(foundry): Handle edge case in config (fixes #12, refs #23) (#150)`  | Closes #12, refs #23, links PR #150|
+| Multiple PRs (rare)    | `chore(repo): Sync metadata (#5, #6)`                                    | Links PR #5 and #6                 |
 
 ## ✅ Summary Examples with All Fields
 
 ```md
-feat(api): Add login endpoint (fixes #12) (#101)
+content(evals): Add agent evaluation testing guide (refs #3) (#101)
 
-This adds a new login endpoint to the API that allows users to authenticate using their email and password.
+Add a practical guide on testing non-deterministic AI agents in CI using schema assertions, trajectory checks, and model-graded LLM-as-a-judge rubrics.
 ```
 
 ```md
-fix(auth): Prevent session expiration bug (fixes #42) (#102)
+fix(scripts): Fix front-matter inline array parser (fixes #42) (#102)
 ```
 
 ```md
-chore(repo): Migrate v1.1.0 codebase to new repository (refs #1, #2) (#5)
+docs(readme): Remove emojis from section headings (refs #3)
 ```
 
 ```md
-chore(deps): Bump version (#45)
+chore(workflows): Update post validation workflow (#45)
 ```

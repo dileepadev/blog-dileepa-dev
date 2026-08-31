@@ -27,8 +27,9 @@ Follow this format strictly:
 
 ### Scope (`<scope>`)
 
-- Optional but recommended (e.g., `repo`, `content`, `schema`, `scripts`, `workflows`). For a
-  change to one post, the post's slug is the better scope.
+- Optional but recommended (e.g., `repo`, `schema`, `scripts`, `workflows`). For a change to
+  a post, use a concise topic or series name (e.g., `foundry`, `evals`, `certifications`,
+  `agent-framework`) rather than the full slug.
 
 ### Short Message (`<short message>`)
 
@@ -55,7 +56,7 @@ Follow this format strictly:
 ## Examples
 
 - `content(agent-framework): Add a post on memory and threads (refs #21)`
-- `fix(part-4-picking-the-right-model): Correct the deployment command`
+- `fix(foundry): Correct the deployment command (refs #3)`
 - `chore(workflows): Validate posts on pull requests`
 
 Ensure the commit message is professional, concise, and follows these guidelines exactly.

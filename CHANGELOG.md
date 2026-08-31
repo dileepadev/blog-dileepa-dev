@@ -14,11 +14,10 @@ Changes are organized into the following categories:
 > to live here. After `2.0.0` this repository holds content only, and a blog post is not a
 > release — publishing is a commit to `main`. See [VERSIONING.md](VERSIONING.md).
 
-## [v2.0.0] - 2026-08-26
+## [v2.0.0] - 2026-09-01
 
-The release in which this repository stopped being an application and became the content source
-for `dileepa.dev/blog`. **This is the final entry.** After it, publishing a post is a pull
-request into `main` — see [VERSIONING.md](VERSIONING.md).
+> [!NOTE]
+> The release in which this repository stopped being an application and became the content source for `dileepa.dev/blog`.**This is the final entry.** After it, publishing a post is a pull request into `main` — see [VERSIONING.md](VERSIONING.md).
 
 ### Added - v2.0.0
 
