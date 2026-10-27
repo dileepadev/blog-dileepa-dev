@@ -18,30 +18,7 @@ In early iterations, context accumulation seems harmless. Modern frontier models
 
 To build reliable agents that can run for hours or days, you need a deterministic context management strategy.
 
-```text
-Incoming Interaction (Tool Calls / Outputs)
-                    │
-                    ▼
-          ┌───────────────────┐
-          │  Token Budgeting  │
-          │  > Threshold?     │
-          └─────────┬─────────┘
-                    │
-        ┌───────────┴───────────┐
-        ▼                       ▼
-    [Under Cap]             [Over Cap]
-        │                       │
-   Append Trace        ┌────────────────────────┐
-                       │   Context Compactor    │
-                       │                        │
-                       │ 1. Raw Output Pruning  │
-                       │ 2. Semantic Distill    │
-                       │ 3. State-Delta Update  │
-                       └───────────┬────────────┘
-                                   │
-                                   ▼
-                         Compacted Active State
-```
+![Each tool interaction goes through token budgeting: under the cap it is appended to the trace; over the cap the context compactor prunes, distills and updates state](https://res.cloudinary.com/dileepadev/image/upload/v1793124289/api-dileepa-dev/blogs/gmtibyru0vq4kfggi6sh.png)
 
 ---
 
@@ -49,24 +26,19 @@ Incoming Interaction (Tool Calls / Outputs)
 
 Production agent architectures structure working memory into three distinct lifecycle tiers:
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 1. Ephemeral Context (Current Turn & Immediate Tool Output) │
-├─────────────────────────────────────────────────────────────┤
-│ 2. Compacted Session History (Distilled Checkpoint State)   │
-├─────────────────────────────────────────────────────────────┤
-│ 3. Long-Term Externalized Memory (Vector / KV Store)        │
-└─────────────────────────────────────────────────────────────┘
-```
+![Three tiers of context memory: ephemeral context, compacted session history, and long-term externalized memory](https://res.cloudinary.com/dileepadev/image/upload/v1793124295/api-dileepa-dev/blogs/camhwfn0namn6fn3ucer.png)
 
 ### 1. Ephemeral Context
+
 Contains the current turn, system instructions, and raw tool output from the most recent 2–3 executions. Raw command output remains unmodified only while the model evaluates immediate success or failure.
 
 ### 2. Compacted Session History
+
 Once an action completes successfully, its raw terminal transcript is summarized into a concise state delta. For instance, an 800-line `git diff` or test suite output is compacted into:
 > *"Ran pytest suite: 42 passed, 1 failed in tests/test_auth.py:28 (JWT expiration error)."*
 
 ### 3. Long-Term Externalized Memory
+
 Persistent facts, user preferences, and repository conventions that survive beyond the active conversation session.
 
 ---
