@@ -11,6 +11,7 @@ tags: ["AI", "AI Engineering", "Testing", "Python", "LLM", "Agents", "DevOps"]
 When you build a conventional software function, testing is straightforward: given input $X$, assert output $Y$. If someone alters the implementation, your test suite flags any regression in milliseconds.
 
 When you build an AI agent, testing usually starts as a "vibe check":
+
 1. You run three sample prompts in a playground or terminal.
 2. The responses read well.
 3. You commit the code and deploy.
@@ -82,6 +83,7 @@ def test_agent_output_rejects_invalid_schema():
 ### Deterministic Constraint Checks
 
 In addition to schema validation, deterministic assertions should check:
+
 - **Refusal handling**: When given an adversarial prompt or out-of-scope query, does the agent decline without leaking system instructions?
 - **Prohibited content filters**: Ensure raw PII (social security numbers, API keys) or banned keywords are absent from the output via regex or string scanning.
 - **Latency and token budgets**: Assert that the agent completed within its allocated step count and token budget.
@@ -136,6 +138,7 @@ Trajectory testing gives you immediate insight into *why* an agent went off cour
 ## Layer 3: Model-Graded Evaluation (LLM-as-a-Judge)
 
 Some qualities cannot be validated with regular expressions or schemas:
+
 - **Faithfulness**: Did the agent make claims not supported by the retrieved context?
 - **Completeness**: Did the answer address all parts of the user's question?
 - **Tone and clarity**: Is the explanation concise and professional?

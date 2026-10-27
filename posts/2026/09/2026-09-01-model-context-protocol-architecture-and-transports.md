@@ -41,6 +41,7 @@ MCP servers expose three primary primitive types to clients:
 MCP supports two standard transport layers depending on deployment topology:
 
 ### 1. Standard Input/Output (`stdio`)
+
 Used for local tool execution where the Host spawns the server as a child process.
 
 - **Communication**: Messages are sent as newline-delimited JSON-RPC packets over `stdin` and `stdout`.
@@ -50,6 +51,7 @@ Used for local tool execution where the Host spawns the server as a child proces
 ![stdio transport: the host writes JSON-RPC to the server's stdin and reads JSON-RPC from its stdout; the server writes diagnostic logs to stderr](https://res.cloudinary.com/dileepadev/image/upload/v1793124235/api-dileepa-dev/blogs/d7kfabhkcbj5t2fjlu1h.png)
 
 ### 2. HTTP with Server-Sent Events (SSE)
+
 Used when servers run remotely, inside Docker containers, or as shared microservices.
 
 - **Client to Server**: HTTP POST requests for client-initiated RPC messages.
