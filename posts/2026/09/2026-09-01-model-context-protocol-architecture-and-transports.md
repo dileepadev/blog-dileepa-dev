@@ -14,18 +14,7 @@ When a team built an integration for GitHub, PostgreSQL, or Jira, that code was 
 
 MCP standardizes this layer using an open, JSON-RPC 2.0-based protocol. It decouples **AI Hosts** (IDE extensions, agent runtimes, chat interfaces) from **MCP Servers** (tools, file access, database connectors, and enterprise services).
 
-```text
-┌────────────────────────────────────────────────────────┐
-│                   AI Host Application                  │
-│       (Cursor, VS Code, Claude Desktop, AGY Agent)     │
-└───────────┬────────────────────────────────┬───────────┘
-            │ stdio                          │ SSE / HTTP
-            ▼                                ▼
-┌────────────────────────┐      ┌────────────────────────┐
-│    Local MCP Server    │      │    Remote MCP Server   │
-│  (Filesystem, Git CLI) │      │  (Postgres, Jira API)  │
-└────────────────────────┘      └────────────────────────┘
-```
+![MCP architecture: an AI host application connects to local MCP servers over stdio and to remote MCP servers over SSE or HTTP](https://res.cloudinary.com/dileepadev/image/upload/v1793124153/api-dileepa-dev/blogs/jx4dfbsbcynrt3ds7oxo.png)
 
 ---
 
@@ -58,15 +47,7 @@ Used for local tool execution where the Host spawns the server as a child proces
 - **Diagnostics**: Server logs MUST go to `stderr` to avoid corrupting protocol packets on `stdout`.
 - **Security**: Bound to local process permissions; zero network surface area.
 
-```text
-Host (Parent Process)
-      │  Write JSON-RPC via stdin
-      ├──────────────────────────────►  Server (Child Process)
-      │  Read JSON-RPC via stdout
-      ◄──────────────────────────────┤
-      │  Diagnostic logs via stderr
-      ◄──────────────────────────────┘
-```
+![stdio transport: the host writes JSON-RPC to the server's stdin and reads JSON-RPC from its stdout; the server writes diagnostic logs to stderr](https://res.cloudinary.com/dileepadev/image/upload/v1793124235/api-dileepa-dev/blogs/d7kfabhkcbj5t2fjlu1h.png)
 
 ### 2. HTTP with Server-Sent Events (SSE)
 Used when servers run remotely, inside Docker containers, or as shared microservices.
@@ -80,28 +61,7 @@ Used when servers run remotely, inside Docker containers, or as shared microserv
 
 When an agent needs to execute an action, the interaction follows a deterministic sequence:
 
-```text
-Host / Agent                  MCP Client                   MCP Server
-     │                            │                            │
-     │ 1. Initialize Connection   │                            │
-     ├───────────────────────────►│ 2. initialize request      │
-     │                            ├───────────────────────────►│
-     │                            │ 3. capabilities & version  │
-     │                            │◄───────────────────────────┤
-     │                            │                            │
-     │ 4. Request Tool Manifest   │                            │
-     ├───────────────────────────►│ 5. tools/list              │
-     │                            ├───────────────────────────►│
-     │                            │ 6. schemas & tool list     │
-     │                            │◄───────────────────────────┤
-     │                            │                            │
-     │ 7. LLM requests tool call  │                            │
-     ├───────────────────────────►│ 8. tools/call (name, args) │
-     │                            ├───────────────────────────►│
-     │                            │ 9. tool execution result   │
-     │ 10. Process result in loop │◄───────────────────────────┤
-     │◄───────────────────────────┤                            │
-```
+![Lifecycle of an MCP tool call: initialize, list tools, then call a tool and return the result to the host](https://res.cloudinary.com/dileepadev/image/upload/v1793124283/api-dileepa-dev/blogs/f5ryfkafz9dikfmxvww0.png)
 
 ---
 
