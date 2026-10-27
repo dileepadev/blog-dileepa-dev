@@ -92,14 +92,7 @@ The most common failure mode in multi-step agents is not a bad final answer—it
 
 Trajectory evaluation inspects the sequence of actions the agent took to reach the answer.
 
-```text
-User Input: "What is the return policy for order #8491?"
-   ↓
-Expected Trajectory:
-  1. Tool Call: lookup_order(order_id="8491")
-  2. Tool Call: fetch_policy(category="electronics")
-  3. Final Response: Synthesized explanation
-```
+![Trajectory evaluation: for the user input, the expected trajectory is lookup_order, then fetch_policy, then a synthesized final response](https://res.cloudinary.com/dileepadev/image/upload/v1793124302/api-dileepa-dev/blogs/aqmoivh8wlzorg6egvsk.png)
 
 ### Testing Tool Selection and Call Arguments
 
@@ -230,25 +223,7 @@ def test_agent_response_faithfulness(question: str, context: str, response: str)
 
 Running a 100-case LLM evaluation suite on every pull request commit can be slow and expensive. A practical CI workflow uses tiered execution:
 
-```text
-Pull Request Opened
-        │
-        ▼
-Tier 1: Fast & Free (Every Commit)
-  - Python linting & formatting (Ruff, Pyright)
-  - Unit tests & Pydantic schema validation
-  - Deterministic security & regex checks
-        │
-        ▼
-Tier 2: Trajectory Mock Suite (Every PR)
-  - Mocked agent runs against 25 golden test cases
-  - Validate tool selection, arguments, and refusal logic
-        │
-        ▼
-Tier 3: Model-Graded Eval (Merge to Main / Nightly)
-  - Run full test suite with LLM-as-a-judge
-  - Record scores and drift metrics to evaluation dashboard
-```
+![Evaluation tiers in CI: fast free checks on every commit, a mocked trajectory suite on every pull request, and model-graded evaluation on merge to main or nightly](https://res.cloudinary.com/dileepadev/image/upload/v1793124309/api-dileepa-dev/blogs/ostemt50wua11vqgnols.png)
 
 ### GitHub Actions Workflow Example
 
