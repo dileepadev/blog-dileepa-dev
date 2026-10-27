@@ -20,17 +20,7 @@ The result is a portfolio that looks less like a single AI certification ladder 
 
 The easiest way to understand it is:
 
-```text
-                         Microsoft AI
-                              │
-        ┌─────────────────────┼─────────────────────┐
-        ↓                     ↓                     ↓
-    Azure AI             Business AI           Developer AI
-        │                     │                     │
-   AI-901 / AI-103       Copilot / Agents      GH-300
-        │
-   AI-300 / AI-500
-```
+![Microsoft AI certifications in three tracks: Azure AI, Business AI and Developer AI](https://res.cloudinary.com/dileepadev/image/upload/v1793124314/api-dileepa-dev/blogs/bggptitqorfjv6zf4pyd.png)
 
 The important question is therefore no longer:
 
@@ -80,15 +70,7 @@ If you're starting from zero, this is the natural entry point into the Azure AI 
 
 Think of it as:
 
-```text
-AI Concepts
-    ↓
-Azure AI Services
-    ↓
-Generative AI
-    ↓
-Microsoft Foundry
-```
+![AI-901 scope: AI concepts, Azure AI services, generative AI, then Microsoft Foundry](https://res.cloudinary.com/dileepadev/image/upload/v1793124319/api-dileepa-dev/blogs/hx3pxg8d4g4twnbk9unc.png)
 
 It's not intended to make you an advanced AI engineer.
 
@@ -116,17 +98,7 @@ It's increasingly about building applications where AI can reason, use tools, re
 
 A simplified progression is:
 
-```text
-AI-901
-  ↓
-Understand AI
-  ↓
-AI-103
-  ↓
-Build AI Applications
-  ↓
-Build AI Agents
-```
+![From AI-901 to AI-103: understand AI, then build AI applications and AI agents](https://res.cloudinary.com/dileepadev/image/upload/v1793124324/api-dileepa-dev/blogs/irqc76mkjaawyctpqisi.png)
 
 For developers who want to work directly with Azure AI, AI-103 is one of the most important certifications in the current portfolio.
 
@@ -150,23 +122,7 @@ Its focus is on:
 
 The distinction is important:
 
-```text
-AI Developer
-     ↓
-Build the AI application
-
-AI Operations
-     ↓
-Deploy it
-     ↓
-Monitor it
-     ↓
-Evaluate it
-     ↓
-Maintain it
-     ↓
-Improve it
-```
+![AI-300: a developer builds the application; AI operations deploys, monitors, evaluates, maintains and improves it](https://res.cloudinary.com/dileepadev/image/upload/v1793124330/api-dileepa-dev/blogs/dnjek64cmpklkadyosit.png)
 
 As organizations move from AI experiments to production systems, operational skills become increasingly important.
 
@@ -182,17 +138,7 @@ The focus moves beyond a single agent.
 
 Instead, you're dealing with systems where multiple specialized agents cooperate:
 
-```text
-                    Manager Agent
-                         │
-          ┌──────────────┼──────────────┐
-          ↓              ↓              ↓
-     Research Agent   Coding Agent   Review Agent
-          │              │              │
-          └──────────────┼──────────────┘
-                         ↓
-                    Final Result
-```
+![AI-500 multi-agent pattern: a manager agent delegates to research, coding and review agents, whose work merges into a final result](https://res.cloudinary.com/dileepadev/image/upload/v1793124335/api-dileepa-dev/blogs/nipm5wtazuju0sx5xoks.png)
 
 The exam covers concepts including:
 
@@ -230,19 +176,7 @@ The scope covers:
 
 Think:
 
-```text
-Business Requirement
-       ↓
-Copilot Studio
-       ↓
-Agent
-       ↓
-Enterprise Data
-       ↓
-Actions / Workflows
-       ↓
-Business Outcome
-```
+![AB-620 flow: business requirement, Copilot Studio, agent, enterprise data, actions and workflows, business outcome](https://res.cloudinary.com/dileepadev/image/upload/v1793124340/api-dileepa-dev/blogs/jxma9galv5pu3p3ymikm.png)
 
 This is particularly relevant for organizations adopting AI across internal business processes.
 
@@ -284,17 +218,7 @@ It's someone turning AI capabilities into useful business applications.
 
 This represents another major branch of Microsoft's AI strategy:
 
-```text
-Traditional Development
-        │
-        ↓
-Azure AI / Code
-
-Business Application Development
-        │
-        ↓
-Power Platform + Copilot + AI
-```
+![Two ways to build: traditional development leads to Azure AI and code; business application development leads to Power Platform, Copilot and AI](https://res.cloudinary.com/dileepadev/image/upload/v1793124345/api-dileepa-dev/blogs/xhh5eqfptzn7vmkudgjm.png)
 
 ## 8. AB-210 and AB-250 — Specialized Dynamics AI
 
@@ -340,19 +264,7 @@ Not everyone working with enterprise AI will be building models or writing agent
 
 Someone still needs to manage:
 
-```text
-Identity
-   ↓
-Permissions
-   ↓
-Security
-   ↓
-Governance
-   ↓
-AI Services
-   ↓
-Copilot / Agents
-```
+![AB-650 layers: identity, permissions, security, governance, AI services, then Copilot and agents](https://res.cloudinary.com/dileepadev/image/upload/v1793124349/api-dileepa-dev/blogs/a7lf21fudrvrjuuxilfw.png)
 
 That's the problem space AB-650 targets.
 
@@ -378,11 +290,7 @@ It's therefore an accessible entry point for:
 
 The important distinction is:
 
-```text
-AI Engineer
-    ≠
-AI Business User
-```
+![An AI engineer and an AI business user are different roles](https://res.cloudinary.com/dileepadev/image/upload/v1793124354/api-dileepa-dev/blogs/sa6w4qmgew0yhncvlql8.png)
 
 Microsoft's certification portfolio now reflects that difference explicitly.
 
@@ -496,15 +404,7 @@ Your path should depend on what you want to become.
 
 If your goal is to build AI applications and agents on Azure:
 
-```text
-AI-901
-   ↓
-AI-103
-   ↓
-AI-300
-   ↓
-AI-500
-```
+![Azure AI engineer path: AI-901, AI-103, AI-300, AI-500](https://res.cloudinary.com/dileepadev/image/upload/v1793124359/api-dileepa-dev/blogs/baefxwrftm03khuf4jex.png)
 
 This gives you a progression from fundamentals → development → operations → advanced multi-agent systems.
 
@@ -512,15 +412,7 @@ This gives you a progression from fundamentals → development → operations �
 
 If you're more interested in enterprise agents and Copilot:
 
-```text
-AI-901
-   ↓
-AB-620
-   ↓
-AI-103
-   ↓
-AB-100
-```
+![AI agent and Copilot developer path: AI-901, AB-620, AI-103, AB-100](https://res.cloudinary.com/dileepadev/image/upload/v1793124363/api-dileepa-dev/blogs/urvmasdokxx5qt2ydlee.png)
 
 This combines fundamentals, agent building, Azure AI development, and enterprise architecture.
 
@@ -528,15 +420,7 @@ This combines fundamentals, agent building, Azure AI development, and enterprise
 
 If you're focused on business adoption rather than coding:
 
-```text
-AB-730
-   ↓
-AB-731
-   ↓
-AB-900
-   ↓
-AB-100
-```
+![AI business and leadership path: AB-730, AB-731, AB-900, AB-100](https://res.cloudinary.com/dileepadev/image/upload/v1793124368/api-dileepa-dev/blogs/ias8djdx2nqguof6yksj.png)
 
 This path emphasizes business usage, transformation, administration, and eventually architecture.
 
@@ -544,13 +428,7 @@ This path emphasizes business usage, transformation, administration, and eventua
 
 If your focus is software engineering productivity:
 
-```text
-GH-300
-   ↓
-AI-103
-   ↓
-AI-500
-```
+![Developer productivity path: GH-300, AI-103, AI-500](https://res.cloudinary.com/dileepadev/image/upload/v1793124373/api-dileepa-dev/blogs/vd5hhsvfbk4fpclt4awp.png)
 
 The first focuses directly on AI-assisted development, while the latter two move into building AI applications and advanced agentic systems.
 
@@ -564,19 +442,7 @@ AI is no longer treated as a single skill.
 
 We're getting distinct engineering disciplines:
 
-```text
-AI Application Development
-          ↓
-AI Agents
-          ↓
-Multi-Agent Systems
-          ↓
-AI Operations
-          ↓
-AI Architecture
-          ↓
-Enterprise AI Governance
-```
+![The bigger picture: AI application development, AI agents, multi-agent systems, AI operations, AI architecture, enterprise AI governance](https://res.cloudinary.com/dileepadev/image/upload/v1793124378/api-dileepa-dev/blogs/g43ngnvyqryz1xv742cu.png)
 
 At the same time, Microsoft is building parallel paths for:
 
@@ -606,23 +472,11 @@ And if your world is Copilot, enterprise automation, or business AI, the **AB-se
 
 The old Microsoft AI roadmap was relatively simple:
 
-```text
-AI-900 → AI-102
-```
+![The old roadmap: AI-900, then AI-102](https://res.cloudinary.com/dileepadev/image/upload/v1793124383/api-dileepa-dev/blogs/ca5m9sfkjozwk7ogxyci.png)
 
 The 2026 roadmap is much more like:
 
-```text
-                         Microsoft AI
-                              │
-          ┌───────────────────┼───────────────────┐
-          ↓                   ↓                   ↓
-       Azure AI           Copilot / Agents     AI Development
-          │                   │                   │
-     AI-901 → AI-103      AB-620 / AB-900       GH-300
-          │                   │
-     AI-300 / AI-500       AB-100
-```
+![Microsoft AI today: Azure AI, Copilot and agents, and AI development, with the certifications under each](https://res.cloudinary.com/dileepadev/image/upload/v1793124388/api-dileepa-dev/blogs/oxdkaguypsiqvotrd3kf.png)
 
 That's a good thing.
 
