@@ -16,7 +16,7 @@ When a team built an integration for GitHub, PostgreSQL, or Jira, that code was 
 
 MCP standardizes this layer using an open, JSON-RPC 2.0-based protocol. It decouples **AI Hosts** (IDE extensions, agent runtimes, chat interfaces) from **MCP Servers** (tools, file access, database connectors, and enterprise services).
 
-![MCP architecture: the host runs one MCP client per server, reaching local MCP servers over stdio and remote MCP servers over Streamable HTTP.](https://res.cloudinary.com/dileepadev/image/upload/v1793731662/api-dileepa-dev/blogs/d95vehaud7sxt8mir5mh.webp)
+![MCP architecture: the host runs one MCP client per server, reaching local MCP servers over stdio and remote MCP servers over Streamable HTTP.](https://res.cloudinary.com/dileepadev/image/upload/v1793735947/api-dileepa-dev/blogs/y87kpned04oh7vflgdeh.svg)
 
 ---
 
@@ -52,7 +52,7 @@ Used for local tool execution, where the client launches the server as a subproc
 - **Diagnostics**: The server must not write anything but MCP messages to `stdout`. It may write logs to `stderr`, which the client can capture, forward, or ignore; `stderr` output is not an error signal on its own.
 - **Security**: Bound to local process permissions; zero network surface area.
 
-![stdio transport: the host writes JSON-RPC to the server's stdin and reads JSON-RPC from its stdout; the server writes diagnostic logs to stderr](https://res.cloudinary.com/dileepadev/image/upload/v1793731754/api-dileepa-dev/blogs/ekut9gpkd1mz8r5c00ab.webp)
+![stdio transport: the host writes JSON-RPC to the server's stdin and reads JSON-RPC from its stdout; the server writes diagnostic logs to stderr](https://res.cloudinary.com/dileepadev/image/upload/v1793735958/api-dileepa-dev/blogs/itxrmtsgdrfmgkea8tbe.svg)
 
 ### 2. Streamable HTTP
 
@@ -77,7 +77,7 @@ There is no separate `initialize` handshake. Every request carries its protocol 
 
 A version mismatch fails that one request with `UnsupportedProtocolVersionError` rather than a failed handshake.
 
-![Lifecycle of an MCP tool call under the 2026-07-28 specification: the client lists the server’s tools, the host chooses one, the client calls it and the result returns to the host. There is no initialize handshake; each request carries its protocol version and capabilities.](https://res.cloudinary.com/dileepadev/image/upload/v1793731762/api-dileepa-dev/blogs/akp6w276veiaf7zf21sc.webp)
+![Lifecycle of an MCP tool call under the 2026-07-28 specification: the client lists the server’s tools, the host chooses one, the client calls it and the result returns to the host. There is no initialize handshake; each request carries its protocol version and capabilities.](https://res.cloudinary.com/dileepadev/image/upload/v1793735968/api-dileepa-dev/blogs/f24ebhsnhfhi8yx4lw9r.svg)
 
 ---
 
