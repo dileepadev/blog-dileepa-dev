@@ -2,7 +2,7 @@
 title: "Context Compaction and Memory Management in Long-Running AI Agents"
 description: "How to prevent context window saturation and token starvation in autonomous AI agents through sliding windows, semantic distillation, and state-delta compaction."
 publishedDate: "2026-09-01"
-updatedDate: "2026-09-01"
+updatedDate: "2026-11-04"
 tags: ["AI Agents", "Context Window", "Memory Management", "LLM Architecture", "GenAIOps", "Python"]
 ---
 
@@ -18,7 +18,7 @@ In early iterations, context accumulation seems harmless. Modern frontier models
 
 To build reliable agents that can run for hours or days, you need a deterministic context management strategy.
 
-![Each tool interaction goes through token budgeting: under the cap it is appended to the trace; over the cap the context compactor prunes, distills and updates state](https://res.cloudinary.com/dileepadev/image/upload/v1793124289/api-dileepa-dev/blogs/gmtibyru0vq4kfggi6sh.png)
+![Each tool interaction goes through token budgeting: under the cap it is appended to the trace; over the cap the context compactor prunes, distills and updates state](https://res.cloudinary.com/dileepadev/image/upload/v1793731770/api-dileepa-dev/blogs/stvgrkjntvh7jee7thfo.webp)
 
 ---
 
@@ -26,7 +26,7 @@ To build reliable agents that can run for hours or days, you need a deterministi
 
 Production agent architectures structure working memory into three distinct lifecycle tiers:
 
-![Three tiers of context memory: ephemeral context, compacted session history, and long-term externalized memory](https://res.cloudinary.com/dileepadev/image/upload/v1793124295/api-dileepa-dev/blogs/camhwfn0namn6fn3ucer.png)
+![Three tiers of context memory: ephemeral context, compacted session history, and long-term externalized memory](https://res.cloudinary.com/dileepadev/image/upload/v1793731778/api-dileepa-dev/blogs/onaq9daygneu87ffm6mm.webp)
 
 ### 1. Ephemeral Context
 

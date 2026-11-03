@@ -2,7 +2,7 @@
 title: "Agent Evaluation: Moving Beyond Vibe Checks to CI-Driven Testing"
 description: "How to test non-deterministic AI agents in CI using deterministic assertions, trajectory checks, and structured LLM-as-a-judge rubrics."
 publishedDate: "2026-08-31"
-updatedDate: "2026-08-31"
+updatedDate: "2026-11-04"
 tags: ["AI", "AI Engineering", "Testing", "Python", "LLM", "Agents", "DevOps"]
 ---
 
@@ -94,7 +94,7 @@ The most common failure mode in multi-step agents is not a bad final answer—it
 
 Trajectory evaluation inspects the sequence of actions the agent took to reach the answer.
 
-![Trajectory evaluation: for the user input, the expected trajectory is lookup_order, then fetch_policy, then a synthesized final response](https://res.cloudinary.com/dileepadev/image/upload/v1793124302/api-dileepa-dev/blogs/aqmoivh8wlzorg6egvsk.png)
+![Trajectory evaluation: for the user input, the expected trajectory is lookup_order, then fetch_policy, then a synthesized final response](https://res.cloudinary.com/dileepadev/image/upload/v1793731786/api-dileepa-dev/blogs/pvgumblenph6fh99kzak.webp)
 
 ### Testing Tool Selection and Call Arguments
 
@@ -226,7 +226,7 @@ def test_agent_response_faithfulness(question: str, context: str, response: str)
 
 Running a 100-case LLM evaluation suite on every pull request commit can be slow and expensive. A practical CI workflow uses tiered execution:
 
-![Evaluation tiers in CI: fast free checks on every commit, a mocked trajectory suite on every pull request, and model-graded evaluation on merge to main or nightly](https://res.cloudinary.com/dileepadev/image/upload/v1793124309/api-dileepa-dev/blogs/ostemt50wua11vqgnols.png)
+![Evaluation tiers in CI: fast free checks on every commit, a mocked trajectory suite on every pull request, and model-graded evaluation on merge to main or nightly](https://res.cloudinary.com/dileepadev/image/upload/v1793731793/api-dileepa-dev/blogs/gazous09zfxpofxr4b56.webp)
 
 ### GitHub Actions Workflow Example
 
