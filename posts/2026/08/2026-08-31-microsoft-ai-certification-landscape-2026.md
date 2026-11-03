@@ -22,7 +22,7 @@ The result is a portfolio that looks less like a single AI certification ladder 
 
 The easiest way to understand it is:
 
-![Three illustrative focus areas: Azure AI, Business AI and Developer AI. Each displayed exam has its own matching badge; Business AI is a category, not a single credential.](https://res.cloudinary.com/dileepadev/image/upload/v1793731800/api-dileepa-dev/blogs/pzk32ft5ffje0ugopfcf.webp)
+![Three illustrative focus areas: Azure AI, Business AI and Developer AI. Each displayed exam has its own matching badge; Business AI is a category, not a single credential.](https://res.cloudinary.com/dileepadev/image/upload/v1793736016/api-dileepa-dev/blogs/dcbynuhmdqv9itpqrsrz.svg)
 
 The important question is therefore no longer:
 
@@ -73,7 +73,7 @@ If you're starting from zero, this is the natural entry point into the Azure AI 
 
 Think of it as:
 
-![AI-901 scope: AI concepts, Azure AI services, generative AI, then Microsoft Foundry](https://res.cloudinary.com/dileepadev/image/upload/v1793731807/api-dileepa-dev/blogs/qxpqhkocrtalcrb9eryb.webp)
+![AI-901 scope: AI concepts, Azure AI services, generative AI, then Microsoft Foundry](https://res.cloudinary.com/dileepadev/image/upload/v1793736024/api-dileepa-dev/blogs/thvzwrbyikvnfdmcxoen.svg)
 
 It's not intended to make you an advanced AI engineer.
 
@@ -101,7 +101,7 @@ It's increasingly about building applications where AI can reason, use tools, re
 
 A simplified progression is:
 
-![From AI-901 to AI-103: understand AI, then build AI applications and AI agents](https://res.cloudinary.com/dileepadev/image/upload/v1793731814/api-dileepa-dev/blogs/jraa1lesytpdpl8kreot.webp)
+![From AI-901 to AI-103: understand AI, then build AI applications and AI agents](https://res.cloudinary.com/dileepadev/image/upload/v1793736034/api-dileepa-dev/blogs/h4pujzd0o1uwbf2ommag.svg)
 
 For developers who want to work directly with Azure AI, AI-103 is one of the most important certifications in the current portfolio.
 
@@ -127,7 +127,7 @@ Its focus is on:
 
 The distinction is important:
 
-![AI-300: a developer builds the application; AI operations deploys, monitors, evaluates, maintains and improves it](https://res.cloudinary.com/dileepadev/image/upload/v1793731822/api-dileepa-dev/blogs/ryihx2tnem8ltem2zowt.webp)
+![AI-300: a developer builds the application; AI operations deploys, monitors, evaluates, maintains and improves it](https://res.cloudinary.com/dileepadev/image/upload/v1793736043/api-dileepa-dev/blogs/lga51gk6yxibgx4h4zga.svg)
 
 As organizations move from AI experiments to production systems, operational skills become increasingly important.
 
@@ -143,7 +143,7 @@ The focus moves beyond a single agent.
 
 Instead, you're dealing with systems where multiple specialized agents cooperate:
 
-![AI-500 multi-agent pattern: a manager agent delegates to research, coding and review agents, whose work merges into a final result](https://res.cloudinary.com/dileepadev/image/upload/v1793731829/api-dileepa-dev/blogs/jbjacgwu7vyh8trpf3js.webp)
+![AI-500 multi-agent pattern: a manager agent delegates to research, coding and review agents, whose work merges into a final result](https://res.cloudinary.com/dileepadev/image/upload/v1793736053/api-dileepa-dev/blogs/npfduzddsnwx7jt23n4e.svg)
 
 The exam covers concepts including:
 
@@ -181,7 +181,7 @@ The scope covers:
 
 Think:
 
-![AB-620 flow: business requirement, Copilot Studio, agent, enterprise data, actions and workflows, business outcome](https://res.cloudinary.com/dileepadev/image/upload/v1793731836/api-dileepa-dev/blogs/d4cnwdngygupkztyohlz.webp)
+![AB-620 flow: business requirement, Copilot Studio, agent, enterprise data, actions and workflows, business outcome](https://res.cloudinary.com/dileepadev/image/upload/v1793736062/api-dileepa-dev/blogs/xguv5bkdg4zt19hqg6wr.svg)
 
 This is particularly relevant for organizations adopting AI across internal business processes.
 
@@ -225,7 +225,7 @@ It's someone turning AI capabilities into useful business applications.
 
 This represents another major branch of Microsoft's AI strategy:
 
-![Two ways to build: traditional development leads to Azure AI and code; business application development leads to Power Platform, Copilot and AI](https://res.cloudinary.com/dileepadev/image/upload/v1793731844/api-dileepa-dev/blogs/ffinbnqekwsjqgoqagor.webp)
+![Two ways to build: traditional development leads to Azure AI and code; business application development leads to Power Platform, Copilot and AI](https://res.cloudinary.com/dileepadev/image/upload/v1793736071/api-dileepa-dev/blogs/p3ux5cihkyvaoujax2lx.svg)
 
 ## 8. AB-210 and AB-250 — Specialized Dynamics AI
 
@@ -271,7 +271,7 @@ Not everyone working with enterprise AI will be building models or writing agent
 
 Someone still needs to manage:
 
-![AB-650 layers: identity, permissions, security, governance, AI services, then Copilot and agents](https://res.cloudinary.com/dileepadev/image/upload/v1793731852/api-dileepa-dev/blogs/nhkixin9v1tf0djuocxu.webp)
+![AB-650 layers: identity, permissions, security, governance, AI services, then Copilot and agents](https://res.cloudinary.com/dileepadev/image/upload/v1793736077/api-dileepa-dev/blogs/t0ll3dj2llb0jc6y6i7z.svg)
 
 That's the problem space AB-650 targets.
 
@@ -297,7 +297,7 @@ It's therefore an accessible entry point for:
 
 The important distinction is:
 
-![An AI engineer and an AI business user are different roles](https://res.cloudinary.com/dileepadev/image/upload/v1793731859/api-dileepa-dev/blogs/aium9unyxqlybepkljcd.webp)
+![An AI engineer and an AI business user are different roles](https://res.cloudinary.com/dileepadev/image/upload/v1793736084/api-dileepa-dev/blogs/l6hqozkertd8rabgsems.svg)
 
 Microsoft's certification portfolio now reflects that difference explicitly.
 
@@ -414,7 +414,7 @@ Your path should depend on what you want to become.
 
 If your goal is to build AI applications and agents on Azure:
 
-![Suggested Azure AI study sequence. To earn the AI-500 Expert credential, hold the AI-103 credential and pass AI-500. AI-300 is optional operations study, not the prerequisite.](https://res.cloudinary.com/dileepadev/image/upload/v1793731866/api-dileepa-dev/blogs/zwx20odzjfctmbrnnt1z.webp)
+![Suggested Azure AI study sequence. To earn the AI-500 Expert credential, hold the AI-103 credential and pass AI-500. AI-300 is optional operations study, not the prerequisite.](https://res.cloudinary.com/dileepadev/image/upload/v1793736092/api-dileepa-dev/blogs/uegx2jrr2ojpjvfov7jy.svg)
 
 This gives you a progression from fundamentals → development → operations → advanced multi-agent systems. To earn the AI-500 Expert credential, you need the AI-103 credential and a pass in AI-500; AI-300 is optional operations study here, not a prerequisite.
 
@@ -422,7 +422,7 @@ This gives you a progression from fundamentals → development → operations �
 
 If you're more interested in enterprise agents and Copilot:
 
-![Suggested Copilot study sequence. Earning AB-100’s Expert credential also requires one eligible active Associate credential; AI-103 or AB-620 are qualifying options.](https://res.cloudinary.com/dileepadev/image/upload/v1793731873/api-dileepa-dev/blogs/xjnklfhlnrhtk7gxqrhk.webp)
+![Suggested Copilot study sequence. Earning AB-100’s Expert credential also requires one eligible active Associate credential; AI-103 or AB-620 are qualifying options.](https://res.cloudinary.com/dileepadev/image/upload/v1793736101/api-dileepa-dev/blogs/o8g4znled246u2wrwomf.svg)
 
 This combines fundamentals, agent building, Azure AI development, and enterprise architecture. AB-100's Expert credential also needs an active, eligible Associate credential; AI-103 and AB-620 both qualify.
 
@@ -430,7 +430,7 @@ This combines fundamentals, agent building, Azure AI development, and enterprise
 
 If you're focused on business adoption rather than coding:
 
-![Suggested business and leadership study sequence, including an eligible Associate credential before AB-100. AB-620 is shown as one qualifying option; AB-730, AB-731 and AB-900 do not meet that prerequisite.](https://res.cloudinary.com/dileepadev/image/upload/v1793731881/api-dileepa-dev/blogs/jsljbmxw6rnrylkdni3p.webp)
+![Suggested business and leadership study sequence, including an eligible Associate credential before AB-100. AB-620 is shown as one qualifying option; AB-730, AB-731 and AB-900 do not meet that prerequisite.](https://res.cloudinary.com/dileepadev/image/upload/v1793736110/api-dileepa-dev/blogs/adhoevbt6it1hfkblztf.svg)
 
 This path emphasizes business usage, transformation, administration, and eventually architecture. Before AB-100 counts, you need an eligible Associate credential such as AB-620. AB-730, AB-731 and AB-900 don't meet that requirement.
 
@@ -438,7 +438,7 @@ This path emphasizes business usage, transformation, administration, and eventua
 
 If your focus is software engineering productivity:
 
-![Suggested developer study sequence. To earn the AI-500 Expert credential, hold the AI-103 credential and pass AI-500. GH-300 is not the prerequisite credential.](https://res.cloudinary.com/dileepadev/image/upload/v1793731888/api-dileepa-dev/blogs/ksfevr5cc7jttmqpcsju.webp)
+![Suggested developer study sequence. To earn the AI-500 Expert credential, hold the AI-103 credential and pass AI-500. GH-300 is not the prerequisite credential.](https://res.cloudinary.com/dileepadev/image/upload/v1793736118/api-dileepa-dev/blogs/e2emzxh9olfxdsiap3fg.svg)
 
 The first focuses directly on AI-assisted development, while the latter two move into building AI applications and advanced agentic systems. GH-300 is not a prerequisite for either; AI-500's Expert credential needs AI-103.
 
@@ -452,7 +452,7 @@ AI is no longer treated as a single skill.
 
 We're getting distinct engineering disciplines:
 
-![The bigger picture: AI application development, AI agents, multi-agent systems, AI operations, AI architecture, enterprise AI governance](https://res.cloudinary.com/dileepadev/image/upload/v1793731895/api-dileepa-dev/blogs/c2ctfmbc3mszc0p5gya0.webp)
+![The bigger picture: AI application development, AI agents, multi-agent systems, AI operations, AI architecture, enterprise AI governance](https://res.cloudinary.com/dileepadev/image/upload/v1793736125/api-dileepa-dev/blogs/qfmzjqolmcd8giv1pjn6.svg)
 
 At the same time, Microsoft is building parallel paths for:
 
@@ -482,11 +482,11 @@ And if your world is Copilot, enterprise automation, or business AI, the **AB-se
 
 The old Microsoft AI roadmap was relatively simple:
 
-![The old roadmap: AI-900, then AI-102](https://res.cloudinary.com/dileepadev/image/upload/v1793731903/api-dileepa-dev/blogs/dikzzpq1xuzregclnim2.webp)
+![The old roadmap: AI-900, then AI-102](https://res.cloudinary.com/dileepadev/image/upload/v1793736134/api-dileepa-dev/blogs/uwnyjoheebnkdlzwbbsq.svg)
 
 The 2026 roadmap is much more like:
 
-![Selected credentials grouped by focus. AI-901 and AB-900 use Fundamentals badges; AI-103, AI-300 and AB-620 use Associate badges; AI-500 and AB-100 use Expert badges; GH-300 uses the GitHub Copilot badge.](https://res.cloudinary.com/dileepadev/image/upload/v1793731911/api-dileepa-dev/blogs/ahusjaxwqk3c9ohxvhvv.webp)
+![Selected credentials grouped by focus. AI-901 and AB-900 use Fundamentals badges; AI-103, AI-300 and AB-620 use Associate badges; AI-500 and AB-100 use Expert badges; GH-300 uses the GitHub Copilot badge.](https://res.cloudinary.com/dileepadev/image/upload/v1793736143/api-dileepa-dev/blogs/ip7qnwp6snmkqgtzbdwi.svg)
 
 That's a good thing.
 

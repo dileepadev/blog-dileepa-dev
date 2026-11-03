@@ -18,7 +18,7 @@ In early iterations, context accumulation seems harmless. Modern frontier models
 
 To build reliable agents that can run for hours or days, you need a deterministic context management strategy.
 
-![Each tool interaction goes through token budgeting: under the cap it is appended to the trace; over the cap the context compactor prunes, distills and updates state](https://res.cloudinary.com/dileepadev/image/upload/v1793731770/api-dileepa-dev/blogs/stvgrkjntvh7jee7thfo.webp)
+![Each tool interaction goes through token budgeting: under the cap it is appended to the trace; over the cap the context compactor prunes, distills and updates state](https://res.cloudinary.com/dileepadev/image/upload/v1793735978/api-dileepa-dev/blogs/nrodww9jyzz7sd4cikdr.svg)
 
 ---
 
@@ -26,7 +26,7 @@ To build reliable agents that can run for hours or days, you need a deterministi
 
 Production agent architectures structure working memory into three distinct lifecycle tiers:
 
-![Three tiers of context memory: ephemeral context, compacted session history, and long-term externalized memory](https://res.cloudinary.com/dileepadev/image/upload/v1793731778/api-dileepa-dev/blogs/onaq9daygneu87ffm6mm.webp)
+![Three tiers of context memory: ephemeral context, compacted session history, and long-term externalized memory](https://res.cloudinary.com/dileepadev/image/upload/v1793735988/api-dileepa-dev/blogs/wegoqym0jobjwe7zjyge.svg)
 
 ### 1. Ephemeral Context
 
