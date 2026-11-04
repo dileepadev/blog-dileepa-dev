@@ -1,12 +1,12 @@
 ---
 title: "The Microsoft AI Certification Landscape in 2026"
-description: "A practical guide to Microsoft's current AI certification portfolio in 2026, covering Azure AI, AI agents, MLOps, Copilot, multi-agent systems, Power Platform, Dynamics, and GitHub Copilot."
+description: "A practical guide to all 23 Microsoft AI certification exams you can take in 2026, covering Azure AI, AI agents, MLOps, Copilot, multi-agent systems, Power Platform, Dynamics, GitHub, agentic DevOps, AI databases, and AI security."
 publishedDate: "2026-08-31"
 updatedDate: "2026-11-04"
 tags: ["Microsoft AI", "Azure AI", "AI Certifications", "Microsoft Certifications", "AI Agents", "Microsoft Foundry", "Copilot", "GitHub Copilot", "MLOps"]
 ---
 
-> **Updated 4 November 2026.** Credential titles, badges and prerequisites were checked against the official Microsoft Learn pages. The career-path images now show suggested study sequences, with each Expert credential's actual requirement written out. AI-200 has been added, and the exam table's status column is kept as the August 2026 snapshot.
+> **Updated 4 November 2026.** Every exam, title, status and prerequisite in this post was rechecked against Microsoft Learn on 4 November 2026. AI-500 and AB-650 are out of beta. AB-210 is still in beta, as are three new exams: AZ-401, AB-330 and GH-700. Eight exams that belong on an AI map are now covered: GH-600, GH-700, AZ-401, DP-800, DP-420, SC-500, AB-400 and AB-330, bringing the total to twenty-three. Each exam's section now matches its current study guide, including the October 2026 updates to AB-730 and AB-900. A new section lists what retired in 2026 and what replaced it.
 
 ## Microsoft's AI Certification Portfolio Has Changed
 
@@ -16,13 +16,13 @@ Those certifications were important.
 
 They're also no longer the current path.
 
-As of August 2026, Microsoft has significantly expanded its AI certification portfolio around a much broader set of skills: Azure AI application development, AI agents, multi-agent systems, GenAIOps, Copilot, AI architecture, AI-assisted development, and enterprise AI administration.
+As of November 2026, Microsoft has significantly expanded its AI certification portfolio around a much broader set of skills: Azure AI application development, AI agents, multi-agent systems, GenAIOps, Copilot, AI architecture, AI-assisted and agentic development, AI-enabled databases, AI security, and enterprise AI administration.
 
 The result is a portfolio that looks less like a single AI certification ladder and more like several specialized paths.
 
 The easiest way to understand it is:
 
-![Three illustrative focus areas: Azure AI, Business AI and Developer AI. Each displayed exam has its own matching badge; Business AI is a category, not a single credential.](https://res.cloudinary.com/dileepadev/image/upload/v1793736016/api-dileepa-dev/blogs/dcbynuhmdqv9itpqrsrz.svg)
+![Three focus areas: Azure AI (AI-901, AI-103, AI-200, AI-300, AI-500), Business AI with Copilot and agents, and Developer AI (GH-300, GH-600). Each exam is shown with its own badge.](https://res.cloudinary.com/dileepadev/image/upload/v1793793425/api-dileepa-dev/blogs/oel3zyw1hyc3sbrydp6l.svg)
 
 The important question is therefore no longer:
 
@@ -34,27 +34,37 @@ It's:
 
 ## The Current Microsoft AI Exams
 
-Here's the current landscape as of August 2026:
+Here's every AI-focused exam you can take as of 4 November 2026:
 
-| Exam | Title | Level / Area | Status (August 2026) |
+| Exam | Title | Level / Area | Status (4 November 2026) |
 | --- | --- | --- | --- |
-| **AI-901** | Microsoft Azure AI Fundamentals | Beginner / Azure AI | Current |
-| **AI-103** | Developing AI Apps and Agents on Azure | Associate / Azure AI | Current |
-| **AI-200** | Developing AI Cloud Solutions on Azure | Associate / Azure AI back end | Added July 2026; replaced AZ-204 |
-| **AI-300** | Operationalizing Machine Learning and Generative AI Solutions | Associate / MLOps & GenAIOps | Current |
-| **AI-500** | Designing and Implementing Multi-Agent AI Solutions | Expert / Multi-Agent AI | Beta |
-| **AB-620** | Designing and Building Integrated AI Agent Solutions in Copilot Studio | Associate / Copilot Studio | Current |
-| **AB-100** | Agentic AI Business Solutions Architect | Expert / AI Architecture | Current |
-| **AB-410** | Building Intelligent Applications | Associate / Power Platform AI | Current |
-| **AB-210** | Accelerating Sales Pipelines with AI in Dynamics 365 | Associate / Dynamics AI | Current |
-| **AB-250** | Transforming Contact Center Experiences with AI in Dynamics 365 | Associate / Contact Center AI | Current |
-| **AB-650** | Administering Microsoft 365 and AI Services | Associate / Microsoft 365 AI | Beta |
-| **AB-730** | AI Business Professional | Beginner / Microsoft 365 Copilot | Current |
-| **AB-731** | AI Transformation Leader | Beginner / AI Strategy | Current |
-| **AB-900** | Copilot and Agent Administration Fundamentals | Beginner / Copilot Administration | Current |
-| **GH-300** | GitHub Copilot | Intermediate / AI-Assisted Development | Current |
+| **AI-901** | Microsoft Azure AI Fundamentals | Beginner / Azure AI | Live; replaced AI-900 |
+| **AI-103** | Developing AI Apps and Agents on Azure | Associate / Azure AI | Live; replaced AI-102 |
+| **AI-200** | Developing AI Cloud Solutions on Azure | Associate / Azure AI back end | Live; replaced AZ-204 |
+| **AI-300** | Operationalizing Machine Learning and Generative AI Solutions | Associate / MLOps & GenAIOps | Live; replaced DP-100 |
+| **AI-500** | Designing and Implementing Multi-Agent AI Solutions | Expert / Multi-Agent AI | Live (out of beta) |
+| **AB-620** | Designing and Building Integrated AI Agent Solutions in Copilot Studio | Associate / Copilot Studio | Live |
+| **AB-100** | Agentic AI Business Solutions Architect | Expert / AI Architecture | Live; update on 16 November 2026 |
+| **AB-410** | Building Intelligent Applications | Associate / Power Platform AI | Live; replaced PL-200 |
+| **AB-400** | Extending Microsoft Power Platform Solutions with Code and AI | Associate / Power Platform development | Live; replaced PL-400 |
+| **AB-210** | Accelerating Sales Pipelines with AI in Dynamics 365 | Associate / Dynamics AI | Beta; replaced MB-280 |
+| **AB-250** | Transforming Contact Center Experiences with AI in Dynamics 365 | Associate / Contact Center AI | Live |
+| **AB-330** | Implementing AI-Powered Supply Chain Operations with Dynamics 365 Supply Chain Management | Associate / Supply Chain AI | Beta |
+| **AB-650** | Administering Microsoft 365 and AI Services | Associate / Microsoft 365 AI | Live (out of beta) |
+| **AB-730** | AI Business Professional | Beginner / Microsoft 365 Copilot | Live |
+| **AB-731** | AI Transformation Leader | Beginner / AI Strategy | Live |
+| **AB-900** | Microsoft 365 Copilot and Agent Administration Fundamentals | Beginner / Copilot Administration | Live |
+| **GH-300** | GitHub Copilot | Intermediate / AI-Assisted Development | Live |
+| **GH-600** | Developing in Agentic AI Systems | Intermediate / Agentic AI on GitHub | Live |
+| **GH-700** | Enhancing Operational Efficiency with Agentic AI | Intermediate / Agentic AI for business roles | Beta |
+| **DP-800** | Developing AI-Enabled Database Solutions | Associate / SQL and AI | Live |
+| **DP-420** | Building AI Applications with Azure Cosmos DB | Associate / Azure Cosmos DB and AI | Live; updated October 6, 2026 |
+| **SC-500** | Implementing End-to-End Security Controls for Cloud and AI Workloads | Associate / Cloud and AI Security | Live; replaced AZ-500 |
+| **AZ-401** | Designing and Implementing Microsoft Agentic DevOps Solutions | Expert / Agentic DevOps | Beta |
 
-That's a substantial expansion compared with the older two-exam Azure AI picture. Beta status changes quickly, so check an exam's own page before you book it.
+That's twenty-three exams, compared with the older two-exam Azure AI picture. Beta exams aren't scored right away, and status changes quickly, so check an exam's own page before you book it.
+
+The table covers AI-focused certification exams. Microsoft Applied Skills credentials aren't included.
 
 ## 1. AI-901 — Azure AI Fundamentals
 
@@ -73,7 +83,7 @@ If you're starting from zero, this is the natural entry point into the Azure AI 
 
 Think of it as:
 
-![AI-901 scope: AI concepts, Azure AI services, generative AI, then Microsoft Foundry](https://res.cloudinary.com/dileepadev/image/upload/v1793736024/api-dileepa-dev/blogs/thvzwrbyikvnfdmcxoen.svg)
+![AI-901 scope: AI concepts, AI workloads (text, speech, vision and extraction), generative AI, then Microsoft Foundry](https://res.cloudinary.com/dileepadev/image/upload/v1793793463/api-dileepa-dev/blogs/ml5ast4sadkbndjsbnpr.svg)
 
 It's not intended to make you an advanced AI engineer.
 
@@ -90,7 +100,7 @@ The scope includes:
 - Planning and managing Azure AI solutions in Microsoft Foundry
 - Implementing generative AI and agentic solutions (models, tools, memory, grounding)
 - Implementing computer vision solutions
-- Implementing text analysis and natural language processing
+- Implementing text analysis and speech solutions
 - Implementing information extraction with Content Understanding
 
 The important word here is **agents**.
@@ -113,16 +123,17 @@ Building an AI application is only one part of the problem.
 
 Running it reliably in production is another.
 
-That's where AI-300 comes in (**Operationalizing Machine Learning and Generative AI Solutions**).
+That's where AI-300 comes in (**Operationalizing Machine Learning and Generative AI Solutions**). It leads to the **Machine Learning Operations Engineer Associate** certification and replaced DP-100 in 2026.
 
 Its focus is on:
 
 - Machine learning operations (MLOps)
 - Generative AI operations (GenAIOps)
 - AI lifecycle management
-- Infrastructure and deployment pipelines
+- Infrastructure as code and deployment pipelines
 - Quality, evaluation, and safety
 - Observability and monitoring
+- Prompt versioning, RAG optimization, and fine-tuning
 - Production AI systems
 
 The distinction is important:
@@ -137,7 +148,7 @@ AI-300 therefore fits particularly well for engineers working around MLOps, GenA
 
 This is one of the most significant additions to Microsoft's AI certification portfolio.
 
-AI-500 focuses on designing and implementing multi-agent AI solutions and is currently in beta.
+AI-500 focuses on designing and implementing multi-agent AI solutions. It's now out of beta and generally available, and it leads to the **Multi-Agent AI Solutions Expert** certification, which also requires the AI-103 credential.
 
 The focus moves beyond a single agent.
 
@@ -149,10 +160,10 @@ The exam covers concepts including:
 
 - Multi-agent architecture design and persona scoping
 - Microsoft Foundry and Microsoft Agent Framework
-- Agent orchestration patterns (sequential, concurrent, handoff, group chat, supervisor)
+- Agent orchestration patterns (hub-and-spoke, sequential, parallel, peer-to-peer, orchestrator-subagent)
 - Model Context Protocol (MCP) and Agent2Agent (A2A) protocols
 - Multi-agent RAG, memory architectures, and context compaction
-- LangGraph and Hugging Face Transformers integration
+- LangChain, LangGraph, and Hugging Face Transformers integration
 - Multi-intervention guardrails, Zero Trust security, and shift-left red teaming
 - Observability, trace correlation, and LLM-as-a-judge evaluation
 
@@ -173,6 +184,7 @@ The target audience is developers and builders who want to create business-orien
 The scope covers:
 
 - Planning and configuring agent solutions
+- Agent flows, topics, and integration with Azure
 - Connecting to enterprise knowledge sources (ServiceNow, SAP, Dataverse, Azure AI Search)
 - Adding tools, custom connectors, REST APIs, and MCP tools
 - Autonomous task execution with computer use
@@ -201,7 +213,7 @@ The focus is broad and multi-disciplinary:
 - Telemetry, model tuning, and ROI analysis
 - Application Lifecycle Management (ALM) for agentic solutions
 
-Because AB-100 is an expert-level credential, Microsoft requires holding an active associate-level prerequisite certification (such as AI-103, AI-300, AB-620, AB-410, AB-210, or AB-250) to earn the expert badge. AB-650, AB-730, AB-731 and AB-900 are not on that list.
+Because AB-100 is an expert-level credential, Microsoft requires holding an active associate-level prerequisite certification to earn the expert badge. The AI options on that list are AI-103, AI-300, AB-620, AB-410, AB-210, AB-250, and the Power Platform Developer Associate (now earned through AB-400); several Dynamics 365 associate certifications also qualify. Common mix-ups that are not on that list include AB-650, AB-730, AB-731, AB-900, AB-330, AI-200, DP-800, DP-420 and SC-500.
 
 Microsoft has scheduled updates to the AB-100 exam for November 16, 2026, so read the current study guide before you prepare.
 
@@ -209,15 +221,16 @@ That tells you something important about Microsoft's direction: AI architecture 
 
 ## 7. AB-410 — Intelligent Applications Builder
 
-AB-410 (**Building Intelligent Applications**) focuses on building AI-powered applications through Microsoft's Power Platform ecosystem.
+AB-410 (**Building Intelligent Applications**) focuses on building AI-powered applications through Microsoft's Power Platform ecosystem. It leads to the **Intelligent Applications Builder Associate** certification and replaced PL-200 on August 31, 2026.
 
 The certification covers areas such as:
 
-- Power Platform components and environments
-- Copilot Studio integration
-- Microsoft Dataverse
-- AI Builder models and custom prompts
-- Low-code workflow automation
+- Designing Power Platform solutions with AI-enabled tools
+- Microsoft Dataverse data models
+- Model-driven and canvas apps
+- Prompts and models in AI Hub
+- Cloud flows and low-code workflow automation
+- Copilot Studio agents created from apps
 
 The target isn't necessarily someone building large AI cloud infrastructure.
 
@@ -227,13 +240,13 @@ This represents another major branch of Microsoft's AI strategy:
 
 ![Two ways to build: traditional development leads to Azure AI and code; business application development leads to Power Platform, Copilot and AI](https://res.cloudinary.com/dileepadev/image/upload/v1793736071/api-dileepa-dev/blogs/p3ux5cihkyvaoujax2lx.svg)
 
-## 8. AB-210 and AB-250 — Specialized Dynamics AI
+## 8. AB-210, AB-250 and AB-330 — Specialized Dynamics AI
 
 Microsoft also has AI certifications tied directly to Dynamics 365 business applications.
 
 ### AB-210: Accelerating Sales Pipelines with AI in Dynamics 365
 
-Leads to the **Dynamics 365 Sales AI Consultant Associate** certification. It covers:
+Leads to the **Dynamics 365 Sales AI Consultant Associate** certification, which replaced the Customer Experience Analyst Associate (MB-280) on July 31, 2026. The exam is still in beta. It covers:
 
 - Dynamics 365 Sales core features and Copilot in Sales
 - Automated lead qualification with the Sales Qualification Agent
@@ -245,16 +258,26 @@ Leads to the **Dynamics 365 Sales AI Consultant Associate** certification. It co
 
 Leads to the **Dynamics 365 Contact Center AI Engineer Associate** certification. It focuses on:
 
-- AI-powered omnichannel contact center experiences
-- Copilot and agent capabilities in customer service
-- Knowledge grounding with Copilot Studio and Microsoft Foundry
-- Contact center analytics and operational intelligence
+- Deploying Dynamics 365 Contact Center with chat, digital, and voice channels
+- Agent assist capabilities and voice agents built with Copilot Studio
+- Unified routing, queues, and experience profiles
+- Knowledge management, including the Customer Knowledge Management agent
+- Supervisor experience, analytics, and reporting
+
+### AB-330: Implementing AI-Powered Supply Chain Operations with Dynamics 365 Supply Chain Management
+
+Leads to the **Supply Chain Management AI Consultant Associate** certification. The exam is new and in beta. Microsoft describes the role as implementing end-to-end supply chain processes together with AI-enabled capabilities, and the skills outline is organized around those core processes:
+
+- Source to pay, inventory to deliver, and order to cash
+- Design to retire, plan to produce, and forecast to plan
+
+It sits alongside the existing Supply Chain Management Functional Consultant Associate (MB-330) rather than replacing it.
 
 These certifications make sense if your career is already centered around Dynamics rather than general-purpose AI engineering.
 
 ## 9. AB-650 — Microsoft 365 and AI Administration
 
-AB-650 focuses on **Administering Microsoft 365 and AI Services** and is currently in beta.
+AB-650 focuses on **Administering Microsoft 365 and AI Services**. It's now out of beta and generally available, and it leads to the **Microsoft 365 and AI Services Administrator Associate** certification.
 
 The emphasis is on operational governance:
 
@@ -281,11 +304,14 @@ Not every AI role requires programming.
 
 AB-730 is aimed at business professionals using Microsoft 365 Copilot and AI agents.
 
-The focus is less about implementing AI systems and more about using AI effectively in business workflows:
+The focus is less about implementing AI systems and more about using AI effectively in business workflows. The exam was updated on October 20, 2026, and now covers:
 
-- Prompt crafting and generative AI capabilities for daily work
-- Business workflows, document synthesis, and data analysis with Copilot
-- Everyday productivity across Microsoft 365 applications
+- Generative AI fundamentals, responsible AI, and data protection
+- Prompts and chats in Microsoft 365 Copilot, including Notebooks
+- Drafting and analyzing business content with Work IQ and connectors
+- Meetings and collaboration with the Facilitator agent and Copilot Pages
+- Prebuilt Microsoft 365 Copilot agents for business tasks
+- Delegating multi-step work to Microsoft Copilot Cowork
 
 It's therefore an accessible entry point for:
 
@@ -309,10 +335,10 @@ Rather than focusing on implementation, it focuses on AI transformation and orga
 
 The target audience includes leaders responsible for:
 
-- AI adoption and change management
-- Organizational transformation and innovation strategy
-- Copilot strategy and business case formulation
-- Responsible AI governance at executive levels
+- The business value of generative AI, including return-on-investment (ROI) considerations
+- The benefits and capabilities of Microsoft 365 Copilot, Microsoft Copilot, and Foundry Tools
+- An adoption strategy for Microsoft's AI apps and services
+- Responsible AI policies, governance principles, and an AI council
 
 This is less about:
 
@@ -324,14 +350,14 @@ and more about:
 
 ## 12. AB-900 — Copilot and Agent Administration Fundamentals
 
-AB-900 (**Copilot and Agent Administration Fundamentals**) provides a fundamentals-level path for administrators and IT professionals.
+AB-900 (**Microsoft 365 Copilot and Agent Administration Fundamentals**) provides a fundamentals-level path for administrators and IT professionals. It leads to the **Microsoft 365 Certified: Copilot and Agent Administration Fundamentals** certification.
 
 The focus is around:
 
-- Copilot administration fundamentals
-- Agent administration and lifecycle concepts
-- Security and data protection basics
-- Governance principles in Microsoft 365 AI
+- Core Microsoft 365 services and security principles
+- Data protection and governance with Microsoft Purview
+- Finding and monitoring oversharing in SharePoint
+- Copilot and agent features and basic administration tasks
 
 This makes it a useful starting point for administrators who want to understand AI administration without taking on the full scope of AB-650.
 
@@ -345,7 +371,9 @@ That's where GH-300 — GitHub Copilot fits.
 
 The certification focuses on GitHub Copilot and AI-assisted development, including:
 
-- GitHub Copilot capabilities and subscription management
+- Responsible AI and validating AI output
+- GitHub Copilot in the IDE and the GitHub Copilot CLI
+- Copilot plans, features, and organization-wide settings and policies
 - Prompt engineering and context crafting for code generation
 - Developer productivity (refactoring, documentation, test generation)
 - Data flow, architecture, proxy filtering, and post-processing
@@ -361,16 +389,133 @@ It's:
 
 > "How should engineering teams safely and effectively work with AI coding tools?"
 
-## The Old AI Certifications
+## 14. GH-600 — Agentic AI Developer
 
-If you've been studying Microsoft AI material for a while, you'll probably encounter two familiar names:
+GH-300 is about working alongside an AI coding assistant.
 
-- **AI-900: Microsoft Azure AI Fundamentals** — Replaced by **AI-901**.
-- **AI-102: Designing and Implementing a Microsoft Azure AI Solution** — Officially retired on **June 30, 2026**; replaced by **AI-103**.
+GH-600 (**Developing in Agentic AI Systems**) is about running coding agents as part of the delivery pipeline itself.
 
-AI-900 also retired on June 30, 2026. The certification it led to, **Azure AI Fundamentals**, keeps its name; AI-901 is now the exam for it. A related change: **AZ-204** (Azure Developer Associate) retired on July 31, 2026, and **AI-200** replaced it.
+It leads to the **GitHub Certified: Agentic AI Developer** certification, an intermediate-level credential that uses GitHub as the system of record and control plane for agents. The exam covers:
 
-So if your goal is to take a current Microsoft AI exam from September 2026 onward, don't automatically follow an older AI-900 or AI-102 study guide.
+- Agent architecture in the SDLC, with planning kept separate from action
+- Tool use, MCP servers, MCP registries and allow lists
+- Agents that run in CI workflows and open branches and pull requests
+- Agent memory, durable state, and context drift
+- Evaluation, error analysis, and tuning from logs, traces and scans
+- Multi-agent orchestration, isolation, conflict resolution, and recovery
+- Autonomy levels, guardrails, and human-in-the-loop approvals
+
+If GH-300 asks "how do I use AI to write code?", GH-600 asks "how do I let an agent ship code safely?"
+
+## 15. GH-700 — Agentic AI Business Professional (beta)
+
+GH-700 (**Enhancing Operational Efficiency with Agentic AI**) is a new beta exam for business roles such as product managers, program managers, and business analysts. It leads to the **GitHub Certified: Agentic AI Business Professional** certification and doesn't require deep coding experience.
+
+It covers:
+
+- GitHub projects, issues, pull requests, and wikis for planning and tracking work
+- Governance, budget guardrails, token usage, and responsible AI
+- GitHub Copilot Chat, custom agents, and prompts that produce reliable output
+- Designing and implementing agentic workflows and automations, including skills and MCP servers
+- Human-in-the-loop review, approvals, and supervising agentic workflow runs
+
+Where GH-600 is for developers running coding agents, GH-700 brings agentic workflows to the people who plan and run the work.
+
+## 16. AZ-401 — Agentic DevOps Engineer (beta)
+
+AZ-401 (**Designing and Implementing Microsoft Agentic DevOps Solutions**) is a new expert-level exam, currently in beta. It leads to the **Microsoft Certified: Agentic DevOps Engineer Expert** certification.
+
+It takes the DevOps engineer role and adds AI agents throughout it:
+
+- Flow of work, success metrics, and documentation with AI-assisted tools
+- MCP servers for Azure DevOps and GitHub, plus requirements for agentic development
+- Branching strategies and branch protection rules for GitHub Copilot
+- Azure Pipelines, GitHub Actions, and GitHub Agentic Workflows
+- Quality gates, tests, and code coverage with GitHub Copilot and MCP servers
+- Secretless authentication, secrets management, and security scanning
+- Monitoring with Azure SRE Agent and Azure Copilot Observability Agent
+
+Pipelines and releases are where AI agents start acting on production systems, so this is the operations side of agentic development.
+
+## 17. DP-800 — SQL AI Developer
+
+AI isn't only arriving in new services. It's also arriving in the database.
+
+DP-800 (**Developing AI-Enabled Database Solutions**) leads to the **SQL AI Developer Associate** certification. It targets developers working across SQL Server, Azure SQL, and SQL databases in Microsoft Fabric:
+
+- Advanced T-SQL, JSON, regular expressions, and graph queries
+- AI-assisted SQL development with GitHub Copilot, Copilot in Fabric, and MCP
+- Data security, performance tuning, and CI/CD with SQL Database Projects
+- REST and GraphQL endpoints with Data API builder
+- External models and embeddings managed from the database
+- Full-text, vector, and hybrid search, including reciprocal rank fusion
+- Retrieval-augmented generation (RAG) driven from T-SQL
+
+For anyone who already works in SQL, this is the most direct route into AI work.
+
+## 18. DP-420 — Azure Cosmos DB AI Developer
+
+DP-420 (**Building AI Applications with Azure Cosmos DB**) was updated on October 6, 2026. Its certification, previously the Azure Cosmos DB Developer Specialty, is now the **Azure Cosmos DB AI Developer Associate**.
+
+Most of the exam is still core Azure Cosmos DB development, and a dedicated section covers AI:
+
+- Data models, partitioning strategies, and the change feed
+- Designing Azure Cosmos DB solutions with AI-assisted tools
+- Full-text, vector, and hybrid search, including sharded DiskANN
+- Retrieval-augmented generation (RAG)
+- Agent memory stores: durable memory, conversation state, and semantic memory
+- Operational analytics with mirroring into Microsoft Fabric
+
+For developers building agents on Azure, this is the exam about where agent memory and retrieval data live.
+
+## 19. SC-500 — Cloud and AI Security Engineer
+
+SC-500 (**Implementing End-to-End Security Controls for Cloud and AI Workloads**) replaced AZ-500 on August 31, 2026. It leads to the **Cloud and AI Security Engineer Associate** certification.
+
+Most of the exam is still core cloud security: identity, Key Vault, governance, storage, networking, and compute. The new part is a dedicated section on securing AI:
+
+- Finding overshared data and AI risk with Microsoft Purview DSPM
+- Real-time protection for Copilot Studio agents
+- Conditional access and access management for Microsoft Entra Agent ID
+- AI Gateway in Azure API Management for Microsoft Foundry
+- Defender for AI Services and guardrails for agents in Foundry
+- Microsoft Security Copilot workspaces, plugins, and agents
+
+Securing AI workloads is now part of the standard security engineer role.
+
+## 20. AB-400 — Power Platform Developer
+
+AB-400 (**Extending Microsoft Power Platform Solutions with Code and AI**) replaced PL-400 on October 30, 2026. The certification keeps its name, **Power Platform Developer Associate**, but the exam now includes agents and generative AI.
+
+Where AB-410 is the low-code builder path, AB-400 is the pro-code one:
+
+- Choosing between deterministic logic and generative AI in a solution
+- Power Apps code apps, generative pages, and PCF code components
+- Dataverse plug-ins, custom APIs, and the Dataverse SDKs for .NET and Python
+- Custom connectors and MCP servers for Power Platform
+- Microsoft Foundry agents that connect to Copilot Studio agents and Dataverse
+- Power Automate cloud flows and Copilot Studio workflows
+
+It also counts as a prerequisite for the AB-100 Expert credential.
+
+## What Retired in 2026
+
+If you've been studying Microsoft AI material for a while, you'll run into exam codes that no longer exist. 2026 was a big retirement year, and most of the retired exams now have an AI-focused replacement:
+
+![Exams retired in 2026 and their replacements: DP-100 by AI-300, AI-900 by AI-901, AI-102 by AI-103, AZ-204 by AI-200, MB-280 by AB-210, AZ-500 by SC-500, PL-200 by AB-410, and PL-400 by AB-400.](https://res.cloudinary.com/dileepadev/image/upload/v1793793501/api-dileepa-dev/blogs/s1nnjv3tbzchdxrkkmqn.svg)
+
+- **DP-100** (Azure Data Scientist Associate) retired on **June 1, 2026**. **AI-300** is its replacement, and it leads to the Machine Learning Operations Engineer Associate.
+- **AI-900** retired on **June 30, 2026**. The **Azure AI Fundamentals** certification keeps its name; **AI-901** is now its exam.
+- **AI-102** retired on **June 30, 2026** and was replaced by **AI-103**.
+- **AZ-204** (Azure Developer Associate) retired on **July 31, 2026** and was replaced by **AI-200**.
+- **MB-280** (Dynamics 365 Customer Experience Analyst Associate) retired on **July 31, 2026** and was replaced by **AB-210**.
+- **AZ-500** (Azure Security Engineer Associate) retired on **August 31, 2026** and was replaced by **SC-500**.
+- **PL-200** (Power Platform Functional Consultant Associate) retired on **August 31, 2026** and was replaced by **AB-410**.
+- **PL-400** retired on **October 30, 2026**. The **Power Platform Developer Associate** certification keeps its name; **AB-400** is now its exam.
+
+Five more business application exams retired on June 30, 2026. Microsoft says MB-335, MB-700, PL-500 and PL-600 have collectively been replaced by **AB-100**, the Agentic AI Business Solutions Architect. MB-240 (Dynamics 365 Field Service) has no direct replacement, but Microsoft added **AB-250** to its partner requirements in its place.
+
+So if you're booking a Microsoft AI exam today, don't follow an older AI-900, AI-102 or AZ-204 study guide.
 
 Start with the current certification pages and exam objectives instead.
 
@@ -378,29 +523,37 @@ The certification landscape has moved.
 
 ## The Easiest Way to Understand the Portfolio
 
-Rather than memorizing fifteen exam codes, group them by career direction:
+Rather than memorizing twenty-three exam codes, group them by career direction:
 
 - 🟢 **Fundamentals and getting started**
   - **AI-901** — Azure AI Fundamentals
   - **AB-730** — AI Business Professional
   - **AB-731** — AI Transformation Leader
-  - **AB-900** — Copilot and Agent Administration Fundamentals
+  - **AB-900** — Microsoft 365 Copilot and Agent Administration Fundamentals
 - 🔵 **AI Development**
   - **AI-103** — Developing AI Apps and Agents on Azure
   - **AI-200** — Developing AI Cloud Solutions on Azure
+  - **DP-800** — Developing AI-Enabled Database Solutions
+  - **DP-420** — Building AI Applications with Azure Cosmos DB
   - **GH-300** — GitHub Copilot
-- 🔵 **AI Operations**
+  - **GH-600** — Developing in Agentic AI Systems
+- 🔵 **AI Operations and Security**
   - **AI-300** — Operationalizing Machine Learning and Generative AI Solutions (MLOps / GenAIOps)
   - **AB-650** — Administering Microsoft 365 and AI Services
-- 🔵 **Agent Building**
+  - **SC-500** — Implementing End-to-End Security Controls for Cloud and AI Workloads
+- 🔵 **Agent and App Building**
   - **AB-620** — Designing and Building Integrated AI Agent Solutions in Copilot Studio
   - **AB-410** — Building Intelligent Applications
+  - **AB-400** — Extending Microsoft Power Platform Solutions with Code and AI
 - 🔵 **Specialized Business AI**
-  - **AB-210** — Accelerating Sales Pipelines with AI in Dynamics 365
+  - **AB-210** — Accelerating Sales Pipelines with AI in Dynamics 365 (beta)
   - **AB-250** — Transforming Contact Center Experiences with AI in Dynamics 365
-- 🟣 **Advanced AI Architecture**
+  - **AB-330** — Implementing AI-Powered Supply Chain Operations with Dynamics 365 Supply Chain Management (beta)
+  - **GH-700** — Enhancing Operational Efficiency with Agentic AI (beta)
+- 🟣 **Advanced (Expert)**
   - **AB-100** — Agentic AI Business Solutions Architect
   - **AI-500** — Designing and Implementing Multi-Agent AI Solutions
+  - **AZ-401** — Designing and Implementing Microsoft Agentic DevOps Solutions (beta)
 
 This makes the portfolio much easier to navigate.
 
@@ -416,7 +569,7 @@ If your goal is to build AI applications and agents on Azure:
 
 ![Suggested Azure AI study sequence. To earn the AI-500 Expert credential, hold the AI-103 credential and pass AI-500. AI-300 is optional operations study, not the prerequisite.](https://res.cloudinary.com/dileepadev/image/upload/v1793736092/api-dileepa-dev/blogs/uegx2jrr2ojpjvfov7jy.svg)
 
-This gives you a progression from fundamentals → development → operations → advanced multi-agent systems. To earn the AI-500 Expert credential, you need the AI-103 credential and a pass in AI-500; AI-300 is optional operations study here, not a prerequisite.
+This gives you a progression from fundamentals → development → operations → advanced multi-agent systems. To earn the AI-500 Expert credential, you need the AI-103 credential and a pass in AI-500; AI-300 is optional operations study here, not a prerequisite. If you also own the back end of your AI apps, AI-200 sits alongside AI-103.
 
 ### AI Agent / Copilot Developer
 
@@ -432,15 +585,27 @@ If you're focused on business adoption rather than coding:
 
 ![Suggested business and leadership study sequence, including an eligible Associate credential before AB-100. AB-620 is shown as one qualifying option; AB-730, AB-731 and AB-900 do not meet that prerequisite.](https://res.cloudinary.com/dileepadev/image/upload/v1793736110/api-dileepa-dev/blogs/adhoevbt6it1hfkblztf.svg)
 
-This path emphasizes business usage, transformation, administration, and eventually architecture. Before AB-100 counts, you need an eligible Associate credential such as AB-620. AB-730, AB-731 and AB-900 don't meet that requirement.
+This path emphasizes business usage, transformation, administration, and eventually architecture. Before AB-100 counts, you need an eligible Associate credential such as AB-620. AB-730, AB-731 and AB-900 don't meet that requirement. If your team plans and tracks its work on GitHub, GH-700 (in beta) is a business-focused option too.
 
 ### AI-Assisted Software Development
 
 If your focus is software engineering productivity:
 
-![Suggested developer study sequence. To earn the AI-500 Expert credential, hold the AI-103 credential and pass AI-500. GH-300 is not the prerequisite credential.](https://res.cloudinary.com/dileepadev/image/upload/v1793736118/api-dileepa-dev/blogs/e2emzxh9olfxdsiap3fg.svg)
+![Suggested developer study sequence: GH-300, GH-600, AI-103, then AI-500. GH-300 and GH-600 list no prerequisites; the AI-500 Expert credential needs the AI-103 credential.](https://res.cloudinary.com/dileepadev/image/upload/v1793793513/api-dileepa-dev/blogs/p4wolzuzoh4xxb5ujz7z.svg)
 
-The first focuses directly on AI-assisted development, while the latter two move into building AI applications and advanced agentic systems. GH-300 is not a prerequisite for either; AI-500's Expert credential needs AI-103.
+GH-300 covers AI-assisted coding with GitHub Copilot, and GH-600 moves on to running coding agents inside the development lifecycle. AI-103 and AI-500 then take you into building AI applications and multi-agent systems on Azure. Neither GitHub exam is a prerequisite for the Azure ones; AI-500's Expert credential needs AI-103.
+
+If your work is pipelines and releases rather than application code, look at AZ-401, the agentic DevOps Expert exam, which is currently in beta.
+
+### AI Data and Security
+
+If your work is databases or security, the AI skills now come to your existing role:
+
+- **DP-800** adds embeddings, vector search and RAG to SQL development.
+- **DP-420** adds vector search, RAG and agent memory to Azure Cosmos DB development.
+- **SC-500** adds AI workload and agent protection to the cloud security engineer role.
+
+All three are single-exam Associate certifications. None of them counts toward AB-100.
 
 ## The Bigger Picture
 
@@ -476,9 +641,13 @@ If you're a developer, **AI-103** is the certification to pay close attention to
 
 If you're interested in production AI infrastructure, **AI-300** is the more specialized path.
 
-If you're fascinated by agentic systems and multi-agent architectures, **AI-500** is the most interesting advanced certification to watch.
+If you're fascinated by agentic systems and multi-agent architectures, **AI-500** is the most interesting advanced certification, and it's now out of beta.
 
-And if your world is Copilot, enterprise automation, or business AI, the **AB-series** gives you several specialized paths.
+If you ship software with coding agents, **GH-600** is the newest exam worth your time, and **AZ-401** (in beta) is its counterpart for DevOps engineers.
+
+If your world is databases or security, **DP-800**, **DP-420** and **SC-500** bring AI into the role you already have.
+
+And if your world is Copilot, enterprise automation, or business AI, the **AB-series** gives you several specialized paths, and **GH-700** (in beta) covers agentic workflows on GitHub for business roles.
 
 The old Microsoft AI roadmap was relatively simple:
 
@@ -486,7 +655,7 @@ The old Microsoft AI roadmap was relatively simple:
 
 The 2026 roadmap is much more like:
 
-![Selected credentials grouped by focus. AI-901 and AB-900 use Fundamentals badges; AI-103, AI-300 and AB-620 use Associate badges; AI-500 and AB-100 use Expert badges; GH-300 uses the GitHub Copilot badge.](https://res.cloudinary.com/dileepadev/image/upload/v1793736143/api-dileepa-dev/blogs/ip7qnwp6snmkqgtzbdwi.svg)
+![All 23 Microsoft AI certifications you can earn as of 4 November 2026, grouped by area: Azure AI; agents and apps; business and admin; and developer, data and security. AB-210, AB-330, GH-700 and AZ-401 are in beta.](https://res.cloudinary.com/dileepadev/image/upload/v1793794233/api-dileepa-dev/blogs/k2pb1ae8fons5hkfnqvr.svg)
 
 That's a good thing.
 
