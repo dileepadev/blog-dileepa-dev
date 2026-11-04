@@ -22,7 +22,7 @@ The result is a portfolio that looks less like a single AI certification ladder 
 
 The easiest way to understand it is:
 
-![Three focus areas: Azure AI (AI-901, AI-103, AI-200, AI-300, AI-500), Business AI with Copilot and agents, and Developer AI (GH-300, GH-600). Each exam is shown with its own badge.](https://res.cloudinary.com/dileepadev/image/upload/v1793793425/api-dileepa-dev/blogs/oel3zyw1hyc3sbrydp6l.svg)
+![Three focus areas: Azure AI (AI-901, AI-103, AI-200, AI-300, AI-500), Business AI (AB-730, AB-731, AB-900, AB-620, AB-100), and Developer AI (GH-300, GH-600). Each exam is shown with its own badge.](https://res.cloudinary.com/dileepadev/image/upload/v1793797832/api-dileepa-dev/blogs/io1vw9jh3juwlgulx1b9.svg)
 
 The important question is therefore no longer:
 
@@ -35,6 +35,8 @@ It's:
 ## The Current Microsoft AI Exams
 
 Here's every AI-focused exam you can take as of 4 November 2026:
+
+![Badges of all 23 Microsoft and GitHub AI certification exams as of 4 November 2026: AI-901, AI-103, AI-200, AI-300, AI-500, AB-620, AB-410, AB-400, AB-100, AB-730, AB-731, AB-900, AB-650, AB-210, AB-250, AB-330, GH-300, GH-600, GH-700, AZ-401, DP-800, DP-420 and SC-500.](https://res.cloudinary.com/dileepadev/image/upload/v1793797818/api-dileepa-dev/blogs/v8nxrxxzwif9ik6so9vd.svg)
 
 | Exam | Title | Level / Area | Status (4 November 2026) |
 | --- | --- | --- | --- |
@@ -655,7 +657,7 @@ The old Microsoft AI roadmap was relatively simple:
 
 The 2026 roadmap is much more like:
 
-![All 23 Microsoft AI certifications you can earn as of 4 November 2026, grouped by area: Azure AI; agents and apps; business and admin; and developer, data and security. AB-210, AB-330, GH-700 and AZ-401 are in beta.](https://res.cloudinary.com/dileepadev/image/upload/v1793794233/api-dileepa-dev/blogs/k2pb1ae8fons5hkfnqvr.svg)
+![All 23 Microsoft AI certifications you can earn as of 4 November 2026, grouped by area: Azure AI; agents and apps; business and admin; and developer, data and security. AB-210, AB-330, GH-700 and AZ-401 are in beta.](https://res.cloudinary.com/dileepadev/image/upload/v1793797844/api-dileepa-dev/blogs/gnbqye5sgvnh4cpxyxgq.svg)
 
 That's a good thing.
 
